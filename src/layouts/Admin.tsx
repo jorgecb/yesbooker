@@ -54,7 +54,7 @@ class Dashboard extends React.Component<Props, State> {
     super(props);
     this.state = {
       image: image,
-      color: 'blue',
+      color: 'red',
       hasImage: true,
       fixedClasses: 'dropdown show',
       mobileOpen: false

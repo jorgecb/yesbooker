@@ -12,7 +12,6 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Icon from '@material-ui/core/Icon';
 // core components
 import AdminNavbarLinks from '../Navbars/AdminNavbarLinks';
-import RTLNavbarLinks from '../Navbars/RTLNavbarLinks';
 
 import sidebarStyle from '../../assets/jss/material-dashboard-react/components/sidebarStyle';
 
@@ -27,16 +26,11 @@ const Sidebar = ({ ...props }) => {
       {routes.map((prop: any, key: any) => {
         var activePro = ' ';
         var listItemClasses;
-        if (prop.path === '/upgrade-to-pro') {
-          activePro = classes.activePro + ' ';
-          listItemClasses = classNames({
-            [' ' + classes[color]]: true
-          });
-        } else {
+        
           listItemClasses = classNames({
             [' ' + classes[color]]: activeRoute(prop.layout + prop.path)
           });
-        }
+        
         const whiteFontClasses = classNames({
           [' ' + classes.whiteFont]: activeRoute(prop.layout + prop.path)
         });
@@ -65,7 +59,7 @@ const Sidebar = ({ ...props }) => {
               )}
               <ListItemText
                 primary={
-                  props.rtlActive ? prop.rtlName : prop.name
+                   prop.name
                 }
                 className={classNames(classes.itemText, whiteFontClasses, {
                   [classes.itemTextRTL]: props.rtlActive
@@ -81,7 +75,7 @@ const Sidebar = ({ ...props }) => {
   var brand = (
     <div className={classes.logo}>
       <a
-        href="https://www.creative-tim.com"
+        href="/"
         className={classNames(classes.logoLink, {
           [classes.logoLinkRTL]: props.rtlActive
         })}
@@ -98,7 +92,7 @@ const Sidebar = ({ ...props }) => {
       <Hidden smDown={false}  implementation="css">
         <Drawer
           variant="temporary"
-          anchor={props.rtlActive ? 'left' : 'right'}
+          anchor={ 'right'}
           open={props.open}
           classes={{
             paper: classNames(classes.drawerPaper, {

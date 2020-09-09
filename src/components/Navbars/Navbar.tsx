@@ -11,7 +11,7 @@ import Hidden from '@material-ui/core/Hidden';
 import Menu from '@material-ui/icons/Menu';
 // core components
 import AdminNavbarLinks from './AdminNavbarLinks';
-import RTLNavbarLinks from './RTLNavbarLinks';
+
 import Button from '../CustomButtons/Button';
 
 import headerStyle from '../../assets/jss/material-dashboard-react/components/headerStyle';
@@ -29,10 +29,10 @@ function Header({ ...props }: any) {
   }
   const { classes, color } = props;
   const appBarClasses = classNames({
-    [' ' + classes[color]]: color
+    [' ' + classes['red']]: 'red'
   });
   return (
-    <AppBar className={classes.appBar + appBarClasses}>
+    <AppBar className={classes.appBar} color="secondary">
       <Toolbar className={classes.container}>
         <div className={classes.flex}>
           {/* Here we create navbar brand, based on route name */}

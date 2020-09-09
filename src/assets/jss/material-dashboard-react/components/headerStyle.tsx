@@ -14,7 +14,7 @@ import { createStyles, Theme } from '@material-ui/core';
 
 const headerStyle = (theme: Theme) => createStyles({
   appBar: {
-    backgroundColor: 'transparent',
+    backgroundColor: '#F44336',
     boxShadow: 'none',
     borderBottom: '0',
     marginBottom: '0',
@@ -22,7 +22,7 @@ const headerStyle = (theme: Theme) => createStyles({
     width: '100%',
     paddingTop: '10px',
     zIndex: 1029,
-    color: grayColor[7],
+    color: whiteColor,
     border: '0',
     borderRadius: '3px',
     padding: '10px 0',
