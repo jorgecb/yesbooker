@@ -22,6 +22,7 @@ import { card } from '../../assets/jss/material-dashboard-react';
 import Card from '../../components/Card/Card';
 import CardHeader from '../../components/Card/CardHeader';
 import CardBody from '../../components/Card/CardBody';
+import config from '../../config';
 const styles = createStyles({
     cardCategoryWhite: {
         '&,& a,& a:hover,& a:focus': {
@@ -38,24 +39,23 @@ const styles = createStyles({
 });
 
 const userList=(props: any)=>{
-   /*  useEffect(() => {
+    const [Usuarios,setUsuarios ]=useState("Usuarios");
+    useEffect(() => {
         //este codigo se ejecta cuando el comoponte se monta
 
-        const response = fetch(UrlApi + "Usuarios", {
+        const response = fetch( config.UrlApi+ "Usuarios", {
             method: "GET",
-
             cache: "no-cache",
-
             headers: {
                 "Content-Type": "application/json" // request content type
             }
         }).then(res => res.json())
-            .then(res => setSocios(res))
+            .then(res => setUsuarios(res))
             .catch((err) => console.log(err));
 
 
 
-    }, []) */
+    }, [])
 
 
     return(
@@ -67,7 +67,12 @@ const userList=(props: any)=>{
                
                     </CardHeader>
                     <CardBody>
+                        {Usuarios==null?
+                            <div>hola</div>
+                        :
+                            <div>hay info en el server</div>
 
+                        }
 
                   
                     </CardBody>
