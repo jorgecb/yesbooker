@@ -8,12 +8,20 @@ import Notifications from '@material-ui/icons/Notifications';
 import DashboardPage from './views/Dashboard/Dashboard';
 import UserProfile from './views/UserProfile/UserProfile';
 import TableList from './views/TableList/TableList';
-
+import Usuarios from './views/Usuarios/usuarios';
 import NotificationsPage from './views/Notifications/Notifications';
   
 // core components/views for RTL layout
 
 const dashboardRoutes = [
+  {
+    path: '/Usuarios',
+    name: 'Usuarios',   
+
+    icon: Person ,
+    component: Usuarios,
+    layout: '/admin'
+  },
   {
     path: '/dashboard',
     name: 'Reservas',   
