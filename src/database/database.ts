@@ -1,4 +1,9 @@
 import Dexie from 'dexie';
 const db = new Dexie('reservas');
-db.version(1).stores({ Usuarios: '++id, nombre, materno, edad, inserver' });
+db.version(1).stores(
+    { 
+    Usuarios: '++id, nombre, materno, edad, inserver',
+    Socios: '++id, nombre_socio, email, inserver'   
+    });
+
 export default db; 
