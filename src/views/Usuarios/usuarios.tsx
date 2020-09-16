@@ -1,10 +1,10 @@
-import React,{useEffect,useState} from 'react';
-
+import React, { useEffect, useState } from 'react';
+import ReactDOM from 'react-dom';
 
 import withStyles from '@material-ui/core/styles/withStyles';
 import Icon from '@material-ui/core/Icon';
 // @material-ui/icons
-import Store from '@material-ui/icons/Store';
+import Store from '@material-ui/pickers';
 import Warning from '@material-ui/icons/Warning';
 import DateRange from '@material-ui/icons/DateRange';
 import LocalOffer from '@material-ui/icons/LocalOffer';
@@ -23,6 +23,9 @@ import Card from '../../components/Card/Card';
 import CardHeader from '../../components/Card/CardHeader';
 import CardBody from '../../components/Card/CardBody';
 import config from '../../config';
+import User from './../../database/Usuarios';
+import MUIDataTable from "mui-datatables";
+import { CheckBox } from '@material-ui/icons';
 const styles = createStyles({
     cardCategoryWhite: {
         '&,& a,& a:hover,& a:focus': {
@@ -38,45 +41,79 @@ const styles = createStyles({
     }
 });
 
-const userList=(props: any)=>{
-    const [Usuarios,setUsuarios ]=useState("Usuarios");
+
+
+
+
+const userList = (props: any) => {
+    const [Usuarios, setUsuarios] = useState({});
+  
+
+    let result=Array();
     useEffect(() => {
         //este codigo se ejecta cuando el comoponte se monta
+        // nombre, materno, edad, inserver
+        //este es un ejemplo de insert
+        /* User.add({
+            nombre: 'jorge',
+            materno: 'barrera',
+            edad: 33, inserver: false
 
-        const response = fetch( config.UrlApi+ "Usuarios", {
-            method: "GET",
-            cache: "no-cache",
-            headers: {
-                "Content-Type": "application/json" // request content type
-            }
-        }).then(res => res.json())
-            .then(res => setUsuarios(res))
-            .catch((err) => console.log(err));
+        }) */
 
+        const llenatabla = async () => {
+            const  res  = await  User.listAll();
+           
+            for (let count in res) {
+             
+                result.push(
+                 {id:res[count].id,
+                     nombre:res[count].nombre,
+                     materno:res[count].materno,
+                     edad:res[count].edad                    
+                 }   
+                 );
+            
+         }
+         setUsuarios(result);
+         console.log(result);
 
+            return data
+        }
+        
+        llenatabla();
+
+        //este es un ejemplo de listar
+     
+    
 
     }, [])
 
+    const columns = ["id", "nombre", "materno", "edad"];
 
-    return(
+    const data = result;
+    
+  
+    
+    return (
         <GridContainer>
             <GridItem xs={12} sm={12} md={12}>
-            <Card>
+                <Card>
                     <CardHeader color="$38">
                         <h4 >Listado de Usuarios</h4>
-               
+                        
+                            <MUIDataTable
+                            title={"Employee List"}
+                            data={data}
+                            columns={columns}
+                         
+                            />
+
                     </CardHeader>
                     <CardBody>
-                        {Usuarios==null?
-                            <div>hola</div>
-                        :
-                            <div>hay info en el server</div>
 
-                        }
-
-                  
                     </CardBody>
-              </Card>
+                </Card>
             </GridItem>
         </GridContainer>
 

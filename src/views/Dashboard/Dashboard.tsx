@@ -21,7 +21,6 @@ import GridItem from '../../components/Grid/GridItem';
 import GridContainer from '../../components/Grid/GridContainer';
 import Table from '../../components/Table/Table';
 import Tasks from '../../components/Tasks/Tasks';
-import CustomTabs from '../../components/CustomTabs/CustomTabs';
 import Danger from '../../components/Typography/Danger';
 import Card from '../../components/Card/Card';
 import CardHeader from '../../components/Card/CardHeader';
@@ -224,45 +223,7 @@ class Dashboard extends React.Component<Props, State> {
         </GridContainer>
         <GridContainer>
           <GridItem xs={12} sm={12} md={6}>
-            <CustomTabs
-              title="Tasks:"
-              headerColor="primary"
-              tabs={[
-                {
-                  tabName: 'Bugs',
-                  tabIcon: BugReport,
-                  tabContent: (
-                    <Tasks
-                      checkedIndexes={[0, 3]}
-                      tasksIndexes={[0, 1, 2, 3]}
-                      tasks={bugs}
-                    />
-                  )
-                },
-                {
-                  tabName: 'Website',
-                  tabIcon: Code,
-                  tabContent: (
-                    <Tasks
-                      checkedIndexes={[0]}
-                      tasksIndexes={[0, 1]}
-                      tasks={website}
-                    />
-                  )
-                },
-                {
-                  tabName: 'Server',
-                  tabIcon: Cloud,
-                  tabContent: (
-                    <Tasks
-                      checkedIndexes={[1]}
-                      tasksIndexes={[0, 1, 2]}
-                      tasks={server}
-                    />
-                  )
-                }
-              ]}
-            />
+          
           </GridItem>
           <GridItem xs={12} sm={12} md={6}>
             <Card>
