@@ -42,7 +42,7 @@ const socioList = (props : any) => {
             }
             setSocios(result);
             console.log(result);
-            return data; 
+            return data 
         }
         llenaTabla();
     },[]);
