@@ -10,6 +10,8 @@ import Card from '../../components/Card/Card';
 import CardHeader from '../../components/Card/CardHeader';
 import CardBody from '../../components/Card/CardBody';
 import MUIDataTable from "mui-datatables";
+import MaterialTable, { Column } from 'material-table';
+import { arrayIncludes } from '@material-ui/pickers/_helpers/utils';
 const styles = createStyles({
     cardCategoryWhite: {
         '&,& a,& a:hover,& a:focus': {
@@ -24,33 +26,111 @@ const styles = createStyles({
         }
     }
 });
-const socioList = (props : any) => {  
+interface Row{
+    id:number;
+    nombre_socio: String;
+    email: String;
+}
+interface TableState{
+    columns: Array<Column<Row>>;
+    data: Row[];
+
+}
+
+
+const socioList = (props : []) => {  
     const [Socios, setSocios] = useState({});
-    let result = Array();
+    let result=Array();
+    /*         console.log(res); */
+        
+        /* console.log(result); */
     useEffect(()=>{
-        Socio.add({nombre_socio:"chuy",email:"chuy@chuy.com",inserver:false})
+        /* Socio.add({nombre_socio:"chuy",email:"chuy@chuy.com",inserver:false}) */
         const llenaTabla = async()=>{
-            const res = await Socio.listAll();
-            for(let count in res){
+            const resa = await Socio.listAll();
+            
+            for(let count in resa){
                 result.push(
                     {
-                        id:res[count].id,
-                        nombre_socio:res[count].nombre_socio,
-                        email:res[count].email
+                        id:resa[count].id,
+                        nombre_socio:resa[count].nombre_socio,
+                        email:resa[count].email
                     }
                 );
             }
-            setSocios(result);
             console.log(result);
-            return data; 
+            return setSocios(result);
         }
         llenaTabla();
     },[]);
+    console.log({Socios});
     const columns = ["id","nombre_socio","email"];
-    const data = result;
-
+    const soci => {
+        try: {
+            if(Socios:any){
+                return Socios;
+            }
+        }, catch (error:any) {
+            return "no params charged";
+        }
+    }
+    console.log(soci);
+    const data = [{id:1,nombre_socio:"yo",email:"false@false.com"},{id:2,nombre_socio:"yo",email:"false"},];
+    const [state, setState] = useState<TableState>({
+        columns :[
+            {title:'Id',field:'id',type:'numeric'},
+            {title:'Nombre Socio',field:'nombre_socio'},
+            {title:'Email',field:'email'},
+        ],
+        data:data,
+    });
+    console.log(data);
     return (
-        <GridContainer>
+         <MaterialTable
+            title='Socios Comerciales'
+            columns={state.columns}
+            data={state.data}
+            editable={{
+                onRowAdd: (newData) =>
+                    new Promise((resolve)=>{
+                        setTimeout(()=>{
+                            resolve();
+                            setState((prevState)=>{
+                                const data =[...prevState.data];
+                                data.push(newData);
+                                return{
+                                    ...prevState,data
+                                };
+                            });
+                        },600);
+                    }),
+                onRowUpdate: (newData, oldData) =>
+                    new Promise((resolve)=>{
+                        setTimeout(() => {
+                            resolve();
+                            if(oldData){
+                                setState((prevState)=>{
+                                    const data = [...prevState.data];
+                                    data[data.indexOf(oldData)]=newData;
+                                    return {...prevState,data};
+                                });
+                            }
+                        },600);
+                    }),
+                onRowDelete: (oldData) =>
+                    new Promise((resolve) => {
+                      setTimeout(() => {
+                        resolve();
+                        setState((prevState) => {
+                          const data = [...prevState.data];
+                          data.splice(data.indexOf(oldData), 1);
+                          return { ...prevState, data };
+                        });
+                      }, 600);
+                    }),
+            }}
+        /> /* 
+       <GridContainer>
             <GridItem xs={12} sm={12} md={12}>
                 <Card>
                     <CardHeader color="$38">
@@ -64,7 +144,7 @@ const socioList = (props : any) => {
                     </CardHeader>
                 </Card>
             </GridItem>
-        </GridContainer>
+        </GridContainer>  */
     )
 }
 export default withStyles(styles)(socioList);

@@ -2,7 +2,6 @@ import db from './database';
 
 const tableName='Socios';
 
-
 const Socio={
     add(data:any){
 
