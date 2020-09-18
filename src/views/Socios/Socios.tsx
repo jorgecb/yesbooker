@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import withStyles from '@material-ui/core/styles/withStyles';
 import { createStyles, Grid } from '@material-ui/core';
 import Socio from '../../database/Socios';
+import ModalSocio from './modalSocio';
 import GridContainer from '../../components/Grid/GridContainer';
 import GridItem from '../../components/Grid/GridItem';
 import { card } from '../../assets/jss/material-dashboard-react';
@@ -86,10 +87,12 @@ const socioList = (props : []) => {
     });
     console.log(data);
     return (
+        <div>
          <MaterialTable
             title='Socios Comerciales'
             columns={state.columns}
             data={state.data}
+            /* 
             editable={{
                 onRowAdd: (newData) =>
                     new Promise((resolve)=>{
@@ -128,8 +131,10 @@ const socioList = (props : []) => {
                         });
                       }, 600);
                     }),
-            }}
-        /> /* 
+            }} */
+        />
+        <ModalSocio />
+        </div> /* 
        <GridContainer>
             <GridItem xs={12} sm={12} md={12}>
                 <Card>
