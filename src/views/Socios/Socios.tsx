@@ -65,7 +65,7 @@ const socioList = (props : []) => {
     },[]);
     console.log({Socios});
     const columns = ["id","nombre_socio","email"];
-    const soci => {
+    const soci = {
         try: {
             if(Socios:any){
                 return Socios;
