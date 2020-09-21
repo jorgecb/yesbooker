@@ -6,7 +6,23 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-export default function modalSocio(){
+import withStyles from '@material-ui/core/styles/withStyles';
+import { createStyles } from '@material-ui/core';
+const styles = createStyles({
+    cardCategoryWhite: {
+        '&,& a,& a:hover,& a:focus': {
+            color: 'rgba(255,255,255,.62)',
+            margin: '0',
+            fontSize: '14px',
+            marginTop: '0',
+            marginBottom: '0'
+        },
+        '& a,& a:hover,& a:focus': {
+            color: '#FFFFFF'
+        }
+    }
+});
+const modalSocio = () =>{
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const [open, setOpen] = useState(false);
 
@@ -17,7 +33,7 @@ export default function modalSocio(){
       setOpen(false);
     };
     return (
-        <div className="App">
+        <React.Fragment>
         <Button variant="outlined" color="primary" onClick={handleClickOpen}>
             Ingresar Socio
         </Button>
@@ -52,6 +68,7 @@ export default function modalSocio(){
                 </Button>
             </DialogActions>
         </Dialog>
-        </div>
+        </React.Fragment>
     );
   }
+  export default withStyles(styles)(modalSocio);
