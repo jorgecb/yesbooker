@@ -26,6 +26,9 @@ import config from '../../config';
 import User from './../../database/Usuarios';
 import MUIDataTable from "mui-datatables";
 import { CheckBox } from '@material-ui/icons';
+import ModalSocio from './UserService';
+import modalSocio from './UserService';
+
 const styles = createStyles({
     cardCategoryWhite: {
         '&,& a,& a:hover,& a:focus': {
@@ -47,9 +50,9 @@ const styles = createStyles({
 
 const userList = (props: any) => {
     const [Usuarios, setUsuarios] = useState({});
-  
 
-    let result=Array();
+
+    let result = Array();
     useEffect(() => {
         //este codigo se ejecta cuando el comoponte se monta
         // nombre, materno, edad, inserver
@@ -62,60 +65,62 @@ const userList = (props: any) => {
         }) */
 
         const llenatabla = async () => {
-            const  res  = await  User.listAll();
-           
+            const res = await User.listAll();
+
             for (let count in res) {
-             
+
                 result.push(
-                 {id:res[count].id,
-                     nombre:res[count].nombre,
-                     materno:res[count].materno,
-                     edad:res[count].edad                    
-                 }   
-                 );
-            
-         }
-         setUsuarios(result);
-         console.log(result);
+                    {
+                        id: res[count].id,
+                        nombre: res[count].nombre,
+                        materno: res[count].materno,
+                        edad: res[count].edad
+                    }
+                );
+
+            }
+            setUsuarios(result);
+            console.log(result);
 
             return data
         }
-        
+
         llenatabla();
 
         //este es un ejemplo de listar
-     
-    
+
+
 
     }, [])
 
-    const columns = ["id", "nombre", "materno", "edad"];
+    const columns = ['Id', 'Rol', 'Email', 'Nombre', 'Imagen Perfil', 'Telefono', 'Borra', 'Editar'];
 
     const data = result;
-    
-  
-    
+
+
+
+
+    const { classes } = props;
+
     return (
         <GridContainer>
             <GridItem xs={12} sm={12} md={12}>
-                <Card>
-                    <CardHeader color="$38">
-                        <h4 >Listado de Usuarios</h4>
-                        
-                            <MUIDataTable
-                            title={"Employee List"}
-                            data={data}
-                            columns={columns}
-                         
-                            />
 
-                    </CardHeader>
-                    <CardBody>
+                <CardHeader plain={true} color="primary">
+                    <h2 className={classes.cardTitleWhite}>Listado de Usuarios</h2>
+                    <ModalSocio />
+                </CardHeader>
+                <MUIDataTable
+                    title={'Usuarios'}
+                    data={data}
+                    columns={columns}
+                />
+                <CardBody>
 
-                    </CardBody>
-                </Card>
+                </CardBody>
             </GridItem>
-        </GridContainer>
+
+        </GridContainer >
 
 
     )

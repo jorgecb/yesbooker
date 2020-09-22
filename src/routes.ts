@@ -10,7 +10,8 @@ import UserProfile from './views/UserProfile/UserProfile';
 import TableList from './views/TableList/TableList';
 import Usuarios from './views/Usuarios/usuarios';
 import NotificationsPage from './views/Notifications/Notifications';
-  
+import Socios from './views/Socios/Socios';
+import Zonas from './views/Zonas/Zonas';
 // core components/views for RTL layout
 
 const dashboardRoutes = [
@@ -28,6 +29,22 @@ const dashboardRoutes = [
 
     icon: Dashboard,
     component: DashboardPage,
+    layout: '/admin'
+  },
+  {
+    path: '/Zonas',
+    name: 'Zonas',   
+
+    icon: Dashboard ,
+    component: Zonas,
+    layout: '/admin'
+  },
+  {
+    path: '/Socios',
+    name: 'Socios',   
+
+    icon: Person ,
+    component: Socios,
     layout: '/admin'
   },
   {
