@@ -47,7 +47,7 @@ const socioList = (props : []) => {
             <GridItem xs={12} sm={12} md={12}>
                 <Card>
                     <CardHeader color="$38">
-                        <h4>Listado de Socios</h4><ModalSocio />
+                        <h4>Listado de Socios</h4><ModalSocio create={oncreate} />
                         <MUIDataTable
                             title={"Socios Comerciales"}
                             data={data}

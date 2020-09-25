@@ -130,7 +130,7 @@ const zonaList = (props: []) => {
           <Card>
             <CardHeader color="$38">
               <h4>tipos de zonas</h4>
-              <ModalZonas />
+              <ModalZonas create={oncreate} />
               <MUIDataTable title={"zonas"} data={data} columns={columuns} />
             </CardHeader>
           </Card>
