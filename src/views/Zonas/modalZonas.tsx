@@ -8,7 +8,6 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import withStyles from "@material-ui/core/styles/withStyles";
 import { createStyles } from "@material-ui/core";
-import Zona from "../../database/Zonas";
 const styles = createStyles({
   cardCategoryWhite: {
     "&,& a,& a:hover,& a:focus": {
@@ -25,13 +24,14 @@ const styles = createStyles({
 });
 interface Zona{
     nombre_zona? : string,
-    descripcion? : string
+    descripcion? : string,
     inserver? : boolean
 }
-const modalZonas = (zona:Zona={}) => {
+const modalZonas = (props:any) => {
+  let zona:Zona={};
   const [open, setOpen] = useState(false);
   const [Data, setdata] = useState<Zona>(zona);
-  const {nombre_zona = "", descripcion = "", inserver = false} = Data;
+  const {nombre_zona = "", descripcion = ""} = Data;
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -42,10 +42,10 @@ const modalZonas = (zona:Zona={}) => {
       console.log(Data);
 
     },[Data])
-    const handleChange = (e: {target:{nombre: any; value: any;};})=>{
+    const handleChange = (e: {target:{name: any; value: any;};})=>{
       setdata({
         ...Data,
-        [e.target.nombre] : e.target.value
+        [e.target.name] : e.target.value
       });
     };
     const handleSubmit =() =>{
@@ -53,10 +53,9 @@ const modalZonas = (zona:Zona={}) => {
         ...Data,
         inserver: false
       });
-      console.log(Data);
-      Zonadb.add({nombre_zona: Data.nombre_zona,descripcion: Data.descripcion, inserver: Data.inserver});
+      props.create({nombre_zona: Data.nombre_zona,descripcion: Data.descripcion, inserver: Data.inserver});
       setOpen(false);
-    }
+    };
   
   return (
     <>
@@ -77,7 +76,7 @@ const modalZonas = (zona:Zona={}) => {
             margin="dense"
             id="name"
             name= "nombre_zona"
-            label="nombre_zona"
+            label="nombre zona"
             type="text"
             value={nombre_zona}
             onChange={handleChange}
@@ -88,6 +87,7 @@ const modalZonas = (zona:Zona={}) => {
             autoFocus
             margin="dense"
             id="descripcion"
+            name= "descripcion"
             label="descripcion"
             type="text"
             value={descripcion}
