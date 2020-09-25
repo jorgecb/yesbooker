@@ -29,7 +29,7 @@ const socioList = (props : []) => {
     const [Socios, setSocios] = useState({});
     let result=Array();
     useEffect(()=>{
-        /* Socio.add({nombre_socio:"chuy",email:"chuy@chuy.com",inserver:false}) */
+         Socio.add({nombre_socio:"chuy",email:"chuy@chuy.com",inserver:false}) 
        
         Socio.listAll().then(function(res){
             setSocios(res);
