@@ -1,31 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import ReactDOM from 'react-dom';
-
 import withStyles from '@material-ui/core/styles/withStyles';
-import Icon from '@material-ui/core/Icon';
-// @material-ui/icons
-import Store from '@material-ui/pickers';
-import Warning from '@material-ui/icons/Warning';
-import DateRange from '@material-ui/icons/DateRange';
-import LocalOffer from '@material-ui/icons/LocalOffer';
-import Update from '@material-ui/icons/Update';
-import ArrowUpward from '@material-ui/icons/ArrowUpward';
-import AccessTime from '@material-ui/icons/AccessTime';
-import Accessibility from '@material-ui/icons/Accessibility';
-import BugReport from '@material-ui/icons/BugReport';
-import Code from '@material-ui/icons/Code';
-import Cloud from '@material-ui/icons/Cloud';
 import { createStyles, Grid } from '@material-ui/core';
 import GridContainer from '../../components/Grid/GridContainer';
 import GridItem from '../../components/Grid/GridItem';
-import { card } from '../../assets/jss/material-dashboard-react';
 import Card from '../../components/Card/Card';
 import CardHeader from '../../components/Card/CardHeader';
 import CardBody from '../../components/Card/CardBody';
-import config from '../../config';
 import User from './../../database/Usuarios';
 import MUIDataTable from "mui-datatables";
-import { CheckBox } from '@material-ui/icons';
+import ModalUsuario from './modalUsuario';
 const styles = createStyles({
     cardCategoryWhite: {
         '&,& a,& a:hover,& a:focus': {
@@ -41,17 +24,11 @@ const styles = createStyles({
     }
 });
 
-
-
-
-
 const userList = (props: any) => {
     const [Usuarios, setUsuarios] = useState({});
   
-
     let result=Array();
-    useEffect(() => {
-        //este codigo se ejecta cuando el comoponte se monta
+    //este codigo se ejecta cuando el comoponte se monta
         // nombre, materno, edad, inserver
         //este es un ejemplo de insert
         /* User.add({
@@ -60,50 +37,33 @@ const userList = (props: any) => {
             edad: 33, inserver: false
 
         }) */
-
-        const llenatabla = async () => {
-            const  res  = await  User.listAll();
-           
-            for (let count in res) {
-             
-                result.push(
-                 {id:res[count].id,
-                     nombre:res[count].nombre,
-                     materno:res[count].materno,
-                     edad:res[count].edad                    
-                 }   
-                 );
-            
-         }
-         setUsuarios(result);
-         console.log(result);
-
-            return data
+    const oncreate=(usuario:any)=>{
+        User.add(usuario);
+        listadoUpd();
+    }   
+    const listadoUpd=()=>{
+            User.listAll().then(function(res){
+                setUsuarios(res);
+                console.log(res);
+            });
         }
+    useEffect(() => {
         
-        llenatabla();
-
-        //este es un ejemplo de listar
-     
-    
-
+        listadoUpd();
     }, [])
 
-    const columns = ["id", "nombre", "materno", "edad"];
+    const columns = ["id", "nombre", "materno", "email"];
+    const data:any = (Usuarios.valueOf() != {} && Usuarios.toString() != '[object Object]') 
+    ? Usuarios.valueOf() : [];
 
-    const data = result;
-    
-  
-    
     return (
         <GridContainer>
             <GridItem xs={12} sm={12} md={12}>
                 <Card>
                     <CardHeader color="$38">
-                        <h4 >Listado de Usuarios</h4>
-                        
+                        <h4 >Listado de Usuarios</h4><ModalUsuario create={oncreate} />                       
                             <MUIDataTable
-                            title={"Employee List"}
+                            title={"Usuarios"}
                             data={data}
                             columns={columns}
                          
