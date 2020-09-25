@@ -28,13 +28,20 @@ const styles = createStyles({
 const socioList = (props : []) => {  
     const [Socios, setSocios] = useState({});
     let result=Array();
-    useEffect(()=>{
-        /* Socio.add({nombre_socio:"chuy",email:"chuy@chuy.com",inserver:false}) */
-       
+    const oncreate=(socio:any)=>{
+      Socio.add(socio);
+      listadoUpd();
+    }
+    const listadoUpd=()=>{
         Socio.listAll().then(function(res){
             setSocios(res);
             console.log(res);
         });
+    }
+    useEffect(()=>{
+        /* Socio.add({nombre_socio:"chuy",email:"chuy@chuy.com",inserver:false}) */
+        listadoUpd();
+        
 
     },[]);
     const columns = ["id","nombre_socio","email"];
@@ -47,7 +54,7 @@ const socioList = (props : []) => {
             <GridItem xs={12} sm={12} md={12}>
                 <Card>
                     <CardHeader color="$38">
-                        <h4>Listado de Socios</h4><ModalSocio />
+                        <h4>Listado de Socios</h4><ModalSocio create={oncreate} />
                         <MUIDataTable
                             title={"Socios Comerciales"}
                             data={data}
