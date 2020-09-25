@@ -8,7 +8,6 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import withStyles from '@material-ui/core/styles/withStyles';
 import { createStyles } from '@material-ui/core';
-import SocioDB from '../../database/Socios';
 const styles = createStyles({
     cardCategoryWhite: {
         '&,& a,& a:hover,& a:focus': {
@@ -28,11 +27,12 @@ interface Socio{
     email?: string,
     inserver?: boolean
 }
-const modalSocio = (socio:Socio={}) =>{
+const modalSocio = (props:any) =>{
     // eslint-disable-next-line react-hooks/rules-of-hooks
+    let socio:Socio={};
     const [open, setOpen] = useState(false);
     const [Data, setData] = useState<Socio>(socio);
-    const {nombre_socio ="" , email="", inserver=false} = Data;
+    const {nombre_socio ="" , email=""} = Data;
     const handleClickOpen = () => {
       setOpen(true);
     };
@@ -54,8 +54,8 @@ const modalSocio = (socio:Socio={}) =>{
             ...Data,
             inserver:false
         });
-        console.log(Data);
-        SocioDB.add({nombre_socio:Data.nombre_socio,email:Data.email,inserver:Data.inserver});
+        props.create({nombre_socio:Data.nombre_socio,email:Data.email,inserver:Data.inserver});
+       // SocioDB.add();
         setOpen(false);
     };
     return (
