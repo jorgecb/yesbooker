@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
@@ -8,6 +8,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import withStyles from '@material-ui/core/styles/withStyles';
 import { createStyles } from '@material-ui/core';
+import SocioDB from '../../database/Socios';
 const styles = createStyles({
     cardCategoryWhite: {
         '&,& a,& a:hover,& a:focus': {
@@ -22,18 +23,43 @@ const styles = createStyles({
         }
     }
 });
-const modalSocio = () =>{
+interface Socio{
+    nombre_socio?: string,
+    email?: string,
+    inserver?: boolean
+}
+const modalSocio = (socio:Socio={}) =>{
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const [open, setOpen] = useState(false);
-
+    const [Data, setData] = useState<Socio>(socio);
+    const {nombre_socio ="" , email="", inserver=false} = Data;
     const handleClickOpen = () => {
       setOpen(true);
     };
     const handleClose = () => {
       setOpen(false);
     };
+    useEffect(() => {
+        console.log(Data),
+        console.log(Data.email)
+    }, [Data])
+    const handleChange = (e: { target: { name: any; value: any; }; }) =>{
+        setData({
+            ...Data,
+            [e.target.name]:e.target.value
+        });
+    };
+    const handleSubmit =() =>{
+        setData({
+            ...Data,
+            inserver:false
+        });
+        console.log(Data);
+        SocioDB.add({nombre_socio:Data.nombre_socio,email:Data.email,inserver:Data.inserver});
+        setOpen(false);
+    };
     return (
-        <React.Fragment>
+        <>
         <Button variant="outlined" color="primary" onClick={handleClickOpen}>
             Ingresar Socio
         </Button>
@@ -47,15 +73,21 @@ const modalSocio = () =>{
                     autoFocus
                     margin="dense"
                     id="name"
+                    name="nombre_socio"
                     label="Nombre Socio"
                     type="text"
+                    value={nombre_socio}
+                    onChange={handleChange}
                     fullWidth
                 />
                 <TextField
                     margin="dense"
                     id="email"
+                    name="email"
                     label="Email Address"
                     type="email"
+                    value={email}
+                    onChange={handleChange}
                     fullWidth
                 />
             </DialogContent>
@@ -63,12 +95,12 @@ const modalSocio = () =>{
                 <Button onClick={handleClose} color="primary">
                     Cancelar
                 </Button>
-                <Button onClick={handleClose} color="primary">
+                <Button onClick={handleSubmit} color="primary">
                     Registrar
                 </Button>
             </DialogActions>
         </Dialog>
-        </React.Fragment>
+        </>
     );
   }
   export default withStyles(styles)(modalSocio);
