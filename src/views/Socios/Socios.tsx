@@ -59,6 +59,7 @@ const socioList = (props : []) => {
                             title={"Socios Comerciales"}
                             data={data}
                             columns={columns}
+                            
 
                         />
                     </CardHeader>
