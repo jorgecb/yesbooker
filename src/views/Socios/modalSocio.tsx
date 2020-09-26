@@ -22,6 +22,7 @@ const styles = createStyles({
         }
     }
 });
+
 interface Socio{
     nombre_socio?: string,
     email?: string,
