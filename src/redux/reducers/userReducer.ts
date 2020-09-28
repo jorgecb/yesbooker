@@ -18,7 +18,7 @@ export default function (state = initialState, action: any) {
             return {
                 authenticated: true,
                 loading: false,
-                action.payload
+                action: 'payload'
             };
         case LOADING_USER:
             return {
