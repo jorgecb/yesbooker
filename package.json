@@ -13,6 +13,7 @@
     "@types/react": "^16.8.20",
     "@types/react-dom": "^16.8.4",
     "@types/react-router-dom": "^4.3.4",
+    "axios": "^0.20.0",
     "chartist": "0.10.1",
     "classnames": "2.2.6",
     "dexie": "^3.0.2",
@@ -25,12 +26,17 @@
     "react-chartist": "0.13.3",
     "react-dom": "16.8.1",
     "react-google-maps": "9.4.5",
+    "react-redux": "^7.2.1",
     "react-router-dom": "4.3.1",
     "react-scripts": "2.1.5",
-    "react-swipeable-views": "0.13.1",
+    "react-swipeable-views": "^0.13.1",
+    "redux": "^4.0.5",
+    "redux-thunk": "^2.3.0",
+    "thunks": "^4.9.6",
     "tslint": "^5.17.0",
     "tslint-react": "^4.0.0",
-    "typescript": "^3.5.2"
+    "typescript": "^3.5.2",
+    "typescript-fsa-redux-thunk": "^2.10.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -57,5 +63,7 @@
     "not ie <= 11",
     "not op_mini all"
   ],
-  "devDependencies": {}
+  "devDependencies": {
+    "@types/react-swipeable-views": "^0.13.0"
+  }
 }
