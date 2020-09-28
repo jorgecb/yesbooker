@@ -17,8 +17,6 @@ const styles = createStyles({
             color: 'rgba(255,255,255,.62)',
             margin: '0',
             fontSize: '14px',
-
-            
             marginTop: '0',
             marginBottom: '0'
         },
@@ -30,13 +28,20 @@ const styles = createStyles({
 const socioList = (props : []) => {  
     const [Socios, setSocios] = useState({});
     let result=Array();
-    useEffect(()=>{
-         Socio.add({nombre_socio:"chuy",email:"chuy@chuy.com",inserver:false}) 
-       
+    const oncreate=(socio:any)=>{
+      Socio.add(socio);
+      listadoUpd();
+    }
+    const listadoUpd=()=>{
         Socio.listAll().then(function(res){
             setSocios(res);
             console.log(res);
         });
+    }
+    useEffect(()=>{
+        /* Socio.add({nombre_socio:"chuy",email:"chuy@chuy.com",inserver:false}) */
+        listadoUpd();
+        
 
     },[]);
     const columns = ["id","nombre_socio","email"];
