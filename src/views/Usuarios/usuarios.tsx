@@ -10,8 +10,6 @@ import User from './../../database/Usuarios';
 import MUIDataTable from "mui-datatables";
 import ModalUsuario from './modalUsuario';
 import { CheckBox } from '@material-ui/icons';
-import ModalSocio from './UserService';
-import modalSocio from './UserService';
 const styles = createStyles({
     cardCategoryWhite: {
         '&,& a,& a:hover,& a:focus': {
@@ -26,7 +24,6 @@ const styles = createStyles({
         }
     }
 });
-
 const userList = (props: any) => {
     const [Usuarios, setUsuarios] = useState({});
     let result=Array();
