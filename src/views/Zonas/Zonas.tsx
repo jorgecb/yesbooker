@@ -29,7 +29,15 @@ const styles = createStyles({
 const zonaList = (props: any) =>{
     const[Zonas, setZonas] = useState({});
     let result=Array();
+
     useEffect(() => {
+        Zona.add({
+            nombre: 'jorge',
+            materno: 'barrera',
+            edad: 33, inserver: false
+
+        }) 
+
        const llenatabla = async () => {
            const res = await Zona.listAll();
            for(let count in res){

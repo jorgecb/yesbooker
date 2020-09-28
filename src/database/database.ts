@@ -5,6 +5,7 @@ db.version(1).stores(
     Usuarios: '++id, nombre, materno, edad, inserver',
     Socios: '++id, nombre_socio, email, inserver',
     Zonas: '++id, nombre_zona, descripcion, inserver',
+    Clientes:'++id, Nombre, Telefono, Email,inserver',
     });
 
 export default db; 

@@ -25,12 +25,14 @@
     "react-chartist": "0.13.3",
     "react-dom": "16.8.1",
     "react-google-maps": "9.4.5",
+    "react-hook-form": "^6.8.4",
     "react-router-dom": "4.3.1",
     "react-scripts": "2.1.5",
     "react-swipeable-views": "0.13.1",
     "tslint": "^5.17.0",
     "tslint-react": "^4.0.0",
-    "typescript": "^3.5.2"
+    "typescript": "^3.5.2",
+    "uuidv4": "^6.2.3"
   },
   "scripts": {
     "start": "react-scripts start",
