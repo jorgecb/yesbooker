@@ -1,13 +1,14 @@
 import React, { Fragment,useEffect, useState } from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
+import LongMenu from "../../components/button/CodigoPais"
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import AddIcon from "@material-ui/icons/Add";
 import withStyles from '@material-ui/core/styles/withStyles';
-import { createStyles } from '@material-ui/core';
+import { createStyles } from "@material-ui/core";
 
 const styles = createStyles({
     cardCategoryWhite: {
@@ -110,6 +111,7 @@ const handleSubmit =() =>{
             value={Email}
             onChange={handleChange}
           />
+         <LongMenu/>
         </DialogContent>
 
         <DialogActions>
