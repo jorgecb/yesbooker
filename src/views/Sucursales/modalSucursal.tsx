@@ -36,8 +36,12 @@ const modalSocio = (props:any) =>{
     const [Data, setData] = useState<Sucursal>(sucursal);
     const re = useRef(null);
     const {nombre_sucursal, direccion} = Data;
+    const componentDidMount=()=>{
+        ValidatorForm.addValidationRule("isValidName",(string)=> /[a-zA-Z \u00E0-\u00F0]{1,20}/g.test(string));
+    };
     const handleClickOpen = () => {
       setOpen(true);
+      componentDidMount();
     };
     const handleClose = () => {
       setOpen(false);
@@ -82,8 +86,8 @@ const modalSocio = (props:any) =>{
                     type="text"
                     onChange={handleChange}
                     value={nombre_sucursal}
-                    validators={["required"]}
-                    errorMessages={["el campo es requerido"]}
+                    validators={["required","isValidName"]}
+                    errorMessages={["el campo es requerido","No ingresar caracteres especiales"]}
                     ref={re}
                     fullWidth
                 />
