@@ -46,10 +46,11 @@ const styles = createStyles({
 });
 
 function Clientes(props: any) {
-  const peticion = fetch(globalVars.UrlApi + "clientes", {
+  /* const peticion = fetch(globalVars.UrlApi + "clientes", {
     method: "GET",
   });
   peticion.then((data) => console.log(data.json()));
+ */
 
   const [clientes, setClientes] = useState({});
   let result = Array();
@@ -67,12 +68,6 @@ function Clientes(props: any) {
   };
 
   useEffect(() => {
-    /* User.add({
-            nombre: 'jorge',
-            materno: 'barrera',
-            edad: 33, inserver: false
-
-        }) */
         listadoUpd();
       }, []);
    
@@ -80,10 +75,11 @@ function Clientes(props: any) {
   const columns = [
     "id",
     "Nombre",
+    "codigo pais",
     "Telefono",
     "Email",
-    "edad",
     "Idioma",
+    "edad",
     "Notas",
   ];
   const data: any =
