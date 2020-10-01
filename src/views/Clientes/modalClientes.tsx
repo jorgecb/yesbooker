@@ -7,7 +7,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import AddIcon from "@material-ui/icons/Add";
-import { ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
+//import { ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
 
 interface Cliente {
   Nombre?: string;
