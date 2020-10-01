@@ -1,4 +1,4 @@
-import React, { FormEvent, useEffect, useState } from 'react';
+import React, { FormEvent, useEffect, useRef, useState } from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
@@ -24,27 +24,27 @@ const styles = createStyles({
     }
 });
 
-interface Socio{
-    nombre_socio?: string,
-    email?: string,
+interface Sucursal{
+    nombre_sucursal?: string,
+    direccion?: string,
     inserver?: boolean
 }
 const modalSocio = (props:any) =>{
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    let socio:Socio={nombre_socio:"" , email:""};
+    let sucursal:Sucursal={nombre_sucursal:"" , direccion:""};
     const [open, setOpen] = useState(false);
-    const [Data, setData] = useState<Socio>(socio);
-    const {nombre_socio, email} = Data;
+    const [Data, setData] = useState<Sucursal>(sucursal);
+    const re = useRef(null);
+    const {nombre_sucursal, direccion} = Data;
     const handleClickOpen = () => {
       setOpen(true);
     };
     const handleClose = () => {
       setOpen(false);
     };
-/*     useEffect(() => {
-        console.log(Data),
-        console.log(Data.email)
-    }, [Data])*/
+    /* useEffect(() => {
+        console.log(Data)
+    }, [Data]) */
     const handleChange = (e: FormEvent<HTMLInputElement>,t:string) =>{
         setData({
             ...Data,
@@ -56,43 +56,45 @@ const modalSocio = (props:any) =>{
             ...Data,
             inserver:false
         });
-        props.create({nombre_socio:Data.nombre_socio,email:Data.email,inserver:Data.inserver});
+        props.create({nombre_sucursal:Data.nombre_sucursal,direccion:Data.direccion,inserver:Data.inserver});
+       
         setOpen(false);
-        setData(socio);
+        setData(sucursal);
     };
     return (
         <>
         <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-            Ingresar Socio
+            Ingresar Sucursal
         </Button>
         <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-            <DialogTitle id="form-dialog-title">Agregar Socio</DialogTitle>
+            <DialogTitle id="form-dialog-title">Agregar Sucursal</DialogTitle>
             <DialogContent>
                 <DialogContentText>
-                    Formulario para registro de Socios
+                    Formulario para registro de Sucursales
                 </DialogContentText>
             <ValidatorForm onSubmit={handleSubmit}>
                 <TextValidator
                     autoFocus
                     margin="dense"
                     id="name"
-                    name="nombre_socio"
-                    label="Nombre Socio"
+                    name="nombre_sucursal"
+                    label="Nombre Sucursal"
                     type="text"
                     onChange={handleChange}
-                    value={nombre_socio}
+                    value={nombre_sucursal}
                     validators={["required"]}
                     errorMessages={["el campo es requerido"]}
+                    ref={re}
                     fullWidth
                 />
                 <TextValidator
                     margin="dense"
-                    id="email"
-                    name="email"
-                    label="Email"
+                    id="direccion"
+                    name="direccion"
+                    label="Direccion"
                     type="email"
                     onChange={handleChange}
-                    value={email}
+                    value={direccion}
                     validators={["required","isEmail"]}
                     errorMessages={["el campo es requerido","tiene que ser un formato de email valido"]}
                     fullWidth

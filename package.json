@@ -26,7 +26,11 @@
     "react-chartist": "0.13.3",
     "react-dom": "16.8.1",
     "react-google-maps": "9.4.5",
+<<<<<<< HEAD
     "react-redux": "^7.2.1",
+=======
+    "react-material-ui-form-validator": "^2.1.1",
+>>>>>>> 3033780d0660aa0a7351bd298e432682f6c92009
     "react-router-dom": "4.3.1",
     "react-scripts": "2.1.5",
     "react-swipeable-views": "^0.13.1",
@@ -64,6 +68,10 @@
     "not op_mini all"
   ],
   "devDependencies": {
+<<<<<<< HEAD
     "@types/react-swipeable-views": "^0.13.0"
+=======
+    "@types/react-material-ui-form-validator": "^2.1.0"
+>>>>>>> 3033780d0660aa0a7351bd298e432682f6c92009
   }
 }

@@ -12,6 +12,7 @@ import Usuarios from './views/Usuarios/usuarios';
 import NotificationsPage from './views/Notifications/Notifications';
 import Socios from './views/Socios/Socios';
 import Zonas from './views/Zonas/Zonas';
+import Sucursales from './views/Sucursales/Sucursales';
 // core components/views for RTL layout
 
 const dashboardRoutes = [
@@ -29,6 +30,14 @@ const dashboardRoutes = [
 
     icon: Dashboard,
     component: DashboardPage,
+    layout: '/admin'
+  },
+  {
+    path: '/Sucursales',
+    name: 'Sucursales',   
+
+    icon: Dashboard,
+    component: Sucursales,
     layout: '/admin'
   },
   {

@@ -1,16 +1,15 @@
-import React, { useEffect, useState } from 'react';
-import ReactDOM from 'react-dom';
+import React ,{ useState,useEffect} from 'react';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
 import withStyles from '@material-ui/core/styles/withStyles';
 import { createStyles, Grid } from '@material-ui/core';
-import Socio from '../../database/Socios';
-import ModalSocio from './modalSocio';
 import GridContainer from '../../components/Grid/GridContainer';
 import GridItem from '../../components/Grid/GridItem';
-import { card } from '../../assets/jss/material-dashboard-react';
+import SucursalesDB from '../../database/Sucursales';
 import Card from '../../components/Card/Card';
 import CardHeader from '../../components/Card/CardHeader';
-import CardBody from '../../components/Card/CardBody';
 import MUIDataTable from "mui-datatables";
+import ModalSucursal from './modalSucursal';
 const styles = createStyles({
     cardCategoryWhite: {
         '&,& a,& a:hover,& a:focus': {
@@ -25,38 +24,34 @@ const styles = createStyles({
         }
     }
 });
-const socioList = (props : []) => {  
-    const [Socios, setSocios] = useState({});
+const sucursalList = (props : []) => {  
+    const [Sucursales, setSucursales] = useState({});
     let result=Array();
-    const oncreate=(socio:any)=>{
-      Socio.add(socio);
+    const oncreate=(sucursal:any)=>{
+      SucursalesDB.add(sucursal);
       listadoUpd();
     }
     const listadoUpd=()=>{
-        Socio.listAll().then(function(res){
-            setSocios(res);
+        SucursalesDB.listAll().then(function(res){
+            setSucursales(res);
             console.log(res);
         });
     }
     useEffect(()=>{
-        /* Socio.add({nombre_socio:"chuy",email:"chuy@chuy.com",inserver:false}) */
         listadoUpd();
-        
-
     },[]);
-    const columns = ["id","nombre_socio","email"];
-    const data:any = (Socios.valueOf() != {} && Socios.toString() != '[object Object]') 
-    ? Socios.valueOf() : [];
+    const columns = ["id","nombre_sucursal","direccion"];
+    const data:any = (Sucursales.valueOf() != {} && Sucursales.toString() != '[object Object]') 
+    ? Sucursales.valueOf() : [];
 
     return ( 
-        <React.Fragment>
         <GridContainer>
             <GridItem xs={12} sm={12} md={12}>
                 <Card>
                     <CardHeader color="$38">
-                        <h4>Listado de Socios</h4><ModalSocio create={oncreate} />
+                        <h4>Listado de Sucursales</h4><ModalSucursal create={oncreate} />
                         <MUIDataTable
-                            title={"Socios Comerciales"}
+                            title={"Sucursales"}
                             data={data}
                             columns={columns}
                             
@@ -66,7 +61,6 @@ const socioList = (props : []) => {
                 </Card>
             </GridItem>
         </GridContainer>
-        </React.Fragment>
     )
 }
-export default withStyles(styles)(socioList);
+export default withStyles(styles)(sucursalList);
