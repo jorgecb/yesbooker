@@ -1,8 +1,8 @@
 import db from "./database";
 
-const tableName = "Socios";
+const tableName = "Clientes";
 
-const Socio = {
+const Cliente = {
   add(data: any) {
     db.table(tableName)
       .add(data)
@@ -30,5 +30,4 @@ const Socio = {
       });
   },
 };
-
-export default Socio;
+export default Cliente;

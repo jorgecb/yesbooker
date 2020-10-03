@@ -13,6 +13,8 @@ import NotificationsPage from './views/Notifications/Notifications';
 import Socios from './views/Socios/Socios';
 import Zonas from './views/Zonas/Zonas';
 import Sucursales from './views/Sucursales/Sucursales';
+import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
+import Clientes from './views/Clientes/Clientes';
 // core components/views for RTL layout
 
 const dashboardRoutes = [
@@ -22,6 +24,14 @@ const dashboardRoutes = [
 
     icon: Person ,
     component: Usuarios,
+    layout: '/admin'
+  },
+  {
+    path: '/Cientes',
+    name: 'Clientes',   
+
+    icon: AssignmentIndIcon,
+    component: Clientes,
     layout: '/admin'
   },
   {
