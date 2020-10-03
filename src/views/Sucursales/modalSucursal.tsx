@@ -36,12 +36,19 @@ const modalSocio = (props:any) =>{
     const [Data, setData] = useState<Sucursal>(sucursal);
     const re = useRef(null);
     const {nombre_sucursal, direccion} = Data;
-    const componentDidMount=()=>{
-        ValidatorForm.addValidationRule("isValidName",(string)=> /[a-zA-Z \u00E0-\u00F0]{1,20}/g.test(string));
+    const valida=()=>{
+        ValidatorForm.addValidationRule("isValidName",(valueSt)=>{
+            let val:any = /[^ \.A-Za-z0-9_\-]/g.test(valueSt);
+            if(val){
+                return false;    
+            }else{
+                return true;}
+            });
+            /* ValidatorForm.addValidationRule("isValidName",(valueSt)=>/(^[ \w+])/g.test(valueSt)); */
     };
     const handleClickOpen = () => {
       setOpen(true);
-      componentDidMount();
+      valida();
     };
     const handleClose = () => {
       setOpen(false);
@@ -56,6 +63,7 @@ const modalSocio = (props:any) =>{
         });
     };
     const handleSubmit =() =>{
+
         setData({
             ...Data,
             inserver:false
