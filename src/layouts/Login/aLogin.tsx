@@ -1,12 +1,9 @@
 import React, { useReducer, useEffect } from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-
 import TextField from '@material-ui/core/TextField';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
-import CardHeader from '@material-ui/core/CardHeader';
 import Button from '@material-ui/core/Button';
+import profile from '../../assets/img/profile.png';
+import { Card, CardActions, CardContent, CardHeader } from '@material-ui/core';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -92,7 +89,7 @@ const reducer = (state: State, action: Action): State => {
     }
 }
 
-const Login = () => {
+const Alogin = () => {
     const classes = useStyles();
     const [state, dispatch] = useReducer(reducer, initialState);
 
@@ -109,7 +106,26 @@ const Login = () => {
             });
         }
     }, [state.username, state.password]);
-    const baseurl = 'http://localhost/reservas4/public/index.php/Auth/login';
+    const baseurl = `http://localhost/reservas4/public/index.php/Auth/login`;
+
+
+
+
+
+    /*    const handleLogin = () => {
+        if (state.username === 'email' && state.password === 'password') {
+            console.log(state.username)
+          dispatch({
+            type: 'loginSuccess',
+            payload: 'Exito'
+          });
+        } else {
+          dispatch({
+            type: 'loginFailed',
+            payload: 'Contraseña o Email Error'
+          });
+        }
+      };   */
 
 
 
@@ -117,66 +133,45 @@ const Login = () => {
 
 
     const handleLogin = async () => {
-        const rawResponse = await fetch(baseurl, {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
 
-
-            },
-            mode: 'cors',
-            body: JSON.stringify({
-                email: state.username,
-                password: state.password
-            }),
-        });
+        
+        const requestOptions = { method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            email: state.username,
+            password: state.password})
+        } 
+        console.log(requestOptions)
+        const rawResponse = await fetch(baseurl,requestOptions)
         const content = await rawResponse.json();
         console.log(rawResponse);
         console.log(content);
-    };
-
-    /* 
-         const handleLogin = async () => {
-            await Axios.post(baseurl, { params: { username: state.username, password: state.password } })
-    
-                .then(Responde => {
-                    console.log(Responde.data);
-                })
-                .catch(error => {
-                    console.log(error)
-                })
-        }  */
+       
+       
 
 
-    /* const handleLogin = () => {
-      if (state.username === 'abc@email.com' && state.password === 'password') {
-          console.log
-        dispatch({
-          type: 'loginSuccess',
-          payload: 'Login Successfully'
-        });
-      } else {
-        dispatch({
-          type: 'loginFailed',
-          payload: 'Incorrect username or password'
-        });
-      }
-    };  */
 
-    /*   const handleLogin = () => {
-        if (state.username === 'abc@email.com' && state.password === 'password') {
+
+    /*     if (content === 'stauts200') {
+            console.log(state.username)
           dispatch({
             type: 'loginSuccess',
-            payload: 'Login Successfully'
+            payload: 'Exito'
           });
         } else {
           dispatch({
             type: 'loginFailed',
-            payload: 'Incorrect username or password'
+            payload: 'Contraseña o Email Error'
           });
-        }
-      }; */
+        } */
+
+    };
+
+
+
 
     const handleKeyPress = (event: React.KeyboardEvent) => {
         if (event.keyCode === 13 || event.which === 13) {
@@ -202,9 +197,10 @@ const Login = () => {
     return (
         <form className={classes.container} noValidate autoComplete="off">
             <Card className={classes.card}>
-                <CardHeader className={classes.header} title="Iniciar" />
+
                 <CardContent>
                     <div>
+                        
                         <TextField
                             error={state.isError}
                             fullWidth
@@ -246,4 +242,4 @@ const Login = () => {
     );
 }
 
-export default Login;
+export default Alogin;
