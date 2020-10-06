@@ -1,4 +1,4 @@
-import React, { useReducer, useEffect } from 'react';
+import React, { useReducer, useEffect, useState } from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
@@ -36,6 +36,8 @@ type State = {
     helperText: string
     isError: boolean
 };
+
+
 
 const initialState: State = {
     username: '',
@@ -107,47 +109,36 @@ const Registro = () => {
         }
     }, [state.username, state.password]);
     const baseurl = `http://localhost/reservas4/public/index.php/Auth/login`;
-
-
-
-
-
-  
-
-
-
-
-
     const handleLogin = async () => {
-
-        
-        const requestOptions = { method: 'POST',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            email: state.username,
-            password: state.password})
-        } 
+        const requestOptions = {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                email: state.username,
+                password: state.password
+            })
+        }
         console.log(requestOptions)
-        const rawResponse = await fetch(baseurl,requestOptions)
+        const rawResponse = await fetch(baseurl, requestOptions)
         const content = await rawResponse.json();
         console.log(rawResponse);
         console.log(content);
-        
-    /*     if (content === 'stauts200') {
-            console.log(state.username)
-          dispatch({
-            type: 'loginSuccess',
-            payload: 'Exito'
-          });
-        } else {
-          dispatch({
-            type: 'loginFailed',
-            payload: 'Contraseña o Email Error'
-          });
-        } */
+
+        /*     if (content === 'stauts200') {
+                console.log(state.username)
+              dispatch({
+                type: 'loginSuccess',
+                payload: 'Exito'
+              });
+            } else {
+              dispatch({
+                type: 'loginFailed',
+                payload: 'Contraseña o Email Error'
+              });
+            } */
 
     };
 
@@ -181,7 +172,7 @@ const Registro = () => {
 
                 <CardContent>
                     <div>
-                        
+                       
                         <TextField
                             error={state.isError}
                             fullWidth
@@ -196,10 +187,43 @@ const Registro = () => {
                         <TextField
                             error={state.isError}
                             fullWidth
-                            id="password"
-                            type="password"
+                            id="username"
+                            type="email"
                             label="Contraseña"
                             placeholder="Contraseña"
+                            margin="normal"
+                            onChange={handleUsernameChange}
+                            onKeyPress={handleKeyPress}
+                        />
+                        <TextField
+                            error={state.isError}
+                            fullWidth
+                            id="username"
+                            type="email"
+                            label="Nombre"
+                            placeholder="Nombre"
+                            margin="normal"
+                            onChange={handleUsernameChange}
+                            onKeyPress={handleKeyPress}
+                        />
+                        <TextField
+                            error={state.isError}
+                            fullWidth
+                            id="username"
+                            type="email"
+                            label="Apellido"
+                            placeholder="Apellido"
+                            margin="normal"
+                            onChange={handleUsernameChange}
+                            onKeyPress={handleKeyPress}
+                        />
+                        <TextField
+                            error={state.isError}
+                            fullWidth
+                            id="password"
+                            type="password"
+                            label="Telefono"
+                            placeholder="Telefono"
                             margin="normal"
                             helperText={state.helperText}
                             onChange={handlePasswordChange}
@@ -215,8 +239,8 @@ const Registro = () => {
                         className={classes.loginBtn}
                         onClick={handleLogin}
                         disabled={state.isButtonDisabled}>
-                        Iniciar Sesison
-          </Button>
+                        Registrar
+                </Button>
                 </CardActions>
             </Card>
         </form>
