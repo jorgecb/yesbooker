@@ -23,7 +23,7 @@ const styles = createStyles({
         }
     }
 });
-
+ 
 interface Sucursal{
     nombre_sucursal?: string,
     direccion?: string,
@@ -38,12 +38,19 @@ const modalSocio = (props:any) =>{
     const {nombre_sucursal, direccion} = Data;
     const valida=()=>{
         ValidatorForm.addValidationRule("isValidName",(valueSt)=>{
-            let val:any = /[^ \.A-Za-z0-9_\-]/g.test(valueSt);
+            let val:any = /[^ \.A-Za-z0-9_\-]/g.test(valueSt.trim());
             if(val){
                 return false;    
             }else{
                 return true;}
             });
+        ValidatorForm.addValidationRule("notFT",(valueSt)=>{
+            let val:any = /(false|true|FALSE|TRUE)/g.test(valueSt.trim());
+            if(val){
+                return false;    
+            }else{
+                return true;}
+        });
             /* ValidatorForm.addValidationRule("isValidName",(valueSt)=>/(^[ \w+])/g.test(valueSt)); */
     };
     const handleClickOpen = () => {
@@ -63,13 +70,11 @@ const modalSocio = (props:any) =>{
         });
     };
     const handleSubmit =() =>{
-
         setData({
             ...Data,
             inserver:false
         });
         props.create({nombre_sucursal:Data.nombre_sucursal,direccion:Data.direccion,inserver:Data.inserver});
-       
         setOpen(false);
         setData(sucursal);
     };
@@ -94,8 +99,8 @@ const modalSocio = (props:any) =>{
                     type="text"
                     onChange={handleChange}
                     value={nombre_sucursal}
-                    validators={["required","isValidName"]}
-                    errorMessages={["el campo es requerido","No ingresar caracteres especiales"]}
+                    validators={["required","isValidName","notFT"]}
+                    errorMessages={["el campo es requerido","No ingresar caracteres especiales","no ingresal false/true"]}
                     ref={re}
                     fullWidth
                 />
