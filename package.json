@@ -32,6 +32,7 @@
     "react-scripts": "2.1.5",
     "react-swipeable-views": "^0.13.1",
     "redux": "^4.0.5",
+    "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
     "thunks": "^4.9.6",
     "tslint": "^5.17.0",
@@ -66,6 +67,7 @@
   ],
   "devDependencies": {
     "@types/react-material-ui-form-validator": "^2.1.0",
+    "@types/react-redux": "^7.1.9",
     "@types/react-swipeable-views": "^0.13.0"
   }
 }

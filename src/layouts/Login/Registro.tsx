@@ -4,6 +4,7 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import profile from '../../assets/img/profile.png';
 import { Card, CardActions, CardContent, CardHeader } from '@material-ui/core';
+import App from './loadImg';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -172,7 +173,7 @@ const Registro = () => {
 
                 <CardContent>
                     <div>
-                       
+                       <App/>
                         <TextField
                             error={state.isError}
                             fullWidth

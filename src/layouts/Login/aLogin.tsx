@@ -4,6 +4,14 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import profile from '../../assets/img/profile.png';
 import { Card, CardActions, CardContent, CardHeader } from '@material-ui/core';
+import { useDispatch, useSelector } from 'react-redux';
+
+
+import { createBrowserHistory } from 'history';
+import User from '../../database/Usuarios';
+import usuarios from '../../views/Usuarios/usuarios';
+
+
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -72,6 +80,7 @@ const reducer = (state: State, action: Action): State => {
         case 'loginSuccess':
             return {
                 ...state,
+
                 helperText: action.payload,
                 isError: false
             };
@@ -131,48 +140,88 @@ const Alogin = () => {
 
 
 
+    const history = createBrowserHistory();
 
     const handleLogin = async () => {
-
-        
-        const requestOptions = { method: 'POST',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            email: state.username,
-            password: state.password})
-        } 
+        const requestOptions = {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                email: state.username,
+                password: state.password
+            })
+        }
         console.log(requestOptions)
-        const rawResponse = await fetch(baseurl,requestOptions)
-        const content = await rawResponse.json();
-        console.log(rawResponse);
-        console.log(content);
-       
-       
+        const rawResponse = await fetch(baseurl, requestOptions)
+         const content = await rawResponse.json()
+         console.log(content)
+        if (content.email === state.username) {
+            localStorage.setItem('usuarios', JSON.stringify(content))
+            dispatch({
+                type: 'loginSuccess',
+                payload: 'Exito'
+            }
+            );
 
-
-
-
-    /*     if (content === 'stauts200') {
-            console.log(state.username)
-          dispatch({
-            type: 'loginSuccess',
-            payload: 'Exito'
-          });
         } else {
-          dispatch({
-            type: 'loginFailed',
-            payload: 'Contraseña o Email Error'
-          });
-        } */
+            dispatch({
+                type: 'loginFailed',
+                payload: 'Contraseña o Email Error'
+            });
+        }
 
     };
+    
+    function logout() {
+        // remove user from local storage to log user out
+        localStorage.removeItem('usuarios');
+    }
+        /*     .then(usuario => {
+                // store user details and jwt token in local storage to keep user logged in between page refreshes
+                localStorage.setItem('usuarios', JSON.stringify(content));
+                return usuario;
+
+            }); */
+        
+        
 
 
-
-
+    /* 
+    const handleLogin = async () => {
+        const requestOptions = {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    email: state.username,
+                    password: state.password
+                })
+            }
+            console.log(requestOptions)
+            const rawResponse = await fetch(baseurl, requestOptions)
+            const content = await rawResponse.json();
+            
+            if (content.email === state.username) {
+                history.push("/admin");
+                dispatch({
+                    type: 'loginSuccess',
+                    payload: 'Exito'
+    
+                }
+                );
+            } else {
+                dispatch({
+                    type: 'loginFailed',
+                    payload: 'Contraseña o Email Error'
+                });
+            }
+    
+        }; */
     const handleKeyPress = (event: React.KeyboardEvent) => {
         if (event.keyCode === 13 || event.which === 13) {
             state.isButtonDisabled || handleLogin();
@@ -200,7 +249,7 @@ const Alogin = () => {
 
                 <CardContent>
                     <div>
-                        
+
                         <TextField
                             error={state.isError}
                             fullWidth
@@ -235,6 +284,15 @@ const Alogin = () => {
                         onClick={handleLogin}
                         disabled={state.isButtonDisabled}>
                         Iniciar Sesison
+          </Button>
+          <Button
+            variant="contained"
+            size="large"
+            color="secondary"
+            className={classes.loginBtn}
+
+          onClick={logout}>
+                        cerrar
           </Button>
                 </CardActions>
             </Card>
