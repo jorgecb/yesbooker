@@ -9,6 +9,8 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import withStyles from '@material-ui/core/styles/withStyles';
 import { createStyles } from '@material-ui/core';
 import { ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
+import { useDispatch } from 'react-redux';
+import { addSucursal } from '../../actions/sucursalesAct'
 const styles = createStyles({
     cardCategoryWhite: {
         '&,& a,& a:hover,& a:focus': {
@@ -31,6 +33,7 @@ interface Sucursal{
 }
 const modalSocio = (props:any) =>{
     // eslint-disable-next-line react-hooks/rules-of-hooks
+    const dispatch = useDispatch();
     let sucursal:Sucursal={nombre_sucursal:"" , direccion:""};
     const [open, setOpen] = useState(false);
     const [Data, setData] = useState<Sucursal>(sucursal);
@@ -64,17 +67,20 @@ const modalSocio = (props:any) =>{
         console.log(Data)
     }, [Data]) */
     const handleChange = (e: FormEvent<HTMLInputElement>,t:string) =>{
+        e.preventDefault();
         setData({
             ...Data,
             [e.currentTarget.name]:e.currentTarget.value
         });
     };
-    const handleSubmit =() =>{
+    const handleSubmit =(e:any) =>{
+        e.preventDefault();
         setData({
             ...Data,
             inserver:false
         });
         props.create({nombre_sucursal:Data.nombre_sucursal,direccion:Data.direccion,inserver:Data.inserver});
+        dispatch( addSucursal(Data, 'guardado'));
         setOpen(false);
         setData(sucursal);
     };

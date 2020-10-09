@@ -7,7 +7,8 @@ import { Router, Route, Switch, Redirect } from 'react-router-dom';
 import Admin from './layouts/Admin';
 import Login from './layouts/Login/Login';
 
-
+import { Provider } from 'react-redux';
+import { store } from './store/store'
 
 import './assets/css/App.css';
 
@@ -18,11 +19,8 @@ const hist = createBrowserHistory();
 
 
 
-
-
-
 ReactDOM.render(
-
+  <Provider store={store}>
   <Router history={hist}>
     <Switch>
     <Route path="/login" component={Login} />
@@ -30,7 +28,8 @@ ReactDOM.render(
 
       <Redirect from="/" to="/admin/dashboard" />
     </Switch>
-  </Router>,
+  </Router>
+  </Provider>,
   document.getElementById('root')
 );
 
