@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import { v4 as uuidv4 } from "uuid";
-import Cliente  from "../../database/Clientes";
-import FormClientes from "./modalClientes"
+import Cliente from "../../database/Clientes";
+import FormClientes from "./modalClientes";
 import withStyles from "@material-ui/core/styles/withStyles";
 import Icon from "@material-ui/core/Icon";
 // @material-ui/icons
@@ -46,20 +46,20 @@ const styles = createStyles({
 });
 
 function Clientes(props: any) {
-  /* const peticion = fetch(globalVars.UrlApi + "clientes", {
+  const peticion = fetch(globalVars.UrlApi + "clientes", {
     method: "GET",
   });
   peticion.then((data) => console.log(data.json()));
- */
 
   const [clientes, setClientes] = useState({});
   let result = Array();
-  
+
   const oncreate = (cliente: any) => {
     Cliente.add(cliente);
     listadoUpd();
   };
 
+  
   const listadoUpd = () => {
     Cliente.listAll().then(function(res) {
       setClientes(res);
@@ -68,18 +68,17 @@ function Clientes(props: any) {
   };
 
   useEffect(() => {
-        listadoUpd();
-      }, []);
-   
+    listadoUpd();
+  }, []);
 
   const columns = [
     "id",
     "Nombre",
-    "codigo pais",
+    "CodigoPais",
     "Telefono",
     "Email",
     "Idioma",
-    "edad",
+    "Edad",
     "Notas",
   ];
   const data: any =
@@ -91,9 +90,9 @@ function Clientes(props: any) {
       <GridItem xs={12} sm={12} md={12}>
         <Card>
           <CardHeader color="$38">
-          <h4>Listado de Clientes</h4>
-            <FormClientes create={oncreate}/>
-            
+            <h4>Listado de Clientes</h4>
+            <FormClientes create={oncreate} />
+
             <MUIDataTable
               title={"Listado de Clientes"}
               data={data}

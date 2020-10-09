@@ -19,6 +19,7 @@
     "dexie": "^3.0.2",
     "history": "4.7.2",
     "material-table": "^1.69.0",
+    "material-ui-popup-state": "^1.6.1",
     "mui-datatables": "^3.4.1",
     "perfect-scrollbar": "1.4.0",
     "prettier": "1.16.4",
@@ -26,10 +27,7 @@
     "react-chartist": "0.13.3",
     "react-dom": "16.8.1",
     "react-google-maps": "9.4.5",
-<<<<<<< HEAD
     "react-hook-form": "^6.8.4",
-=======
->>>>>>> 6dc14854c7e409d80c236a91e6a9ceb7254eb1ca
     "react-material-ui-form-validator": "^2.1.1",
     "react-router-dom": "4.3.1",
     "react-scripts": "2.1.5",
