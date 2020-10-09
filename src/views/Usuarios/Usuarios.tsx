@@ -9,6 +9,9 @@ import CardBody from '../../components/Card/CardBody';
 import User from './../../database/Usuarios';
 import MUIDataTable from "mui-datatables";
 import ModalUsuario from './modalUsuario';
+
+import { useDispatch } from 'react-redux';
+import { addUsuario } from '../../actions/usuariosAct'
 const styles = createStyles({
     cardCategoryWhite: {
         '&,& a,& a:hover,& a:focus': {
@@ -25,6 +28,7 @@ const styles = createStyles({
 });
 
 const userList = (props: any) => {
+    const dispatch = useDispatch();
     const [Usuarios, setUsuarios] = useState({});
   
     let result=Array();
@@ -39,6 +43,7 @@ const userList = (props: any) => {
         }) */
     const oncreate=(usuario:any)=>{
         User.add(usuario);
+        dispatch( addUsuario(usuario,'guardado'));
         listadoUpd();
     }   
     const listadoUpd=()=>{

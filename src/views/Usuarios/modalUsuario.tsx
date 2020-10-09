@@ -31,7 +31,7 @@ interface Usuario{
 }
 const modalUsuario = (props:any) =>{
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    let usuario:Usuario={nombre :"",materno :"" , email:""};
+    let usuario:Usuario={nombre :"",materno :"" , email:"",inserver:false};
     const [open, setOpen] = useState(false);
     const [Data, setData] = useState<Usuario>(usuario);
     const {nombre, materno, email} = Data;

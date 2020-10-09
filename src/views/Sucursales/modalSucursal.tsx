@@ -9,8 +9,6 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import withStyles from '@material-ui/core/styles/withStyles';
 import { createStyles } from '@material-ui/core';
 import { ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
-import { useDispatch } from 'react-redux';
-import { addSucursal } from '../../actions/sucursalesAct'
 const styles = createStyles({
     cardCategoryWhite: {
         '&,& a,& a:hover,& a:focus': {
@@ -29,16 +27,15 @@ const styles = createStyles({
 interface Sucursal{
     nombre_sucursal?: string,
     direccion?: string,
-    inserver?: boolean
+    inserver?: boolean,
 }
 const modalSocio = (props:any) =>{
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    const dispatch = useDispatch();
-    let sucursal:Sucursal={nombre_sucursal:"" , direccion:""};
+    let sucursal:Sucursal={nombre_sucursal:"" , direccion:"",inserver:false};
     const [open, setOpen] = useState(false);
     const [Data, setData] = useState<Sucursal>(sucursal);
     const re = useRef(null);
-    const {nombre_sucursal, direccion} = Data;
+    const {nombre_sucursal, direccion, inserver} = Data;
     const valida=()=>{
         ValidatorForm.addValidationRule("isValidName",(valueSt)=>{
             let val:any = /[^ \.A-Za-z0-9_\-]/g.test(valueSt.trim());
@@ -80,7 +77,6 @@ const modalSocio = (props:any) =>{
             inserver:false
         });
         props.create({nombre_sucursal:Data.nombre_sucursal,direccion:Data.direccion,inserver:Data.inserver});
-        dispatch( addSucursal(Data, 'guardado'));
         setOpen(false);
         setData(sucursal);
     };
@@ -107,7 +103,6 @@ const modalSocio = (props:any) =>{
                     value={nombre_sucursal}
                     validators={["required","isValidName","notFT"]}
                     errorMessages={["el campo es requerido","No ingresar caracteres especiales","no ingresal false/true"]}
-                    ref={re}
                     fullWidth
                 />
                 <TextValidator

@@ -11,6 +11,9 @@ import Card from '../../components/Card/Card';
 import CardHeader from '../../components/Card/CardHeader';
 import CardBody from '../../components/Card/CardBody';
 import MUIDataTable from "mui-datatables";
+
+import { useDispatch } from 'react-redux';
+import { addSocio } from '../../actions/sociosAct'
 const styles = createStyles({
     cardCategoryWhite: {
         '&,& a,& a:hover,& a:focus': {
@@ -26,10 +29,12 @@ const styles = createStyles({
     }
 });
 const socioList = (props : []) => {  
+    const dispatch = useDispatch();
     const [Socios, setSocios] = useState({});
     let result=Array();
     const oncreate=(socio:any)=>{
       Socio.add(socio);
+      dispatch( addSocio(socio,'guardado'));
       listadoUpd();
     }
     const listadoUpd=()=>{

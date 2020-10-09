@@ -10,6 +10,9 @@ import Card from '../../components/Card/Card';
 import CardHeader from '../../components/Card/CardHeader';
 import MUIDataTable from "mui-datatables";
 import ModalSucursal from './modalSucursal';
+
+import { useDispatch } from 'react-redux';
+import { addSucursal } from '../../actions/sucursalesAct'
 const styles = createStyles({
     cardCategoryWhite: {
         '&,& a,& a:hover,& a:focus': {
@@ -25,10 +28,12 @@ const styles = createStyles({
     }
 });
 const sucursalList = (props : []) => {  
+    const dispatch = useDispatch();
     const [Sucursales, setSucursales] = useState({});
     let result=Array();
     const oncreate=(sucursal:any)=>{
       SucursalesDB.add(sucursal);
+      dispatch( addSucursal(sucursal, 'guardado'));
       listadoUpd();
     }
     const listadoUpd=()=>{

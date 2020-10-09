@@ -31,7 +31,7 @@ interface Socio{
 }
 const modalSocio = (props:any) =>{
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    let socio:Socio={nombre_socio:"" , email:""};
+    let socio:Socio={nombre_socio:"" , email:"",inserver:false};
     const [open, setOpen] = useState(false);
     const [Data, setData] = useState<Socio>(socio);
     const {nombre_socio, email} = Data;

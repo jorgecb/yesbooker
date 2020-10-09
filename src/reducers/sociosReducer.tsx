@@ -1,8 +1,8 @@
 import {types} from '../types/types';
 
-export const sucursalesReducer=(state:{}={},action:any)=>{
+export const sociosReducer=(state:{}={},action:any)=>{
     switch (action.type) {
-        case types.addSucursal:
+        case types.addSocio:
             return {data:action.payload.data, name:action.payload.displayName}
     
         default:
