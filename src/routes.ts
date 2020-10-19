@@ -12,9 +12,9 @@ import Usuarios from './views/Usuarios/Usuarios';
 import NotificationsPage from './views/Notifications/Notifications';
 import Socios from './views/Socios/Socios';
 import Zonas from './views/Zonas/Zonas';
-import Sucursales from './views/Sucursales/Sucursales';
 import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
 import Clientes from './views/Clientes/Clientes';
+import Sucursales from "./views/Sucursales/Sucursales"
 // core components/views for RTL layout
 
 const dashboardRoutes = [

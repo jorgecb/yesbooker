@@ -7,7 +7,7 @@ db.version(1).stores(
     Zonas: '++id, nombre_zona, descripcion, inserver',
     Sucursales: '++id, nombre_sucursal, direccion, inserver',
     Reservas:'++id, idcliente, idzona, idsucursal, inserver',
-    Clientes:'++id, Nombre, Telefono, Email,inserver',
+    Clientes:'++id, Nombre, Telefono, Email, Idioma, Edad, inserver',
     });
     db.version(10).stores(
         { 
@@ -16,5 +16,6 @@ db.version(1).stores(
         Zonas: '++id, nombre_zona, descripcion, inserver',
         Sucursales: '++id, nombre_sucursal, direccion, inserver',
         Reservas:'++id, idcliente, idzona, idsucursal, inserver',
+        Clientes:'++id, Nombre, Telefono, Email, Idioma, Edad, inserver',
         });
 export default db; 

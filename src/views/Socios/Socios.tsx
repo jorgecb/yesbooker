@@ -82,6 +82,6 @@ const socioList = (props : []) => {
             </GridItem>
         </GridContainer>
         </React.Fragment>
-    )
+    );
 }
 export default withStyles(styles)(socioList);

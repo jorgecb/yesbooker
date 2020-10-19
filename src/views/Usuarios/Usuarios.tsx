@@ -39,7 +39,6 @@ const userList = (props: any) => {
             nombre: 'jorge',
             materno: 'barrera',
             edad: 33, inserver: false
-
         }) */
     const oncreate=(usuario:any)=>{
         User.add(usuario);
