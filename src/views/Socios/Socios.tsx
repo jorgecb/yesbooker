@@ -42,15 +42,11 @@ const socioList = (props : []) => {
         onCellClick:(data:any,cell:{})=>{return console.log(cell)}
       };
     const oncreate=(socio:any)=>{
-        console.log(re);
-        console.log(est);
       Socio.add(socio);
       dispatch( addSocio(socio,'guardado'));
       listadoUpd();
     }
     const listadoUpd=()=>{
-        console.log(est);
-        console.log(re);
         Socio.listAll().then(function(res){
             setSocios(res);
             console.log(res);
