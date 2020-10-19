@@ -34,6 +34,13 @@ const socioList = (props : []) => {
     const [Socios, setSocios] = useState({});
     let est: MUIDataTableState;
     let result=Array();
+    //
+    //aqui es donde se manejan los eventos y demas de la MUI-DT
+    //
+    const options:{} = {
+        filterType: 'checkbox',
+        onCellClick:(data:any,cell:{})=>{return console.log(cell)}
+      };
     const oncreate=(socio:any)=>{
         console.log(re);
         console.log(est);
@@ -70,6 +77,7 @@ const socioList = (props : []) => {
                             title={"Socios Comerciales"}
                             data={data}
                             columns={columns}
+                            options={options}
                         >
                             <TableSelectCell  
                                 fixedHeader={true}
