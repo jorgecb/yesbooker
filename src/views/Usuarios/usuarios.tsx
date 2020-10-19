@@ -6,7 +6,7 @@ import GridItem from '../../components/Grid/GridItem';
 import Card from '../../components/Card/Card';
 import CardHeader from '../../components/Card/CardHeader';
 import CardBody from '../../components/Card/CardBody';
-import User from './../../database/Usuarios';
+import User from '../../database/Usuarios';
 import MUIDataTable from "mui-datatables";
 import ModalUsuario from './modalUsuario';
 const styles = createStyles({
@@ -71,7 +71,6 @@ const userList = (props: any) => {
 
                     </CardHeader>
                     <CardBody>
-
                     </CardBody>
                 </Card>
             </GridItem>

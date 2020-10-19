@@ -8,8 +8,6 @@ import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import Login from './aLogin';
 import Registro from './Registro';
-
-
 interface TabPanelProps {
   children?: React.ReactNode;
   dir?: string;

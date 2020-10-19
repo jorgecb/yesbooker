@@ -17,6 +17,8 @@ import Search from '@material-ui/icons/Search';
 // core components
 import CustomInput from '../CustomInput/CustomInput';
 import Button from '../CustomButtons/Button';
+import UserBar from './BarUser';
+
 
 import headerLinksStyle from '../../assets/jss/material-dashboard-react/components/headerLinksStyle';
 
@@ -93,8 +95,8 @@ class HeaderLinks extends React.Component<Props, {}> {
             <Notifications className={classes.icons} />
             <span className={classes.notifications}>5</span>
             <Hidden mdUp={true} implementation="css">
-              <p  className={classes.linkText}> 
-              {/* onClick={this.handleClick} */}
+              <p className={classes.linkText}>
+                {/* onClick={this.handleClick} */}
                 Notification
               </p>
             </Hidden>
@@ -159,18 +161,11 @@ class HeaderLinks extends React.Component<Props, {}> {
             )}
           </Poppers>
         </div>
-        <Button
-          color={window.innerWidth > 959 ? 'transparent' : 'white'}
-          justIcon={window.innerWidth > 959}
-          simple={!(window.innerWidth > 959)}
-          aria-label="Person"
-          className={classes.buttonLink}
-        >
-          <Person className={classes.icons} />
-          <Hidden mdUp={true} implementation="css">
-            <p className={classes.linkText}>Profile</p>
-          </Hidden>
-        </Button>
+
+        <div className={classes.manager}>
+          <UserBar />
+        </div>
+
       </div>
     );
   }

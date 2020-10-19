@@ -1,29 +1,10 @@
 import React from 'react';
-
-import Link from '@material-ui/core/Link';
-import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
-
-import Typography from '@material-ui/core/Typography';
-
-
-import TabPanel from './Barra';
+import '../../assets/css/App.css';
+import Login from './aLogin';
 
 
-
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -57,6 +38,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SignInSide() {
+
   const classes = useStyles();
 
   return (
@@ -66,7 +48,7 @@ export default function SignInSide() {
   <div id="formContent">
   
   <Grid container component="main" className={classes.root}>
-        <TabPanel></TabPanel>
+       <Login/>
       </Grid>
 
     <div className="fadeIn first">
