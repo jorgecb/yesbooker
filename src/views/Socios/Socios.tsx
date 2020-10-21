@@ -32,14 +32,19 @@ const socioList = (props : any) => {
     const dispatch = useDispatch();
     const re = useRef();
     const [Socios, setSocios] = useState({});
-    const [socio, setSocio] = useState({data:{}});
+    const [socio, setSocio] = useState({
+        data:{},
+        chPas:true,});
     let est: MUIDataTableState;
     let result=Array();
     const oncreate=(socio:any)=>{
       Socio.add(socio);
       dispatch( addSocio(socio,'guardado'));
       listadoUpd();
-    }
+    }/* 
+    setSocio({
+        ...socio.data.valueOf(),
+    }); */
     const listadoUpd=()=>{
         Socio.listAll().then(function(res){
             setSocios(res);
@@ -69,10 +74,14 @@ const socioList = (props : any) => {
                 return;
             }
             if(cell.length > 1){
-               return alert("solo puedes seleccionarb un campo");
+                setSocio({
+                    data:data[cell[0].dataIndex].valueOf(),
+                    chPas:false,
+                });
+               return alert("solo puedes seleccionar un campo");
             }
             console.log(data[cell[0].dataIndex].valueOf(),cell);
-            setSocio({data:data[cell[0].dataIndex].valueOf()});
+            setSocio({data:data[cell[0].dataIndex].valueOf(),chPas:true});
             return },
     }
     return ( 

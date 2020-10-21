@@ -34,12 +34,42 @@ const modalSocio = (props:any) =>{
     let socio:Socio={nombre_socio:"" , email:"",inserver:false};
     const [open, setOpen] = useState(false);
     const [Data, setData] = useState<Socio>(socio);
+    const [upd,setUpd] =useState(false);
     const {nombre_socio, email} = Data;
     const handleClickOpen = () => {
       setOpen(true);
+      valida();
     };
+    const handleClickOpen2 = () => {
+        console.log(props.update.data.nombre_socio);
+        setUpd(true);
+        valida();
+        const val:any =(props.update.chPas != false)?setOpen(true):alert("solo se puede actualizar un registro");
+        return val;
+      };
+    const handleUpd=()=>{
+        const dot:any =(upd !== true)?props.update.data.nombre_socio:"";
+        return dot;
+    }
     const handleClose = () => {
       setOpen(false);
+    };
+    const valida=()=>{
+        ValidatorForm.addValidationRule("isValidName",(valueSt)=>{
+            let val:any = /[^ \.A-Za-z0-9_\-]/g.test(valueSt.trim());
+            if(val){
+                return false;    
+            }else{
+                return true;}
+            });
+        ValidatorForm.addValidationRule("notFT",(valueSt)=>{
+            let val:any = /(false|true|FALSE|TRUE)/g.test(valueSt.trim());
+            if(val){
+                return false;    
+            }else{
+                return true;}
+        });
+            /* ValidatorForm.addValidationRule("isValidName",(valueSt)=>/(^[ \w+])/g.test(valueSt)); */
     };
 /*     useEffect(() => {
         console.log(Data),
@@ -65,7 +95,7 @@ const modalSocio = (props:any) =>{
         <Button variant="contained" color="primary" onClick={handleClickOpen}>
             Ingresar Socio
         </Button>
-        <Button variant="contained" color="secondary" onClick={handleClickOpen}>
+        <Button variant="contained" color="secondary" onClick={handleClickOpen2}>
             Actualizar Socio
         </Button>
         <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
@@ -83,9 +113,10 @@ const modalSocio = (props:any) =>{
                     label="Nombre Socio"
                     type="text"
                     onChange={handleChange}
+                    deafultValue={handleUpd}
                     value={nombre_socio}
-                    validators={["required"]}
-                    errorMessages={["el campo es requerido"]}
+                    validators={["required","isValidName","notFT"]}
+                    errorMessages={["el campo es requerido","No ingresar caracteres especiales","no ingresal false/true"]}
                     fullWidth
                 />
                 <TextValidator
