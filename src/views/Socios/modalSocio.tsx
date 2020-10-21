@@ -41,6 +41,10 @@ const modalSocio = (props:any) =>{
       valida();
     };
     const handleClickOpen2 = () => {
+        console.log(props.update);
+        if(!!props.update){
+            return alert("debes elegir almenos un campo");
+        }
         console.log(props.update.data.nombre_socio);
         setUpd(true);
         valida();
