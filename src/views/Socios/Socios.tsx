@@ -28,19 +28,13 @@ const styles = createStyles({
         }
     }
 });
-const socioList = (props : []) => {  
+const socioList = (props : any) => {  
     const dispatch = useDispatch();
     const re = useRef();
     const [Socios, setSocios] = useState({});
+    const [socio, setSocio] = useState({data:{}});
     let est: MUIDataTableState;
     let result=Array();
-    //
-    //aqui es donde se manejan los eventos y demas de la MUI-DT
-    //
-    const options:{} = {
-        filterType: 'checkbox',
-        onCellClick:(data:any,cell:{})=>{return console.log(cell)}
-      };
     const oncreate=(socio:any)=>{
       Socio.add(socio);
       dispatch( addSocio(socio,'guardado'));
@@ -53,6 +47,9 @@ const socioList = (props : []) => {
         });
     }
     useEffect(()=>{
+        console.log(socio);
+    },[socio]);
+    useEffect(()=>{
         /* Socio.add({nombre_socio:"chuy",email:"chuy@chuy.com",inserver:false}) */
         listadoUpd();
         console.log(re);
@@ -61,14 +58,30 @@ const socioList = (props : []) => {
     const columns = ["id","nombre_socio","email"];
     const data:any = (Socios.valueOf() != {} && Socios.toString() != '[object Object]') 
     ? Socios.valueOf() : [];
-
+    //
+    //aqui es donde se manejan los eventos y demas de la MUI-DT
+    //
+    const options:{} = {
+        filterType: 'checkbox',
+        onRowSelectionChange:(dat:any,cell:any)=>{
+            console.log(cell.length);
+            if(cell.length <= 0){
+                return;
+            }
+            if(cell.length > 1){
+               return alert("solo puedes seleccionarb un campo");
+            }
+            console.log(data[cell[0].dataIndex].valueOf(),cell);
+            setSocio({data:data[cell[0].dataIndex].valueOf()});
+            return },
+    }
     return ( 
         <React.Fragment>
         <GridContainer>
             <GridItem xs={12} sm={12} md={12}>
                 <Card>
                     <CardHeader color="$38"  ref={re}>
-                        <h4>Listado de Socios</h4><ModalSocio create={oncreate} />
+                        <h4>Listado de Socios</h4><ModalSocio create={oncreate} update={socio} />
                         <MUIDataTable
                             title={"Socios Comerciales"}
                             data={data}

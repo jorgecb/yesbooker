@@ -44,7 +44,7 @@ const userList = (props: any) => {
         User.add(usuario);
         dispatch( addUsuario(usuario,'guardado'));
         listadoUpd();
-    }   
+    }
     const listadoUpd=()=>{
             User.listAll().then(function(res){
                 setUsuarios(res);

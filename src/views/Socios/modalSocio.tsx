@@ -61,9 +61,12 @@ const modalSocio = (props:any) =>{
         setData(socio);
     };
     return (
-        <>
-        <Button variant="outlined" color="primary" onClick={handleClickOpen}>
+        <div>
+        <Button variant="contained" color="primary" onClick={handleClickOpen}>
             Ingresar Socio
+        </Button>
+        <Button variant="contained" color="secondary" onClick={handleClickOpen}>
+            Actualizar Socio
         </Button>
         <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
             <DialogTitle id="form-dialog-title">Agregar Socio</DialogTitle>
@@ -108,7 +111,7 @@ const modalSocio = (props:any) =>{
             </ValidatorForm>
             </DialogContent>
         </Dialog>
-        </>
+        </div>
     );
   }
   export default withStyles(styles)(modalSocio);
