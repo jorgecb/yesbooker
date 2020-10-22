@@ -42,11 +42,15 @@ const modalSocio = (props:any) =>{
     };
     const handleClickOpen2 = () => {
         console.log(props.update);
-        if(!!props.update){
+        if(props.update.chPas === false){
             return alert("debes elegir almenos un campo");
         }
-        console.log(props.update.data.nombre_socio);
+        console.log(props.update.data);
         setUpd(true);
+        setData({
+            nombre_socio:props.update.data.nombre_socio,
+            email:props.update.data.email,
+        });
         valida();
         const val:any =(props.update.chPas != false)?setOpen(true):alert("solo se puede actualizar un registro");
         return val;
@@ -95,7 +99,7 @@ const modalSocio = (props:any) =>{
         setData(socio);
     };
     return (
-        <div>
+        <>
         <Button variant="contained" color="primary" onClick={handleClickOpen}>
             Ingresar Socio
         </Button>
@@ -117,7 +121,6 @@ const modalSocio = (props:any) =>{
                     label="Nombre Socio"
                     type="text"
                     onChange={handleChange}
-                    deafultValue={handleUpd}
                     value={nombre_socio}
                     validators={["required","isValidName","notFT"]}
                     errorMessages={["el campo es requerido","No ingresar caracteres especiales","no ingresal false/true"]}
@@ -146,7 +149,7 @@ const modalSocio = (props:any) =>{
             </ValidatorForm>
             </DialogContent>
         </Dialog>
-        </div>
+        </>
     );
   }
   export default withStyles(styles)(modalSocio);

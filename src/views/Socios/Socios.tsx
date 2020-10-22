@@ -34,7 +34,7 @@ const socioList = (props : any) => {
     const [Socios, setSocios] = useState({});
     const [socio, setSocio] = useState({
         data:{},
-        chPas:true,});
+        chPas:false,});
     let est: MUIDataTableState;
     let result=Array();
     const oncreate=(socio:any)=>{
@@ -71,6 +71,7 @@ const socioList = (props : any) => {
         onRowSelectionChange:(dat:any,cell:any)=>{
             console.log(cell.length);
             if(cell.length <= 0){
+                setSocio({...data.valueOf(),chPas:false,});
                 return;
             }
             if(cell.length > 1){
