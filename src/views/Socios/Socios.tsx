@@ -37,6 +37,12 @@ const socioList = (props : any) => {
         chPas:false,});
     let est: MUIDataTableState;
     let result=Array();
+    const onupd=(socioUpd:any)=>{
+        console.log(socioUpd);
+        Socio.update(socioUpd.id,socioUpd.soc);
+        alert("se actualizo un registro");
+        listadoUpd();
+    };
     const oncreate=(socio:any)=>{
       Socio.add(socio);
       dispatch( addSocio(socio,'guardado'));
@@ -57,8 +63,6 @@ const socioList = (props : any) => {
     useEffect(()=>{
         /* Socio.add({nombre_socio:"chuy",email:"chuy@chuy.com",inserver:false}) */
         listadoUpd();
-        console.log(re);
-        console.log(est);
     },[]);
     const columns = ["id","nombre_socio","email"];
     const data:any = (Socios.valueOf() != {} && Socios.toString() != '[object Object]') 
@@ -71,7 +75,7 @@ const socioList = (props : any) => {
         onRowSelectionChange:(dat:any,cell:any)=>{
             console.log(cell.length);
             if(cell.length <= 0){
-                setSocio({...data.valueOf(),chPas:false,});
+                setSocio({data:{},chPas:false,});
                 return;
             }
             if(cell.length > 1){
@@ -91,7 +95,7 @@ const socioList = (props : any) => {
             <GridItem xs={12} sm={12} md={12}>
                 <Card>
                     <CardHeader color="$38"  ref={re}>
-                        <h4>Listado de Socios</h4><ModalSocio create={oncreate} update={socio} />
+                        <h4>Listado de Socios</h4><ModalSocio create={oncreate} update={socio} upd={onupd} />
                         <MUIDataTable
                             title={"Socios Comerciales"}
                             data={data}

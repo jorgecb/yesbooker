@@ -34,32 +34,29 @@ const modalSocio = (props:any) =>{
     let socio:Socio={nombre_socio:"" , email:"",inserver:false};
     const [open, setOpen] = useState(false);
     const [Data, setData] = useState<Socio>(socio);
-    const [upd,setUpd] =useState(false);
     const {nombre_socio, email} = Data;
+    const [intfz,setIntfz] = useState({
+        ttl:"Resgistro de Socios",
+        bt:"Registrar",
+    });
     const handleClickOpen = () => {
       setOpen(true);
       valida();
     };
     const handleClickOpen2 = () => {
-        console.log(props.update);
         if(props.update.chPas === false){
             return alert("debes elegir almenos un campo");
-        }
-        console.log(props.update.data);
-        setUpd(true);
+        };
         setData({
             nombre_socio:props.update.data.nombre_socio,
             email:props.update.data.email,
         });
+        setIntfz({ttl:"Actualizar Socio",bt:"Actualizar"});
         valida();
         const val:any =(props.update.chPas != false)?setOpen(true):alert("solo se puede actualizar un registro");
         return val;
       };
-    const handleUpd=()=>{
-        const dot:any =(upd !== true)?props.update.data.nombre_socio:"";
-        return dot;
-    }
-    const handleClose = () => {
+      const handleClose = () => {
       setOpen(false);
     };
     const valida=()=>{
@@ -94,9 +91,16 @@ const modalSocio = (props:any) =>{
             ...Data,
             inserver:false
         });
+        if(props.update.chPas===true){
+            props.upd({id:props.update.data.id, soc:{nombre_socio:Data.nombre_socio,email:Data.email,inserver:false}});
+            setOpen(false);
+            setData(socio);
+            return;
+        };
         props.create({nombre_socio:Data.nombre_socio,email:Data.email,inserver:Data.inserver});
         setOpen(false);
         setData(socio);
+        return;
     };
     return (
         <>
@@ -107,10 +111,10 @@ const modalSocio = (props:any) =>{
             Actualizar Socio
         </Button>
         <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-            <DialogTitle id="form-dialog-title">Agregar Socio</DialogTitle>
+        <DialogTitle id="form-dialog-title">{intfz.ttl.toString()}</DialogTitle>
             <DialogContent>
                 <DialogContentText>
-                    Formulario para registro de Socios
+                    Formulario de Socios
                 </DialogContentText>
             <ValidatorForm onSubmit={handleSubmit}>
                 <TextValidator
@@ -143,7 +147,7 @@ const modalSocio = (props:any) =>{
                     Cancelar
                 </Button>
                 <Button type="submit" color="primary">
-                    Registrar
+                    {intfz.bt}
                 </Button>
             </DialogActions>
             </ValidatorForm>
