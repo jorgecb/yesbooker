@@ -1,8 +1,8 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState,} from 'react';
 import ReactDOM from 'react-dom';
 import withStyles from '@material-ui/core/styles/withStyles';
 import { createStyles, Grid } from '@material-ui/core';
-import Socio from '../../database/Socios';
+import SociosDB from '../../database/Socios';
 import ModalSocio from './modalSocio';
 import GridContainer from '../../components/Grid/GridContainer';
 import GridItem from '../../components/Grid/GridItem';
@@ -30,21 +30,21 @@ const styles = createStyles({
 });
 const socioList = (props : any) => {  
     const dispatch = useDispatch();
-    const re = useRef();
     const [Socios, setSocios] = useState([]);
     const [socio, setSocio] = useState({
         data:{},
         chPas:false,});
-    let est: MUIDataTableState;
-    let result=Array();
     const onupd=(socioUpd:any)=>{
         console.log(socioUpd);
-        Socio.update(socioUpd.id,socioUpd.soc);
+        SociosDB.update(socioUpd.id,socioUpd.soc);
+        setSocio({
+            data:{},
+            chPas:false,});
         alert("se actualizo un registro");
         listadoUpd();
     };
     const oncreate=(socio:any)=>{
-      Socio.add(socio);
+      SociosDB.add(socio);
       dispatch( addSocio(socio,'guardado'));
       listadoUpd();
     }/* 
@@ -52,17 +52,18 @@ const socioList = (props : any) => {
         ...socio.data.valueOf(),
     }); */
     const listadoUpd=()=>{
-        Socio.listAll().then(function(res){/* 
+        SociosDB.listAll().then(function(res){/* 
             setSocios(res);
             if(Object.keys(res).length<=1){
                 alert("Los ejemplos se eliminaran automaticamente al ir ingresando datos");
             }; */
             console.log(res);
         });
-        Socio.listNotDell().then(function(dev){
+        SociosDB.listNotDell().then(function(dev){
             setSocios(dev);
             if(Object.keys(dev).length<=1){
-                alert("Los ejemplos se eliminaran automaticamente al ir ingresando datos");
+                alert("Los ejemplos se eliminaran automaticamente al ir ingresando datos \n"+
+                "es indisplensable llenar los dos primeros registros para comenzar");
             };
             console.log(dev);
         })
@@ -116,22 +117,23 @@ const socioList = (props : any) => {
                     if(valDel===true){
                         dataT[dato.dataIndex].deleted=true;
                         dataT[dato.dataIndex].inserver=false;
-                        Socio.update(regD.id,dataT[dato.dataIndex]);
+                        SociosDB.update(regD.id,dataT[dato.dataIndex]);
                         alert("Borrado correctamente: \n"+regD.nombre);
                         listadoUpd();
                     }else{
-                        alert("Se conservo la información: \n"+regD.nombre)
+                        alert("Se conservo la información: \n"+regD.nombre);
+                        listadoUpd();
                     };
                     console.log(dato,socio,dataT[dato.dataIndex],regD.id);
                 });
                 return console.log(ro.data);},
-    }
+    };
     return ( 
         <React.Fragment>
         <GridContainer>
             <GridItem xs={12} sm={12} md={12}>
                 <Card>
-                    <CardHeader color="$38"  ref={re}>
+                    <CardHeader color="$38" >
                         <h4>Listado de Socios</h4><ModalSocio create={oncreate} update={socio} upd={onupd} />
                         <MUIDataTable
                             title={"Socios Comerciales"}
@@ -139,11 +141,6 @@ const socioList = (props : any) => {
                             columns={columns}
                             options={options}
                         >
-                            <TableSelectCell  
-                                fixedHeader={true}
-                                checked={true}
-                                onChange={()=>console.log(est.selectedRows)}
-                            />
                         </MUIDataTable>
                     </CardHeader>
                 </Card>

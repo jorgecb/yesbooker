@@ -1,6 +1,5 @@
-import React, { FormEvent, useEffect, useState } from 'react';
+import React, { FormEvent, useState } from 'react';
 import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -41,6 +40,9 @@ const modalSocio = (props:any) =>{
         bt:"Registrar",
     });
     const handleClickOpen = () => {
+        if(Object.keys(props.update.data).length!==0){
+            return alert("no se puede registrar mientras existan elementos selecionados");
+        };
       setOpen(true);
       valida();
     };
@@ -57,7 +59,12 @@ const modalSocio = (props:any) =>{
         const val:any =(props.update.chPas != false)?setOpen(true):alert("solo se puede actualizar un registro");
         return val;
       };
-      const handleClose = () => {
+    const handleClose = () => {
+        setData(socio);
+        setIntfz({
+            ttl:"Resgistro de Socios",
+            bt:"Registrar",
+        });
       setOpen(false);
     };
     const valida=()=>{
@@ -96,6 +103,10 @@ const modalSocio = (props:any) =>{
         if(props.update.chPas===true){
             props.upd({id:props.update.data.id, soc:{nombre_socio:Data.nombre_socio,email:Data.email,deleted:false,inserver:false}});
             setOpen(false);
+            setIntfz({
+                ttl:"Resgistro de Socios",
+                bt:"Registrar",
+            });
             setData(socio);
             return;
         };
