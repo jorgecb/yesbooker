@@ -27,11 +27,12 @@ const styles = createStyles({
 interface Sucursal{
     nombre_sucursal?: string,
     direccion?: string,
+    deleted?:boolean,
     inserver?: boolean,
 }
 const modalSocio = (props:any) =>{
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    let sucursal:Sucursal={nombre_sucursal:"" , direccion:"",inserver:false};
+    let sucursal:Sucursal={nombre_sucursal:"" , direccion:"", deleted:false, inserver:false};
     const [open, setOpen] = useState(false);
     const [Data, setData] = useState<Sucursal>(sucursal);
     const re = useRef(null);
@@ -74,9 +75,10 @@ const modalSocio = (props:any) =>{
         e.preventDefault();
         setData({
             ...Data,
-            inserver:false
+            deleted:false,
+            inserver:false,
         });
-        props.create({nombre_sucursal:Data.nombre_sucursal,direccion:Data.direccion,inserver:Data.inserver});
+        props.create({nombre_sucursal:Data.nombre_sucursal,direccion:Data.direccion,deleted:Data.deleted,inserver:Data.inserver});
         setOpen(false);
         setData(sucursal);
     };

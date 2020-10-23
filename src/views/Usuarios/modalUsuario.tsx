@@ -27,11 +27,12 @@ interface Usuario{
     nombre?: string,
     materno?: string,
     email?: string,
+    deleted?:boolean,
     inserver?: boolean
 }
 const modalUsuario = (props:any) =>{
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    let usuario:Usuario={nombre :"",materno :"" , email:"",inserver:false};
+    let usuario:Usuario={nombre :"",materno :"" , email:"", deleted:false, inserver:false};
     const [open, setOpen] = useState(false);
     const [Data, setData] = useState<Usuario>(usuario);
     const {nombre, materno, email} = Data;
@@ -54,9 +55,10 @@ const modalUsuario = (props:any) =>{
     const handleSubmit =() =>{
         setData({
             ...Data,
-            inserver:false
+            deleted:false,
+            inserver:false,
         });
-        props.create({nombre:Data.nombre,materno:Data.materno,email:Data.email,inserver:Data.inserver});
+        props.create({nombre:Data.nombre,materno:Data.materno,email:Data.email,deleted:Data.deleted,inserver:Data.inserver});
         setOpen(false);
         setData(usuario);
     };

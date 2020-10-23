@@ -27,11 +27,12 @@ const styles = createStyles({
 interface Socio{
     nombre_socio?: string,
     email?: string,
+    deleted?:boolean,
     inserver?: boolean
 }
 const modalSocio = (props:any) =>{
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    let socio:Socio={nombre_socio:"" , email:"",inserver:false};
+    let socio:Socio={nombre_socio:"" , email:"", deleted:false, inserver:false};
     const [open, setOpen] = useState(false);
     const [Data, setData] = useState<Socio>(socio);
     const {nombre_socio, email} = Data;
@@ -45,7 +46,7 @@ const modalSocio = (props:any) =>{
     };
     const handleClickOpen2 = () => {
         if(props.update.chPas === false){
-            return alert("debes elegir almenos un campo");
+            return alert("debes elegir sólo un(1) campo a la vez");
         };
         setData({
             nombre_socio:props.update.data.nombre_socio,
@@ -89,15 +90,16 @@ const modalSocio = (props:any) =>{
     const handleSubmit =() =>{
         setData({
             ...Data,
-            inserver:false
+            deleted:false,
+            inserver:false,
         });
         if(props.update.chPas===true){
-            props.upd({id:props.update.data.id, soc:{nombre_socio:Data.nombre_socio,email:Data.email,inserver:false}});
+            props.upd({id:props.update.data.id, soc:{nombre_socio:Data.nombre_socio,email:Data.email,deleted:false,inserver:false}});
             setOpen(false);
             setData(socio);
             return;
         };
-        props.create({nombre_socio:Data.nombre_socio,email:Data.email,inserver:Data.inserver});
+        props.create({nombre_socio:Data.nombre_socio,email:Data.email,deleted:Data.deleted,inserver:Data.inserver});
         setOpen(false);
         setData(socio);
         return;
