@@ -8,11 +8,13 @@ import Notifications from '@material-ui/icons/Notifications';
 import DashboardPage from './views/Dashboard/Dashboard';
 import UserProfile from './views/UserProfile/UserProfile';
 import TableList from './views/TableList/TableList';
-import Usuarios from './views/Usuarios/usuarios';
+import Usuarios from './views/Usuarios/Usuarios';
 import NotificationsPage from './views/Notifications/Notifications';
 import Socios from './views/Socios/Socios';
 import Zonas from './views/Zonas/Zonas';
-import Sucursales from './views/Sucursales/Sucursales';
+import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
+import Clientes from './views/Clientes/Clientes';
+import Sucursales from "./views/Sucursales/Sucursales"
 // core components/views for RTL layout
 
 const dashboardRoutes = [
@@ -22,6 +24,14 @@ const dashboardRoutes = [
 
     icon: Person ,
     component: Usuarios,
+    layout: '/admin'
+  },
+  {
+    path: '/Cientes',
+    name: 'Clientes',   
+
+    icon: AssignmentIndIcon,
+    component: Clientes,
     layout: '/admin'
   },
   {

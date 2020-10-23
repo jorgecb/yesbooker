@@ -1,27 +1,14 @@
 import db from "./database";
 
-const tableName = "Socios";
+const tableName = "Clientes";
 
-const Socio = {
+const Cliente = {
   add(data: any) {
     db.table(tableName)
       .add(data)
       .then((id) => {
         return data;
       });
-  },
-  listNotDell() {
-    var data = db
-      .table(tableName)
-      .filter((todo)=>{return todo.deleted===false;})
-      .toArray()
-      .then((todos) => {
-        return todos;
-      })
-      .catch((err) => {
-        return err;
-      });
-    return data;
   },
   listAll() {
     var data = db
@@ -43,5 +30,4 @@ const Socio = {
       });
   },
 };
-
-export default Socio;
+export default Cliente;

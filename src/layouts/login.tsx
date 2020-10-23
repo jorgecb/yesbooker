@@ -1,8 +1,12 @@
 import React, { useReducer, useEffect } from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+
 import TextField from '@material-ui/core/TextField';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+import CardActions from '@material-ui/core/CardActions';
+import CardHeader from '@material-ui/core/CardHeader';
 import Button from '@material-ui/core/Button';
-import profile from '../../assets/img/profile.png';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -88,7 +92,7 @@ const reducer = (state: State, action: Action): State => {
     }
 }
 
-const Registro = () => {
+const Login = () => {
     const classes = useStyles();
     const [state, dispatch] = useReducer(reducer, initialState);
 
@@ -105,54 +109,68 @@ const Registro = () => {
             });
         }
     }, [state.username, state.password]);
-    const baseurl = 'http://localhost/reservas4/public/index.php/usuario/index_post';
+    const baseurl = 'http://localhost/reservas4/public/index.php/Auth/login/';
+
+
+    /* 
+     const handleLogin =  fetch (baseurl, {
+        
+        method: 'POST',
+        headers: myHeaders,
+        mode: 'cors',
+        cache: 'default',
+    }) */
+
 
     
+
     const handleLogin = async () => {
-        const rawResponse = await fetch(baseurl, {
+        const rawResponse = await fetch(baseurl,  {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
-                },
+              
+
+            },
             mode: 'cors',
             body: JSON.stringify({
-                email: state.username,
-                password: state.password
+                email : state.username,
+                password : state.password 
             }),
         });
         const content = await rawResponse.json();
         console.log(rawResponse);
         console.log(content);
-    }; 
+    };
 
-    /* 
-         const handleLogin = async () => {
-            await Axios.post(baseurl, { params: { username: state.username, password: state.password } })
-    
-                .then(Responde => {
-                    console.log(Responde.data);
-                })
-                .catch(error => {
-                    console.log(error)
-                })
-        }  */
+/* 
+     const handleLogin = async () => {
+        await Axios.post(baseurl, { params: { username: state.username, password: state.password } })
+
+            .then(Responde => {
+                console.log(Responde.data);
+            })
+            .catch(error => {
+                console.log(error)
+            })
+    }  */
 
 
-    /* const handleLogin = () => {
-      if (state.username === 'abc@email.com' && state.password === 'password') {
-          console.log
-        dispatch({
-          type: 'loginSuccess',
-          payload: 'Login Successfully'
-        });
-      } else {
-        dispatch({
-          type: 'loginFailed',
-          payload: 'Incorrect username or password'
-        });
-      }
-    };  */
+      /* const handleLogin = () => {
+        if (state.username === 'abc@email.com' && state.password === 'password') {
+            console.log
+          dispatch({
+            type: 'loginSuccess',
+            payload: 'Login Successfully'
+          });
+        } else {
+          dispatch({
+            type: 'loginFailed',
+            payload: 'Incorrect username or password'
+          });
+        }
+      };  */
 
     /*   const handleLogin = () => {
         if (state.username === 'abc@email.com' && state.password === 'password') {
@@ -190,68 +208,50 @@ const Registro = () => {
             });
         }
     return (
-        <div>
-            <img src={profile} id="icon" />
-            <form noValidate autoComplete="off">
-                <TextField
-                    error={state.isError}
-                    id="Nombre"
-                    type="email"
-                    label="Nombre"
-                    placeholder="Nombre"
-                    onChange={handleUsernameChange}
-                    onKeyPress={handleKeyPress}
-                    className="fadeIn second"
-                />
-                <TextField
-                    error={state.isError}
-                    id="Apellido"
-                    type="email"
-                    label="Apellido"
-                    placeholder="Apellido"
-                    className="fadeIn second"
-                    helperText={state.helperText}
-                    onChange={handlePasswordChange}
-                    onKeyPress={handleKeyPress}
-                />
-                <TextField
-                    fullWidth
-                    error={state.isError}
-                    id="username"
-                    type="email"
-                    label="Email"
-                    placeholder="Email"
-                    className="fadeIn second"
-                    helperText={state.helperText}
-                    onChange={handlePasswordChange}
-                    onKeyPress={handleKeyPress}
-                />
-                <TextField
-                    fullWidth
-                    error={state.isError}
-                    id="password"
-                    type="password"
-                    label="Contraseña"
-                    placeholder="Contraseña"
-                    className="fadeIn second"
-                    helperText={state.helperText}
-                    onChange={handlePasswordChange}
-                    onKeyPress={handleKeyPress}
-                />
-                <Button
-                    className="fadeIn second"
-
-                    variant="contained"
-                    size="large"
-                    color="secondary"
-                    onClick={handleLogin}
-                    disabled={state.isButtonDisabled}>
-                    Registrar
-                 </Button>
-            </form>
-        </div>
-
+        <form className={classes.container} noValidate autoComplete="off">
+            <Card className={classes.card}>
+                <CardHeader className={classes.header} title="Iniciar" />
+                <CardContent>
+                    <div>
+                        <TextField
+                            error={state.isError}
+                            fullWidth
+                            id="username"
+                            type="email"
+                            label="Email"
+                            placeholder="Email"
+                            margin="normal"
+                            onChange={handleUsernameChange}
+                            onKeyPress={handleKeyPress}
+                        />
+                        <TextField
+                            error={state.isError}
+                            fullWidth
+                            id="password"
+                            type="password"
+                            label="Contraseña"
+                            placeholder="Contraseña"
+                            margin="normal"
+                            helperText={state.helperText}
+                            onChange={handlePasswordChange}
+                            onKeyPress={handleKeyPress}
+                        />
+                    </div>
+                </CardContent>
+                <CardActions>
+                    <Button
+                        variant="contained"
+                        size="large"
+                        color="secondary"
+                        className={classes.loginBtn}
+                        onClick={handleLogin}
+                        disabled={state.isButtonDisabled}>
+                        Iniciar Sesison
+          </Button>
+                </CardActions>
+            </Card>
+        </form>
     );
 }
 
-export default Registro;
+export default Login;

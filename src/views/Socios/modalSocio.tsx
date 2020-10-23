@@ -1,6 +1,5 @@
-import React, { FormEvent, useEffect, useState } from 'react';
+import React, { FormEvent, useState } from 'react';
 import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -27,19 +26,63 @@ const styles = createStyles({
 interface Socio{
     nombre_socio?: string,
     email?: string,
+    deleted?:boolean,
     inserver?: boolean
 }
 const modalSocio = (props:any) =>{
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    let socio:Socio={nombre_socio:"" , email:""};
+    let socio:Socio={nombre_socio:"" , email:"", deleted:false, inserver:false};
     const [open, setOpen] = useState(false);
     const [Data, setData] = useState<Socio>(socio);
     const {nombre_socio, email} = Data;
+    const [intfz,setIntfz] = useState({
+        ttl:"Resgistro de Socios",
+        bt:"Registrar",
+    });
     const handleClickOpen = () => {
+        if(Object.keys(props.update.data).length!==0){
+            return alert("no se puede registrar mientras existan elementos selecionados");
+        };
       setOpen(true);
+      valida();
     };
+    const handleClickOpen2 = () => {
+        if(props.update.chPas === false){
+            return alert("debes elegir sólo un(1) campo a la vez");
+        };
+        setData({
+            nombre_socio:props.update.data.nombre_socio,
+            email:props.update.data.email,
+        });
+        setIntfz({ttl:"Actualizar Socio",bt:"Actualizar"});
+        valida();
+        const val:any =(props.update.chPas != false)?setOpen(true):alert("solo se puede actualizar un registro");
+        return val;
+      };
     const handleClose = () => {
+        setData(socio);
+        setIntfz({
+            ttl:"Resgistro de Socios",
+            bt:"Registrar",
+        });
       setOpen(false);
+    };
+    const valida=()=>{
+        ValidatorForm.addValidationRule("isValidName",(valueSt)=>{
+            let val:any = /[^ \.A-Za-z0-9_\-]/g.test(valueSt.trim());
+            if(val){
+                return false;    
+            }else{
+                return true;}
+            });
+        ValidatorForm.addValidationRule("notFT",(valueSt)=>{
+            let val:any = /(false|true|FALSE|TRUE)/g.test(valueSt.trim());
+            if(val){
+                return false;    
+            }else{
+                return true;}
+        });
+            /* ValidatorForm.addValidationRule("isValidName",(valueSt)=>/(^[ \w+])/g.test(valueSt)); */
     };
 /*     useEffect(() => {
         console.log(Data),
@@ -54,22 +97,37 @@ const modalSocio = (props:any) =>{
     const handleSubmit =() =>{
         setData({
             ...Data,
-            inserver:false
+            deleted:false,
+            inserver:false,
         });
-        props.create({nombre_socio:Data.nombre_socio,email:Data.email,inserver:Data.inserver});
+        if(props.update.chPas===true){
+            props.upd({id:props.update.data.id, soc:{nombre_socio:Data.nombre_socio,email:Data.email,deleted:false,inserver:false}});
+            setOpen(false);
+            setIntfz({
+                ttl:"Resgistro de Socios",
+                bt:"Registrar",
+            });
+            setData(socio);
+            return;
+        };
+        props.create({nombre_socio:Data.nombre_socio,email:Data.email,deleted:Data.deleted,inserver:Data.inserver});
         setOpen(false);
         setData(socio);
+        return;
     };
     return (
         <>
-        <Button variant="outlined" color="primary" onClick={handleClickOpen}>
+        <Button variant="contained" color="primary" onClick={handleClickOpen}>
             Ingresar Socio
         </Button>
+        <Button variant="contained" color="secondary" onClick={handleClickOpen2}>
+            Actualizar Socio
+        </Button>
         <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-            <DialogTitle id="form-dialog-title">Agregar Socio</DialogTitle>
+        <DialogTitle id="form-dialog-title">{intfz.ttl.toString()}</DialogTitle>
             <DialogContent>
                 <DialogContentText>
-                    Formulario para registro de Socios
+                    Formulario de Socios
                 </DialogContentText>
             <ValidatorForm onSubmit={handleSubmit}>
                 <TextValidator
@@ -81,8 +139,8 @@ const modalSocio = (props:any) =>{
                     type="text"
                     onChange={handleChange}
                     value={nombre_socio}
-                    validators={["required"]}
-                    errorMessages={["el campo es requerido"]}
+                    validators={["required","isValidName","notFT"]}
+                    errorMessages={["el campo es requerido","No ingresar caracteres especiales","no ingresal false/true"]}
                     fullWidth
                 />
                 <TextValidator
@@ -102,7 +160,7 @@ const modalSocio = (props:any) =>{
                     Cancelar
                 </Button>
                 <Button type="submit" color="primary">
-                    Registrar
+                    {intfz.bt}
                 </Button>
             </DialogActions>
             </ValidatorForm>
