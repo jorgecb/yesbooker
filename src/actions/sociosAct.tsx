@@ -7,3 +7,17 @@ export const addSocio =(data:{}, displayName:any)=>({
         displayName
     }
 });
+export const uptSocio =(data:{}, displayName:any)=>({
+    type: types.uptSocio,
+    payload:{
+        data,
+        displayName
+    }
+});
+export const delSocio =(data:{}, displayName:any)=>({
+    type: types.delSocio,
+    payload:{
+        data,
+        displayName
+    }
+});
