@@ -6,7 +6,7 @@ import { history } from '../_helpers';
 import { alertActions } from '../_actions';*/
 import { PrivateRoute, LoginRoute } from './layouts/Rutas'; 
 import  admin  from './layouts/Admin';
-import Login from './layouts/Login/Login';
+import Login from './layouts/login';
 import { createBrowserHistory } from 'history';
 
 const hist = createBrowserHistory();
