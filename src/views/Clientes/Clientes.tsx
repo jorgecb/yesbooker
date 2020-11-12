@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from "react";
-import ReactDOM from "react-dom";
-import { v4 as uuidv4 } from "uuid";
 import Cliente from "../../database/Clientes";
 import FormClientes from "./modalClientes";
 import withStyles from "@material-ui/core/styles/withStyles";
@@ -46,19 +44,17 @@ const styles = createStyles({
 });
 
 function Clientes(props: any) {
-  const peticion = fetch(globalVars.UrlApi + "clientes", {
-    method: "GET",
-  });
-  peticion.then((data) => console.log(data.json()));
+ 
 
   const [clientes, setClientes] = useState({});
-  let result = Array();
+  //let result = Array();
 
   const oncreate = (cliente: any) => {
     Cliente.add(cliente);
     listadoUpd();
   };
 
+  
   
   const listadoUpd = () => {
     Cliente.listAll().then(function(res) {

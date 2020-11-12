@@ -8,7 +8,7 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import AddIcon from "@material-ui/icons/Add";
 import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
-import MenuPopupState from "../../components/button/CodigoPais";
+import CountrySelect from "../../components/button/CodigoPais";
 
 interface Cliente {
   Nombre?: string;
@@ -51,7 +51,6 @@ const FormClientes = (props: any) => {
     setOpen(false);
   };
 
-  /*  useEffect(() => {}, [Data]); */
 
   const handleChange = (e: FormEvent<HTMLInputElement>, t: string) => {
     setData({
@@ -64,8 +63,18 @@ const FormClientes = (props: any) => {
     setData({
       ...Data,
       Idioma: idiomas.idi,
+      
     });
   };
+  
+  const handleSelectCodigo = (opt: any) => {
+      setData({
+        ...Data,
+        CodigoPais: opt.code.value,
+      });
+  } 
+
+
   const handleSubmit = () => {
     setData({
       ...Data,
@@ -78,6 +87,7 @@ const FormClientes = (props: any) => {
       Email: Data.Email,
       Edad: Data.Edad,
       Idioma: Data.Idioma,
+      CodigoPais: Data.CodigoPais,
       inserver: Data.inserver,
     });
     setOpen(false);
@@ -96,9 +106,9 @@ const FormClientes = (props: any) => {
         >
           <DialogTitle id="form-dialog-title">Clientes</DialogTitle>
           <DialogContentText>
-            ........................................................................................................................................................................................
+            ................................................................................................................................
                                                   
-            ........................................................................................................................................................................................
+            ................................................................................................................................
           
           <ValidatorForm onSubmit={handleSubmit}>
             <DialogContent>
@@ -123,7 +133,6 @@ const FormClientes = (props: any) => {
                 type="Numbers"
                 name="Telefono"
                 fullWidth
-                value={Telefono}
                 onChange={handleChange}
                 validators={["required"]}
                 errorMessages={[
@@ -158,9 +167,14 @@ const FormClientes = (props: any) => {
                 errorMessages={["Correo invalido"]}
                 ref={re}
               />
-              <MenuPopupState />
+             <br></br> 
+
+              <CountrySelect create={handleSelectCodigo} />
+
               <LongMenu create={handleSelect} />
+
             </DialogContent>
+
 
             <DialogActions>
               <Button onClick={handleClose} color="primary">

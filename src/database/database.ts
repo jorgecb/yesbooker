@@ -7,6 +7,8 @@ db.version(1).stores(
     Zonas: '++id, nombre_zona, descripcion, inserver',
     Clientes:'++id, Nombre, Telefono, Email, Idioma, Edad, inserver',
     });
+    
+
     db.version(10).stores(
         { 
         Usuarios: '++id, nombre, materno, email, inserver',
