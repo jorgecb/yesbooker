@@ -1,6 +1,7 @@
 import { createStore, combineReducers, applyMiddleware  } from 'redux';
-import { sucursalesReducer } from '../reducers/sucursalesReducer';
+import thunk from 'redux-thunk';
 import { devToolsEnhancer } from 'redux-devtools-extension';
+import { sucursalesReducer } from '../reducers/sucursalesReducer';
 import { sociosReducer } from '../reducers/sociosReducer';
 import { usuariosReducer } from '../reducers/usuariosReducer';
 const reducers = combineReducers({
