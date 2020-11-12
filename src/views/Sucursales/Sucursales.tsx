@@ -10,7 +10,7 @@ import MUIDataTable from "mui-datatables";
 import ModalSucursal from './modalSucursal';
 
 import { useDispatch } from 'react-redux';
-import { addSucursal } from '../../actions/sucursalesAct'
+import { addSucursal, uptSucursal, delSucursal } from '../../actions/sucursalesAct'
 const styles = createStyles({
   cardCategoryWhite: {
     "&,& a,& a:hover,& a:focus": {
@@ -35,6 +35,7 @@ const sucursalList = (props : []) => {
     const onupd=(sucursalUpd:any)=>{
         console.log(sucursalUpd);
         SucursalesDB.update(sucursalUpd.id,sucursalUpd.suc);
+        dispatch( uptSucursal(sucursalUpd,'actualizado'));
         setSucursal({
             data:{},
             chPas:false,
@@ -110,6 +111,7 @@ const sucursalList = (props : []) => {
                       dataT[dato.dataIndex].deleted=true;
                       dataT[dato.dataIndex].inserver=false;
                       SucursalesDB.update(regD.id,dataT[dato.dataIndex]);
+                      dispatch( delSucursal(dataT[dato.dataIndex],'borrado'));
                       alert("Borrado correctamente: \n"+regD.nombre);
                       listadoUpd();
                   }else{
@@ -118,6 +120,7 @@ const sucursalList = (props : []) => {
                   };
                   console.log(dato,Sucursal,dataT[dato.dataIndex],regD.id);
               });
+              setSucursal({data:{},chPas:false,});
               return console.log(ro.data);},
   };
   return (

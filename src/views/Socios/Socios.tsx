@@ -13,7 +13,7 @@ import CardBody from '../../components/Card/CardBody';
 import MUIDataTable,{MUIDataTableState,TableSelectCell} from "mui-datatables";
 
 import { useDispatch } from 'react-redux';
-import { addSocio } from '../../actions/sociosAct'
+import { addSocio,uptSocio,delSocio } from '../../actions/sociosAct'
 const styles = createStyles({
     cardCategoryWhite: {
         '&,& a,& a:hover,& a:focus': {
@@ -37,6 +37,7 @@ const socioList = (props : any) => {
     const onupd=(socioUpd:any)=>{
         console.log(socioUpd);
         SociosDB.update(socioUpd.id,socioUpd.soc);
+        dispatch( uptSocio(socioUpd,'actualizado'));
         setSocio({
             data:{},
             chPas:false,});
@@ -46,6 +47,9 @@ const socioList = (props : any) => {
     const oncreate=(socio:any)=>{
       SociosDB.add(socio);
       dispatch( addSocio(socio,'guardado'));
+      setSocio({
+        data:{},
+        chPas:false,});
       listadoUpd();
     }/* 
     setSocio({
@@ -110,7 +114,7 @@ const socioList = (props : any) => {
             return },
             onRowsDelete:(ro:{data:[]},lookup:{})=>{
                 ro.data.map((dato:{dataIndex:any})=>{
-                    setSocio({data:dataT[dato.dataIndex],chPas:false});
+                    /* setSocio({data:dataT[dato.dataIndex],chPas:false}); */
                     let regD:any ={id:dataT[dato.dataIndex].id,nombre:dataT[dato.dataIndex].nombre_socio};
                     delete dataT[dato.dataIndex].id;
                     let valDel = confirm("deseas borrar datos: \n"+dataT[dato.dataIndex].nombre_socio);
@@ -119,13 +123,14 @@ const socioList = (props : any) => {
                         dataT[dato.dataIndex].inserver=false;
                         SociosDB.update(regD.id,dataT[dato.dataIndex]);
                         alert("Borrado correctamente: \n"+regD.nombre);
+                        dispatch( delSocio(dataT[dato.dataIndex],'borrado'));
                         listadoUpd();
                     }else{
                         alert("Se conservo la información: \n"+regD.nombre);
                         listadoUpd();
                     };
-                    console.log(dato,socio,dataT[dato.dataIndex],regD.id);
                 });
+                setSocio({data:{},chPas:false,});
                 return console.log(ro.data);},
     };
     return ( 

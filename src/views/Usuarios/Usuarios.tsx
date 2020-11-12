@@ -11,7 +11,7 @@ import MUIDataTable from "mui-datatables";
 import ModalUsuario from './modalUsuario';
 
 import { useDispatch } from 'react-redux';
-import { addUsuario } from '../../actions/usuariosAct'
+import { addUsuario, uptUsuario, delUsuario } from '../../actions/usuariosAct'
 const styles = createStyles({
     cardCategoryWhite: {
         '&,& a,& a:hover,& a:focus': {
@@ -37,6 +37,7 @@ const userList = (props: any) => {
     const onupd=(usuarioUpd:any)=>{
         console.log(usuarioUpd);
         User.update(usuarioUpd.id,usuarioUpd.usr);
+        dispatch( uptUsuario(usuarioUpd,'actualizado'));
         setUsuario({
             data:{},
             chPas:false,
@@ -114,12 +115,14 @@ const userList = (props: any) => {
                       dataT[dato.dataIndex].deleted=true;
                       dataT[dato.dataIndex].inserver=false;
                       User.update(regD.id,dataT[dato.dataIndex]);
+                      dispatch( delUsuario(dataT[dato.dataIndex],'borrado'));
                       alert("Borrado correctamente: \n"+regD.nombre);
                       listadoUpd();
                   }else{
                       alert("Se conservo la información: \n"+regD.nombre);
                       listadoUpd();
                   };
+                  setUsuario({data:{},chPas:false,});
                   console.log(dato,usuario,dataT[dato.dataIndex],regD.id);
               });
               return console.log(ro.data);},
