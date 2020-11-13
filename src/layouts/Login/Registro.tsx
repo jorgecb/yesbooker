@@ -1,8 +1,10 @@
-import React, { useReducer, useEffect } from 'react';
+import React, { useReducer, useEffect, useState } from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import profile from '../../assets/img/profile.png';
+import { Card, CardActions, CardContent, CardHeader } from '@material-ui/core';
+import App from './loadImg';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -35,6 +37,8 @@ type State = {
     helperText: string
     isError: boolean
 };
+
+
 
 const initialState: State = {
     username: '',
@@ -105,68 +109,42 @@ const Registro = () => {
             });
         }
     }, [state.username, state.password]);
-    const baseurl = 'http://localhost/reservas4/public/index.php/usuario/index_post';
-
-    
+    const baseurl = `http://localhost/reservas4/public/index.php/Auth/login`;
     const handleLogin = async () => {
-        const rawResponse = await fetch(baseurl, {
+        const requestOptions = {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
-                },
-            mode: 'cors',
+            },
             body: JSON.stringify({
                 email: state.username,
                 password: state.password
-            }),
-        });
+            })
+        }
+        console.log(requestOptions)
+        const rawResponse = await fetch(baseurl, requestOptions)
         const content = await rawResponse.json();
         console.log(rawResponse);
         console.log(content);
-    }; 
 
-    /* 
-         const handleLogin = async () => {
-            await Axios.post(baseurl, { params: { username: state.username, password: state.password } })
-    
-                .then(Responde => {
-                    console.log(Responde.data);
-                })
-                .catch(error => {
-                    console.log(error)
-                })
-        }  */
+        /*     if (content === 'stauts200') {
+                console.log(state.username)
+              dispatch({
+                type: 'loginSuccess',
+                payload: 'Exito'
+              });
+            } else {
+              dispatch({
+                type: 'loginFailed',
+                payload: 'Contraseña o Email Error'
+              });
+            } */
+
+    };
 
 
-    /* const handleLogin = () => {
-      if (state.username === 'abc@email.com' && state.password === 'password') {
-          console.log
-        dispatch({
-          type: 'loginSuccess',
-          payload: 'Login Successfully'
-        });
-      } else {
-        dispatch({
-          type: 'loginFailed',
-          payload: 'Incorrect username or password'
-        });
-      }
-    };  */
 
-    /*   const handleLogin = () => {
-        if (state.username === 'abc@email.com' && state.password === 'password') {
-          dispatch({
-            type: 'loginSuccess',
-            payload: 'Login Successfully'
-          });
-        } else {
-          dispatch({
-            type: 'loginFailed',
-            payload: 'Incorrect username or password'
-          });
-        }
-      }; */
 
     const handleKeyPress = (event: React.KeyboardEvent) => {
         if (event.keyCode === 13 || event.which === 13) {
@@ -190,67 +168,83 @@ const Registro = () => {
             });
         }
     return (
-        <div>
-            <img src={profile} id="icon" />
-            <form noValidate autoComplete="off">
-                <TextField
-                    error={state.isError}
-                    id="Nombre"
-                    type="email"
-                    label="Nombre"
-                    placeholder="Nombre"
-                    onChange={handleUsernameChange}
-                    onKeyPress={handleKeyPress}
-                    className="fadeIn second"
-                />
-                <TextField
-                    error={state.isError}
-                    id="Apellido"
-                    type="email"
-                    label="Apellido"
-                    placeholder="Apellido"
-                    className="fadeIn second"
-                    helperText={state.helperText}
-                    onChange={handlePasswordChange}
-                    onKeyPress={handleKeyPress}
-                />
-                <TextField
-                    fullWidth
-                    error={state.isError}
-                    id="username"
-                    type="email"
-                    label="Email"
-                    placeholder="Email"
-                    className="fadeIn second"
-                    helperText={state.helperText}
-                    onChange={handlePasswordChange}
-                    onKeyPress={handleKeyPress}
-                />
-                <TextField
-                    fullWidth
-                    error={state.isError}
-                    id="password"
-                    type="password"
-                    label="Contraseña"
-                    placeholder="Contraseña"
-                    className="fadeIn second"
-                    helperText={state.helperText}
-                    onChange={handlePasswordChange}
-                    onKeyPress={handleKeyPress}
-                />
-                <Button
-                    className="fadeIn second"
+        <form className={classes.container} noValidate autoComplete="off">
+            <Card className={classes.card}>
 
-                    variant="contained"
-                    size="large"
-                    color="secondary"
-                    onClick={handleLogin}
-                    disabled={state.isButtonDisabled}>
-                    Registrar
-                 </Button>
-            </form>
-        </div>
-
+                <CardContent>
+                    <div>
+                       <App/>
+                        <TextField
+                            error={state.isError}
+                            fullWidth
+                            id="username"
+                            type="email"
+                            label="Email"
+                            placeholder="Email"
+                            margin="normal"
+                            onChange={handleUsernameChange}
+                            onKeyPress={handleKeyPress}
+                        />
+                        <TextField
+                            error={state.isError}
+                            fullWidth
+                            id="username"
+                            type="email"
+                            label="Contraseña"
+                            placeholder="Contraseña"
+                            margin="normal"
+                            onChange={handleUsernameChange}
+                            onKeyPress={handleKeyPress}
+                        />
+                        <TextField
+                            error={state.isError}
+                            fullWidth
+                            id="username"
+                            type="email"
+                            label="Nombre"
+                            placeholder="Nombre"
+                            margin="normal"
+                            onChange={handleUsernameChange}
+                            onKeyPress={handleKeyPress}
+                        />
+                        <TextField
+                            error={state.isError}
+                            fullWidth
+                            id="username"
+                            type="email"
+                            label="Apellido"
+                            placeholder="Apellido"
+                            margin="normal"
+                            onChange={handleUsernameChange}
+                            onKeyPress={handleKeyPress}
+                        />
+                        <TextField
+                            error={state.isError}
+                            fullWidth
+                            id="password"
+                            type="password"
+                            label="Telefono"
+                            placeholder="Telefono"
+                            margin="normal"
+                            helperText={state.helperText}
+                            onChange={handlePasswordChange}
+                            onKeyPress={handleKeyPress}
+                        />
+                    </div>
+                </CardContent>
+                <CardActions>
+                    <Button
+                        variant="contained"
+                        size="large"
+                        color="secondary"
+                        className={classes.loginBtn}
+                        onClick={handleLogin}
+                        disabled={state.isButtonDisabled}>
+                        Registrar
+                </Button>
+                </CardActions>
+            </Card>
+        </form>
     );
 }
 

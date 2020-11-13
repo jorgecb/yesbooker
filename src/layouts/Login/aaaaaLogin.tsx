@@ -2,8 +2,10 @@ import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import '../../assets/css/App.css';
-import Login from './aLogin';
+import Carta from '../../assets/img/carta.png';
 
+/* import Login from './aLogin';
+ */
 
 
 const useStyles = makeStyles((theme) => ({
@@ -29,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.secondary.main,
   },
   form: {
-    width: '100%', // Fix IE 11 issue.
+    width: '100%', 
     marginTop: theme.spacing(1),
   },
   submit: {
@@ -42,24 +44,28 @@ export default function SignInSide() {
   const classes = useStyles();
 
   return (
-    <Grid  className={classes.image} >
+    <Grid className={classes.image} >
+    
+    {/*   <div className="wrapper fadeInDown">
 
-    <div className="wrapper fadeInDown">
-  <div id="formContent">
-  
-  <Grid container component="main" className={classes.root}>
-       <Login/>
-      </Grid>
+        <div id="formContent">
+          
+        <div className="fadeIn first">
+          <h3>Yesbooker</h3>
+        </div>
+          <img src={Carta} className='carta' />
 
-    <div className="fadeIn first">
-    <h3>Yesbooker</h3>
-    </div>
+          <Grid container component="main" className={classes.root}>
+              <Login />
 
- 
+          </Grid>
 
-  </div>
-</div>
-</Grid>
-   
+
+
+
+        </div>
+      </div> */}
+    </Grid>
+
   );
 }

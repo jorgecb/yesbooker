@@ -1,8 +1,12 @@
-import React, { useReducer, useEffect, Component } from 'react';
+import React, { useReducer, useEffect } from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+
 import TextField from '@material-ui/core/TextField';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+import CardActions from '@material-ui/core/CardActions';
+import CardHeader from '@material-ui/core/CardHeader';
 import Button from '@material-ui/core/Button';
-import { Card, CardActions, CardContent } from '@material-ui/core';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -71,7 +75,6 @@ const reducer = (state: State, action: Action): State => {
         case 'loginSuccess':
             return {
                 ...state,
-
                 helperText: action.payload,
                 isError: false
             };
@@ -89,12 +92,11 @@ const reducer = (state: State, action: Action): State => {
     }
 }
 
-const Alogin = () => {
+const Login = () => {
     const classes = useStyles();
     const [state, dispatch] = useReducer(reducer, initialState);
-    
- 
-useEffect(() => {
+
+    useEffect(() => {
         if (state.username.trim() && state.password.trim()) {
             dispatch({
                 type: 'setIsButtonDisabled',
@@ -107,38 +109,83 @@ useEffect(() => {
             });
         }
     }, [state.username, state.password]);
-    const baseurl = `http://localhost/reservas4/public/index.php/Auth/login`;
+    const baseurl = 'http://localhost/reservas4/public/index.php/Auth/login/';
+
+
+    /* 
+     const handleLogin =  fetch (baseurl, {
+        
+        method: 'POST',
+        headers: myHeaders,
+        mode: 'cors',
+        cache: 'default',
+    }) */
+
+
+    
 
     const handleLogin = async () => {
-        const requestOptions = {
+        const rawResponse = await fetch(baseurl,  {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                email: state.username,
-                password: state.password
-            })
-        }
-        console.log(requestOptions)
-        const rawResponse = await fetch(baseurl, requestOptions)
-         const content = await rawResponse.json()
-         console.log(content)
-        if (content.email === state.username) {
-            localStorage.setItem('usuarios', JSON.stringify(content))
-            window.location.href="./admin";
-        } else {
-            dispatch({
-                type: 'loginFailed',
-                payload: 'Contraseña o Email Error'
-            });
-        }
+              
 
+            },
+            mode: 'cors',
+            body: JSON.stringify({
+                email : state.username,
+                password : state.password 
+            }),
+        });
+        const content = await rawResponse.json();
+        console.log(rawResponse);
+        console.log(content);
     };
-    
-   
-    
+
+/* 
+     const handleLogin = async () => {
+        await Axios.post(baseurl, { params: { username: state.username, password: state.password } })
+
+            .then(Responde => {
+                console.log(Responde.data);
+            })
+            .catch(error => {
+                console.log(error)
+            })
+    }  */
+
+
+      /* const handleLogin = () => {
+        if (state.username === 'abc@email.com' && state.password === 'password') {
+            console.log
+          dispatch({
+            type: 'loginSuccess',
+            payload: 'Login Successfully'
+          });
+        } else {
+          dispatch({
+            type: 'loginFailed',
+            payload: 'Incorrect username or password'
+          });
+        }
+      };  */
+
+    /*   const handleLogin = () => {
+        if (state.username === 'abc@email.com' && state.password === 'password') {
+          dispatch({
+            type: 'loginSuccess',
+            payload: 'Login Successfully'
+          });
+        } else {
+          dispatch({
+            type: 'loginFailed',
+            payload: 'Incorrect username or password'
+          });
+        }
+      }; */
+
     const handleKeyPress = (event: React.KeyboardEvent) => {
         if (event.keyCode === 13 || event.which === 13) {
             state.isButtonDisabled || handleLogin();
@@ -163,10 +210,9 @@ useEffect(() => {
     return (
         <form className={classes.container} noValidate autoComplete="off">
             <Card className={classes.card}>
-
+                <CardHeader className={classes.header} title="Iniciar" />
                 <CardContent>
                     <div>
-
                         <TextField
                             error={state.isError}
                             fullWidth
@@ -202,11 +248,10 @@ useEffect(() => {
                         disabled={state.isButtonDisabled}>
                         Iniciar Sesison
           </Button>
-         
                 </CardActions>
             </Card>
         </form>
     );
 }
 
-export default Alogin;
+export default Login;

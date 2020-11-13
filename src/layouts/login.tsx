@@ -1,19 +1,33 @@
-import React, { useReducer, useEffect } from 'react';
+import React, { useReducer, useEffect, Component } from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
-import TextField from '@material-ui/core/TextField';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
-import CardHeader from '@material-ui/core/CardHeader';
-import Button from '@material-ui/core/Button';
+import { Button, Card, CardActions, CardContent, Grid, TextField } from '@material-ui/core';
+import carta from '../assets/img/carta.png'
+import '../assets/css/App.css'
+import Bg from '../assets/img/BGbACK.jpg';
+
+
+
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
+        root: {
+            height: '100vh',
+        },
+        image: {
+            backgroundImage: `url(${Bg})`,
+
+
+            backgroundRepeat: 'no-repeat',
+            backgroundColor:
+                theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+        },
         container: {
             display: 'flex',
             flexWrap: 'wrap',
-            width: 400,
+            width: '50%',
             margin: `${theme.spacing(0)} auto`
         },
         loginBtn: {
@@ -75,6 +89,7 @@ const reducer = (state: State, action: Action): State => {
         case 'loginSuccess':
             return {
                 ...state,
+
                 helperText: action.payload,
                 isError: false
             };
@@ -92,9 +107,10 @@ const reducer = (state: State, action: Action): State => {
     }
 }
 
-const Login = () => {
+const Alogin = () => {
     const classes = useStyles();
     const [state, dispatch] = useReducer(reducer, initialState);
+
 
     useEffect(() => {
         if (state.username.trim() && state.password.trim()) {
@@ -109,82 +125,70 @@ const Login = () => {
             });
         }
     }, [state.username, state.password]);
-    const baseurl = 'http://localhost/reservas4/public/index.php/Auth/login/';
+    const baseurl ='http://reservasapi.yes-admin.com/index.php/Auth/login';
 
-
-    /* 
-     const handleLogin =  fetch (baseurl, {
-        
-        method: 'POST',
-        headers: myHeaders,
-        mode: 'cors',
-        cache: 'default',
-    }) */
-
-
+    var myHeaders = new Headers();
+    myHeaders.append("API-key", "709cd00931492fef092b3430b64389016fe7eb4f");
     
+/*     var formdata = new FormData();
+    formdata.append("email", "hola@hotmail.com");
+    formdata.append("password", "12345678"); */
 
     const handleLogin = async () => {
-        const rawResponse = await fetch(baseurl,  {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-              
+        const requestOptions = {
+    method: 'POST', // *GET, POST, PUT, DELETE, etc.
+    mode: 'no-cors', // no-cors, *cors, same-origin
+    cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+    credentials: 'same-origin', // include, *same-origin, omit
+    headers: {
+      'Content-Type': 'application/json'
+      // 'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    redirect: 'follow', // manual, *follow, error
+    referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+    body: JSON.stringify({
+                email: state.username,
+                password: state.password
+            }) // body data type must match "Content-Type" header
+  }
 
+      
+        
+
+
+        console.log(requestOptions)
+        const rawResponse = await fetch(baseurl,  {
+            method: 'POST', // *GET, POST, PUT, DELETE, etc.
+            mode: 'no-cors', // no-cors, *cors, same-origin
+         /*    cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+          */   /* credentials: 'same-origin', // include, *same-origin, omit
+             */headers: {
+              'Content-Type': 'application/json'
+              // 'Content-Type': 'application/x-www-form-urlencoded',
             },
-            mode: 'cors',
-            body: JSON.stringify({
-                email : state.username,
-                password : state.password 
-            }),
-        });
-        const content = await rawResponse.json();
-        console.log(rawResponse);
-        console.log(content);
+          /*   redirect: 'follow', // manual, *follow, error
+           */  /* referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+             */body: JSON.stringify({
+                        email: state.username,
+                        password: state.password
+                    }) // body data type must match "Content-Type" header
+          }
+        )
+        const content = await rawResponse.json()
+        console.log(content)
+        if (content.email === state.username) {
+            localStorage.setItem('usuarios', JSON.stringify(content))
+            window.location.href = "./admin";
+        } else {
+            dispatch({
+                type: 'loginFailed',
+                payload: 'Contraseña o Email Error'
+            });
+        }
+
     };
 
-/* 
-     const handleLogin = async () => {
-        await Axios.post(baseurl, { params: { username: state.username, password: state.password } })
 
-            .then(Responde => {
-                console.log(Responde.data);
-            })
-            .catch(error => {
-                console.log(error)
-            })
-    }  */
-
-
-      /* const handleLogin = () => {
-        if (state.username === 'abc@email.com' && state.password === 'password') {
-            console.log
-          dispatch({
-            type: 'loginSuccess',
-            payload: 'Login Successfully'
-          });
-        } else {
-          dispatch({
-            type: 'loginFailed',
-            payload: 'Incorrect username or password'
-          });
-        }
-      };  */
-
-    /*   const handleLogin = () => {
-        if (state.username === 'abc@email.com' && state.password === 'password') {
-          dispatch({
-            type: 'loginSuccess',
-            payload: 'Login Successfully'
-          });
-        } else {
-          dispatch({
-            type: 'loginFailed',
-            payload: 'Incorrect username or password'
-          });
-        }
-      }; */
 
     const handleKeyPress = (event: React.KeyboardEvent) => {
         if (event.keyCode === 13 || event.which === 13) {
@@ -208,50 +212,84 @@ const Login = () => {
             });
         }
     return (
-        <form className={classes.container} noValidate autoComplete="off">
-            <Card className={classes.card}>
-                <CardHeader className={classes.header} title="Iniciar" />
-                <CardContent>
-                    <div>
-                        <TextField
-                            error={state.isError}
-                            fullWidth
-                            id="username"
-                            type="email"
-                            label="Email"
-                            placeholder="Email"
-                            margin="normal"
-                            onChange={handleUsernameChange}
-                            onKeyPress={handleKeyPress}
-                        />
-                        <TextField
-                            error={state.isError}
-                            fullWidth
-                            id="password"
-                            type="password"
-                            label="Contraseña"
-                            placeholder="Contraseña"
-                            margin="normal"
-                            helperText={state.helperText}
-                            onChange={handlePasswordChange}
-                            onKeyPress={handleKeyPress}
-                        />
+        <Grid className={classes.image} >
+
+
+
+
+            <div className="body">
+
+
+
+                <div id="form_wrapper">
+                    <div id="form_left">
+                        <img src={carta} alt="carta" />
                     </div>
-                </CardContent>
-                <CardActions>
-                    <Button
-                        variant="contained"
-                        size="large"
-                        color="secondary"
-                        className={classes.loginBtn}
-                        onClick={handleLogin}
+                    <div id="form_right">
+                        <h1>Yesbooker</h1>
+                        <div className="input_container">
+                            <i className="fas fa-envelope"></i>
+                            <TextField
+                                error={state.isError}
+                                fullWidth
+                                id="username"
+                                type="email"
+                                label="Email"
+                               
+                                placeholder="Email"
+                                variant="outlined"
+                                helperText={state.helperText}
+                                onChange={handleUsernameChange}
+                                onKeyPress={handleKeyPress}
+                            />
+                        </div>
+
+                        <div className="input_container">
+                            <i className="fas fa-lock"></i>
+                            <TextField
+                                error={state.isError}
+                                fullWidth
+                                id="password"
+                                label="Contraseña"
+                                type="password"
+                                autoComplete="current-password"
+                                variant="outlined"
+                                helperText={state.helperText}
+                                onChange={handlePasswordChange}
+                                onKeyPress={handleKeyPress}
+
+                            />
+                        </div>
+                      {/*   <input type="submit" value="Login" id='input_submit' className='input_field' 
+                         onClick={handleLogin}
                         disabled={state.isButtonDisabled}>
-                        Iniciar Sesison
-          </Button>
-                </CardActions>
-            </Card>
-        </form>
-    );
+
+                         </input>
+                       */}
+                        <CardActions>
+                           <Button
+                                variant="contained"
+                                size="large"
+                                color="secondary"
+                                className={classes.loginBtn}
+                                onClick={handleLogin}
+                                disabled={state.isButtonDisabled}>
+                                Iniciar Sesison
+          </Button> 
+                        </CardActions>
+
+                        <span>Recuperar  <a > Contraseña </a></span>
+                        {/*   <span id='create_account'>
+                    <a href="#">Create your account &#x27A1; </a>
+                </span> */}
+                    </div>
+                </div>
+            </div>
+
+        </Grid>
+
+
+/*  */);
 }
 
-export default Login;
+export default Alogin;

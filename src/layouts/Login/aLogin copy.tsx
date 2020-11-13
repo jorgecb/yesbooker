@@ -93,7 +93,6 @@ const Alogin = () => {
     const classes = useStyles();
     const [state, dispatch] = useReducer(reducer, initialState);
     
- 
 useEffect(() => {
         if (state.username.trim() && state.password.trim()) {
             dispatch({
