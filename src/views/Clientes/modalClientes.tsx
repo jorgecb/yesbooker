@@ -74,7 +74,6 @@ const FormClientes = (props: any) => {
       });
   } 
 
-
   const handleSubmit = () => {
     setData({
       ...Data,
@@ -133,6 +132,7 @@ const FormClientes = (props: any) => {
                 type="Numbers"
                 name="Telefono"
                 fullWidth
+                value={Telefono}
                 onChange={handleChange}
                 validators={["required"]}
                 errorMessages={[
