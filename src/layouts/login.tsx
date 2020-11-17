@@ -110,7 +110,7 @@ const reducer = (state: State, action: Action): State => {
 const Alogin = () => {
     const classes = useStyles();
     const [state, dispatch] = useReducer(reducer, initialState);
-
+    const handleLogin = () =>{return false};
 
     useEffect(() => {
         if (state.username.trim() && state.password.trim()) {
@@ -126,47 +126,32 @@ const Alogin = () => {
         }
     }, [state.username, state.password]);
     const baseurl ='http://reservasapi.yes-admin.com/index.php/Auth/login';
-
-    var myHeaders = new Headers();
-    myHeaders.append("API-key", "709cd00931492fef092b3430b64389016fe7eb4f");
-    
-/*     var formdata = new FormData();
-    formdata.append("email", "hola@hotmail.com");
-    formdata.append("password", "12345678"); */
-
-    const handleLogin = async () => {
-        const requestOptions = {
-    method: 'POST', // *GET, POST, PUT, DELETE, etc.
-    mode: 'no-cors', // no-cors, *cors, same-origin
-    headers: {
-      // 'Content-Type': 'application/x-www-form-urlencoded',
-    },
-    body: JSON.stringify({
-                email: state.username,
-                password: state.password
-            }) // body data type must match "Content-Type" header
-  }
-
-      
-        
-
-
-        console.log(requestOptions)
-        const rawResponse = await fetch(baseurl, {
-            method: 'POST',
-            headers: {
-                'X-API-KEY': 'apikey',
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                email: state.username,
-                password: state.password
-            })
-        })
-        const content = await rawResponse.json()
-        console.log(content)
-        if (content.email === state.username) {
+    let myHeaders = new Headers();/* 
+    myHeaders.append("Authorization", "API-key 709cd00931492fef092b3430b64389016fe7eb4f"); 
+    myHeaders.append("API-key", "709cd00931492fef092b3430b64389016fe7eb4f"); */
+    myHeaders.append("X-API-KEY", "709cd00931492fef092b3430b64389016fe7eb4f");
+    myHeaders.append("Accept", "application/x-www-form-urlencoded");
+    myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+    let urlencoded = new URLSearchParams();
+    urlencoded.append("email", "ly@na.c");
+    urlencoded.append("password", "dietayejercicio");
+    let datos = {
+        email: "ly@na.c",
+        password: "dietayejercicio",
+    }
+    let requestOptions: RequestInit = {
+        method: 'POST',
+        headers: myHeaders,
+        body: urlencoded,
+      };        
+        console.log(requestOptions);
+        fetch(baseurl, requestOptions).then(response => response.text())
+        .then(result => console.log(result))
+        .catch(error => console.log('error', error));
+        /* 
+        const content = await rawResponse.json();
+        console.log(content) */
+       /*  if (content.email === state.username) {
             localStorage.setItem('usuarios', JSON.stringify(content))
             window.location.href = "./admin";
         } else {
@@ -174,11 +159,7 @@ const Alogin = () => {
                 type: 'loginFailed',
                 payload: 'Contraseña o Email Error'
             });
-        }
-
-    };
-
-
+        } */
 
     const handleKeyPress = (event: React.KeyboardEvent) => {
         if (event.keyCode === 13 || event.which === 13) {
