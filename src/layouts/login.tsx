@@ -126,19 +126,13 @@ const Alogin = () => {
         }
     }, [state.username, state.password]);
     const baseurl ='http://reservasapi.yes-admin.com/index.php/Auth/login';
-    let myHeaders = new Headers();/* 
-    myHeaders.append("Authorization", "API-key 709cd00931492fef092b3430b64389016fe7eb4f"); 
-    myHeaders.append("API-key", "709cd00931492fef092b3430b64389016fe7eb4f"); */
+    let myHeaders = new Headers();
     myHeaders.append("X-API-KEY", "709cd00931492fef092b3430b64389016fe7eb4f");
     myHeaders.append("Accept", "application/x-www-form-urlencoded");
     myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
     let urlencoded = new URLSearchParams();
     urlencoded.append("email", "ly@na.c");
     urlencoded.append("password", "dietayejercicio");
-    let datos = {
-        email: "ly@na.c",
-        password: "dietayejercicio",
-    }
     let requestOptions: RequestInit = {
         method: 'POST',
         headers: myHeaders,
