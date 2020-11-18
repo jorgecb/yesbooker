@@ -13,7 +13,7 @@ import CardBody from '../../components/Card/CardBody';
 import MUIDataTable,{MUIDataTableState,TableSelectCell} from "mui-datatables";
 
 import { useDispatch } from 'react-redux';
-import { addSocio,uptSocio,delSocio } from '../../actions/sociosAct'
+import { addSocio,uptSocio,delSocio, fetchSocios } from '../../actions/sociosAct'
 const styles = createStyles({
     cardCategoryWhite: {
         '&,& a,& a:hover,& a:focus': {
@@ -71,6 +71,7 @@ const socioList = (props : any) => {
             };
             console.log(dev);
         })
+        dispatch( fetchSocios( {} ,'List'));
     }
     useEffect(()=>{
         console.log(socio);

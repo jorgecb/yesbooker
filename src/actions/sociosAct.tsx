@@ -1,5 +1,11 @@
 import { types } from '../types/types';
-
+export const fetchSocios = (data:{}, displayName:any) =>({
+    type: types.fetchSocios,
+    payload: {
+        data,
+        displayName
+    }
+})
 export const addSocio =(data:{}, displayName:any)=>({
     type: types.addSocio,
     payload:{
