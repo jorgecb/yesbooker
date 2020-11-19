@@ -125,6 +125,7 @@ const Alogin = () => {
             });
         }
     }, [state.username, state.password]);
+<<<<<<< HEAD
     const baseurl ='http://reservasapi.yes-admin.com/index.php/Auth/login';
     let myHeaders = new Headers();
     myHeaders.append("X-API-KEY", "709cd00931492fef092b3430b64389016fe7eb4f");
@@ -154,6 +155,58 @@ const Alogin = () => {
                 payload: 'Contraseña o Email Error'
             });
         } */
+=======
+    const baseurl = 'http://reservasapi.yes-admin.com/index.php/Auth/login';
+
+    var myHeaders = new Headers();
+    myHeaders.append("API-key", "709cd00931492fef092b3430b64389016fe7eb4f");
+
+    /*     var formdata = new FormData();
+        formdata.append("email", "hola@hotmail.com");
+        formdata.append("password", "12345678"); */
+
+    const handleLogin = async () => {
+
+        const baseurl = 'http://reservasapi.yes-admin.com/index.php/Auth/login';
+        let myHeaders = new Headers();/* 
+        myHeaders.append("Authorization", "API-key 709cd00931492fef092b3430b64389016fe7eb4f"); 
+        myHeaders.append("API-key", "709cd00931492fef092b3430b64389016fe7eb4f"); */
+        myHeaders.append("X-API-KEY", "709cd00931492fef092b3430b64389016fe7eb4f");
+        myHeaders.append("Accept", "application/x-www-form-urlencoded");
+        myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+        let urlencoded = new URLSearchParams();
+        urlencoded.append('email', state.username);
+        urlencoded.append('password', state.password);
+        let requestOptions: RequestInit = {
+            method: 'POST',
+            headers: myHeaders,
+            body: urlencoded
+        };
+
+
+
+
+
+
+        fetch(baseurl, requestOptions).then(function (response) {
+            if (response.status === 400) {
+                dispatch({
+                    type: 'loginFailed',
+                    payload: 'Contraseña o Email Error'
+                });
+
+            } else {
+                response.json().then(data => {
+                    window.localStorage.setItem('mensaje: ', JSON.stringify(data))
+                    window.location.href = "./admin";
+                });
+
+            }
+        });
+    };
+
+
+>>>>>>> 43df7dfac60c92221b7f1f2d0d907547effa786b
 
     const handleKeyPress = (event: React.KeyboardEvent) => {
         if (event.keyCode === 13 || event.which === 13) {
@@ -200,7 +253,7 @@ const Alogin = () => {
                                 id="username"
                                 type="email"
                                 label="Email"
-                               
+
                                 placeholder="Email"
                                 variant="outlined"
                                 helperText={state.helperText}
@@ -225,14 +278,14 @@ const Alogin = () => {
 
                             />
                         </div>
-                      {/*   <input type="submit" value="Login" id='input_submit' className='input_field' 
+                        {/*   <input type="submit" value="Login" id='input_submit' className='input_field' 
                          onClick={handleLogin}
                         disabled={state.isButtonDisabled}>
 
                          </input>
                        */}
                         <CardActions>
-                           <Button
+                            <Button
                                 variant="contained"
                                 size="large"
                                 color="secondary"
@@ -240,7 +293,7 @@ const Alogin = () => {
                                 onClick={handleLogin}
                                 disabled={state.isButtonDisabled}>
                                 Iniciar Sesison
-          </Button> 
+          </Button>
                         </CardActions>
 
                         <span>Recuperar  <a > Contraseña </a></span>

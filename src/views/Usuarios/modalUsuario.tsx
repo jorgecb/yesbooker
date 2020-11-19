@@ -135,10 +135,7 @@ const modalUsuario = (props: any) => {
                         Formulario para registro de Usuarios
                 </DialogContentText>
                     <ValidatorForm onSubmit={handleSubmit}>
-                        <Img
-                            
-
-                        />
+                        <Img/>
                         <TextValidator
                             autoFocus
                             margin="dense"
