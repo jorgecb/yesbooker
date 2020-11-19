@@ -1,6 +1,6 @@
 
 const logout = () => {
-  localStorage.removeItem("usuarios");
+  localStorage.removeItem("UserCredenciales");
   window.location.href="./login";
 
 };

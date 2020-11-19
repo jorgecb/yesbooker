@@ -197,7 +197,7 @@ const Alogin = () => {
 
             } else {
                 response.json().then(data => {
-                    window.localStorage.setItem('mensaje: ', JSON.stringify(data))
+                    window.localStorage.setItem('UserCredenciales', JSON.stringify(data))
                     window.location.href = "./admin";
                 });
 
@@ -281,7 +281,6 @@ const Alogin = () => {
                         {/*   <input type="submit" value="Login" id='input_submit' className='input_field' 
                          onClick={handleLogin}
                         disabled={state.isButtonDisabled}>
-
                          </input>
                        */}
                         <CardActions>

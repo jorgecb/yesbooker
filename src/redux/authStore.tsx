@@ -6,10 +6,10 @@ import {
   LOGOUT,
 } from "./actions/types";
 
-let usuarios = JSON.parse(localStorage.getItem('mensaje: ') || '{}');
-const initialState = usuarios.mensaje
-  ? { LoginActivo: true, usuarios }
-  : { LoginInactivo: false, usuarios : null }; 
+let user = JSON.parse(localStorage.getItem('UserCredenciales') || '{}');
+const initialState = user['mensaje: '].email
+  ? { LoginActivo: true, user }
+  : { LoginInactivo: false, user: null }; 
   
 export default function (state = initialState, action:any) {
   const { type, payload } = action;
