@@ -110,7 +110,7 @@ const reducer = (state: State, action: Action): State => {
 const Alogin = () => {
     const classes = useStyles();
     const [state, dispatch] = useReducer(reducer, initialState);
-    const handleLogin = () =>{return false};
+    const ALogin = () =>{return false};
 
     useEffect(() => {
         if (state.username.trim() && state.password.trim()) {
@@ -124,38 +124,7 @@ const Alogin = () => {
                 payload: true
             });
         }
-    }, [state.username, state.password]);
-<<<<<<< HEAD
-    const baseurl ='http://reservasapi.yes-admin.com/index.php/Auth/login';
-    let myHeaders = new Headers();
-    myHeaders.append("X-API-KEY", "709cd00931492fef092b3430b64389016fe7eb4f");
-    myHeaders.append("Accept", "application/x-www-form-urlencoded");
-    myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
-    let urlencoded = new URLSearchParams();
-    urlencoded.append("email", "ly@na.c");
-    urlencoded.append("password", "dietayejercicio");
-    let requestOptions: RequestInit = {
-        method: 'POST',
-        headers: myHeaders,
-        body: urlencoded,
-      };        
-        console.log(requestOptions);
-        fetch(baseurl, requestOptions).then(response => response.text())
-        .then(result => console.log(result))
-        .catch(error => console.log('error', error));
-        /* 
-        const content = await rawResponse.json();
-        console.log(content) */
-       /*  if (content.email === state.username) {
-            localStorage.setItem('usuarios', JSON.stringify(content))
-            window.location.href = "./admin";
-        } else {
-            dispatch({
-                type: 'loginFailed',
-                payload: 'Contraseña o Email Error'
-            });
-        } */
-=======
+        }, [state.username, state.password]);
     const baseurl = 'http://reservasapi.yes-admin.com/index.php/Auth/login';
 
     var myHeaders = new Headers();
@@ -197,7 +166,7 @@ const Alogin = () => {
 
             } else {
                 response.json().then(data => {
-                    window.localStorage.setItem('UserCredenciales', JSON.stringify(data))
+                    window.localStorage.setItem('mensaje: ', JSON.stringify(data))
                     window.location.href = "./admin";
                 });
 
@@ -206,7 +175,6 @@ const Alogin = () => {
     };
 
 
->>>>>>> 43df7dfac60c92221b7f1f2d0d907547effa786b
 
     const handleKeyPress = (event: React.KeyboardEvent) => {
         if (event.keyCode === 13 || event.which === 13) {
@@ -281,6 +249,7 @@ const Alogin = () => {
                         {/*   <input type="submit" value="Login" id='input_submit' className='input_field' 
                          onClick={handleLogin}
                         disabled={state.isButtonDisabled}>
+
                          </input>
                        */}
                         <CardActions>
