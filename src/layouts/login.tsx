@@ -158,18 +158,34 @@ const Alogin = () => {
 
 
         fetch(baseurl, requestOptions).then(function (response) {
-            if (response.status === 400) {
-                dispatch({
-                    type: 'loginFailed',
-                    payload: 'Contraseña o Email Error'
-                });
-
-            } else {
+            if (response.status != 200) {
+                if (response.status != 201) {
+                    dispatch({
+                        type: 'loginFailed',
+                        payload: 'Contraseña o Email Error'
+                    });
+                    return
+                } 
+                console.log(response.status)
                 response.json().then(data => {
-                    window.localStorage.setItem('mensaje: ', JSON.stringify(data))
+                    console.log(data)
+                /*     window.localStorage.setItem('UserCredenciales', JSON.stringify(data))
                     window.location.href = "./admin";
-                });
+                 */});
 
+
+                console.log(response)
+                return
+            } else {
+                console.log(response.status)
+                response.json().then(data => {
+                    console.log(data)
+                     window.localStorage.setItem('UserCredenciales', JSON.stringify(data))
+                    window.location.href = "./admin";
+                 });
+
+
+                console.log(response)
             }
         });
     };

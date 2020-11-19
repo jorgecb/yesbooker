@@ -7,7 +7,8 @@ import {
 } from "./actions/types";
 
 let user = JSON.parse(localStorage.getItem('UserCredenciales') || '{}');
-const initialState = user['mensaje: '].email
+
+const initialState = user.tkn
   ? { LoginActivo: true, user }
   : { LoginInactivo: false, user: null }; 
   
