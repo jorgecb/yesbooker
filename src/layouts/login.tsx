@@ -125,14 +125,7 @@ const Alogin = () => {
             });
         }
     }, [state.username, state.password]);
-    const baseurl = 'http://reservasapi.yes-admin.com/index.php/Auth/login';
-
-    var myHeaders = new Headers();
-    myHeaders.append("API-key", "709cd00931492fef092b3430b64389016fe7eb4f");
-
-    /*     var formdata = new FormData();
-        formdata.append("email", "hola@hotmail.com");
-        formdata.append("password", "12345678"); */
+   
 
     const handleLogin = async () => {
 
@@ -169,9 +162,9 @@ const Alogin = () => {
                 console.log(response.status)
                 response.json().then(data => {
                     console.log(data)
-                /*     window.localStorage.setItem('UserCredenciales', JSON.stringify(data))
+                     window.localStorage.setItem('UserCredenciales', JSON.stringify(data))
                     window.location.href = "./admin";
-                 */});
+                 });
 
 
                 console.log(response)
