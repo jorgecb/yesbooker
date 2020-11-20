@@ -1,4 +1,4 @@
-import { empty } from 'uuidv4';
+
 import BaseUrl from '../../config';
 const logout = async () => {
   let user = JSON.parse(localStorage.getItem('UserCredenciales') || '{}');
@@ -9,13 +9,14 @@ const logout = async () => {
     method: 'GET',
     headers: myHeaders,
   };
-  const rawResponse = await fetch('http://reservasapi.yes-admin.com/index.php/Auth/logout', requestOptions)
+  
+  const rawResponse = await fetch(BaseUrl.UrlApi + 'Auth/logout', requestOptions)
   const content = await rawResponse.json()
   if (content.status === 200) {
     localStorage.removeItem("UserCredenciales");
     window.location.href = "./login";
   } else {
-    window.location.href = "./admin";
+    console.log(content)
   }
 };
 export default {
