@@ -28,7 +28,6 @@ return (
 
                             <PrivateRoute exact path="/admin/Socios" component={admin} />
                             <PrivateRoute exact path="/admin/Sucursales" component={admin} />
-
                             <LoginRoute path="/login" component={Login} />
                             <Redirect from="*" to="/login" />
                         </Switch>
