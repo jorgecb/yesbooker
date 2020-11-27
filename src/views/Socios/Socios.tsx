@@ -1,4 +1,4 @@
-import React, { useEffect, useState,} from 'react';
+import React, { useEffect, useState, useRef} from 'react';
 import ReactDOM from 'react-dom';
 import withStyles from '@material-ui/core/styles/withStyles';
 import { createStyles, Grid } from '@material-ui/core';
@@ -13,7 +13,7 @@ import CardBody from '../../components/Card/CardBody';
 import MUIDataTable,{MUIDataTableState,TableSelectCell} from "mui-datatables";
 
 import { useDispatch } from 'react-redux';
-import { addSocio,uptSocio,delSocio, fetchSocios } from '../../actions/sociosAct'
+import { addSocio,uptSocio,delSocio, fetchSo } from '../../actions/sociosAct'
 const styles = createStyles({
     cardCategoryWhite: {
         '&,& a,& a:hover,& a:focus': {
@@ -28,7 +28,7 @@ const styles = createStyles({
         }
     }
 });
-const socioList = (props : any) => {  
+const socioList = (props : any) => {
     const dispatch = useDispatch();
     const [Socios, setSocios] = useState([]);
     const [socio, setSocio] = useState({
@@ -56,13 +56,13 @@ const socioList = (props : any) => {
         ...socio.data.valueOf(),
     }); */
     const listadoUpd=()=>{
-        SociosDB.listAll().then(function(res){/* 
+/*         SociosDB.listAll().then(function(res){
             setSocios(res);
             if(Object.keys(res).length<=1){
                 alert("Los ejemplos se eliminaran automaticamente al ir ingresando datos");
-            }; */
+            }; 
             console.log(res);
-        });
+        }); */
         SociosDB.listNotDell().then(function(dev){
             setSocios(dev);
             if(Object.keys(dev).length<=1){
@@ -71,7 +71,7 @@ const socioList = (props : any) => {
             };
             console.log(dev);
         })
-        dispatch( fetchSocios( {} ,'List'));
+        dispatch( fetchSo( 'nehhh' ,'List'));
     }
     useEffect(()=>{
         console.log(socio);
@@ -136,9 +136,9 @@ const socioList = (props : any) => {
     };
     return ( 
         <React.Fragment>
-        <GridContainer>
+        <GridContainer >
             <GridItem xs={12} sm={12} md={12}>
-                <Card>
+                <Card >
                     <CardHeader color="$38" >
                         <h4>Listado de Socios</h4><ModalSocio create={oncreate} update={socio} upd={onupd} />
                         <MUIDataTable

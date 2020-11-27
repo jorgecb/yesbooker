@@ -3,7 +3,7 @@ import {types} from '../types/types';
 export const sociosReducer=(state:{}={},action:any)=>{
     switch (action.type) {
         case types.fetchSocios:
-            const listadoSocios: {} = () =>{
+          /*   const listadoSocios: {} = () =>{
                 let lista:{} = {};
                 const url = 'http://reservasapi.yes-admin.com/index.php/Socios/';
                 let myHeaders = new Headers();
@@ -22,7 +22,8 @@ export const sociosReducer=(state:{}={},action:any)=>{
                 console.log(lista);
                 return lista;
             }
-            return {data: listadoSocios, name:action.payload.displayName};
+            return {data: listadoSocios, name:action.payload.displayName}; */
+            return {data:action.payload.data, name:action.payload.displayName};
         case types.addSocio:
             return {data:action.payload.data, name:action.payload.displayName};
         case types.uptSocio:

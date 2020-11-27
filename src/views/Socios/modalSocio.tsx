@@ -1,4 +1,4 @@
-import React, { FormEvent, useState } from 'react';
+import React, { FormEvent, useState, useRef } from 'react';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -8,6 +8,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import withStyles from '@material-ui/core/styles/withStyles';
 import { createStyles } from '@material-ui/core';
 import { ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
+import classNames from 'classnames';
 const styles = createStyles({
     cardCategoryWhite: {
         '&,& a,& a:hover,& a:focus': {
@@ -31,6 +32,7 @@ interface Socio{
 }
 const modalSocio = (props:any) =>{
     // eslint-disable-next-line react-hooks/rules-of-hooks
+    const reference = useRef(); 
     let socio:Socio={nombre_socio:"" , email:"", deleted:false, inserver:false};
     const [open, setOpen] = useState(false);
     const [Data, setData] = useState<Socio>(socio);
@@ -94,7 +96,7 @@ const modalSocio = (props:any) =>{
             [e.currentTarget.name]:e.currentTarget.value
         });
     };
-    const handleSubmit =() =>{
+    const handleSubmit =(e:FormEvent) =>{
         setData({
             ...Data,
             deleted:false,
@@ -116,7 +118,7 @@ const modalSocio = (props:any) =>{
         return;
     };
     return (
-        <>
+        <div>
         <Button variant="contained" color="primary" onClick={handleClickOpen}>
             Ingresar Socio
         </Button>
@@ -125,7 +127,7 @@ const modalSocio = (props:any) =>{
         </Button>
         <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">{intfz.ttl.toString()}</DialogTitle>
-            <DialogContent>
+            <DialogContent  ref={reference}>
                 <DialogContentText>
                     Formulario de Socios
                 </DialogContentText>
@@ -166,7 +168,7 @@ const modalSocio = (props:any) =>{
             </ValidatorForm>
             </DialogContent>
         </Dialog>
-        </>
+        </div>
     );
   }
   export default withStyles(styles)(modalSocio);
