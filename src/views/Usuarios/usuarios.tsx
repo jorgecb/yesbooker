@@ -33,7 +33,12 @@ const styles = createStyles({
 
 const userList = (props: any) => {
    
-    
+    const service = usePostUsuariosService();
+
+
+    const str1 = JSON.stringify(service);
+    console.log(Object.keys(str1).length<=1)
+    console.log(Object.keys(service).length<=1)
 
     const dispatch = useDispatch();
     const [Usuarios, setUsuarios] = useState([]);

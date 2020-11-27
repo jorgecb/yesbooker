@@ -1,14 +1,19 @@
+import {usePostUsuariosService} from '../actions/usuariosAct';
 
 import db from './database';
 
 const tableName='Usuarios';
+
+const service = usePostUsuariosService();
+
+const str1 = JSON.stringify(service);
 
 
 const User={
     add(data:any){
 
           db.table(tableName)
-            .add(data)
+            .add(str1)
             .then((id) => {
                return data;
             });
