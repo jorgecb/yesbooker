@@ -18,6 +18,8 @@ import headerLinksStyle from '../../assets/jss/material-dashboard-react/componen
 interface Props {
     classes: any;
 }
+/* let user = JSON.parse(localStorage.getItem('UserCredenciales') || '{}');
+const UserLog = user.data[0].email */
 
 class HeaderLinks extends React.Component<Props, {}> {
 
@@ -57,12 +59,12 @@ class HeaderLinks extends React.Component<Props, {}> {
                     onClick={this.handleToggle}
                     className={classes.buttonLink}
                 >
-                    <Person className={classes.icons} />
-                    <span className={classes.notifications}>5</span>
+               {/*      <Person className={classes.icons} /> */}
                     <Hidden mdUp={true} implementation="css">
                         <p className={classes.linkText}>
                             {/* onClick={this.handleClick} */}
-                Notification
+{/*                             {'Usuario: ' + UserLog}
+ */}
               </p>
                     </Hidden>
                 </Button>
@@ -89,6 +91,13 @@ class HeaderLinks extends React.Component<Props, {}> {
                             <Paper>
                                 <ClickAwayListener onClickAway={this.handleClose}>
                                     <MenuList role="menu">
+                                        <MenuItem
+
+                                            className={classes.dropdownItem}
+
+                                        >
+                                          {/*   {'Usuario: ' + UserLog} */}
+                                        </MenuItem>
                                         <MenuItem
                                             onClick={action.logout}
                                             className={classes.dropdownItem}

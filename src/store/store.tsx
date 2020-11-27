@@ -7,7 +7,7 @@ import { sociosReducer } from '../reducers/sociosReducer';
 import { usuariosReducer } from '../reducers/usuariosReducer';
 import rootReducer from "../redux/reducers";
 
-const reducers = combineReducers({
+export const reducers = combineReducers({
     rootReducer,
     sucursales: sucursalesReducer,
     socios: sociosReducer,

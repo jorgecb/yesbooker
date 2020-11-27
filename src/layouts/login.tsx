@@ -62,7 +62,8 @@ const initialState: State = {
     isError: false
 };
 
-type Action = { type: 'setUsername', payload: string }
+type Action = 
+    { type: 'setUsername', payload: string }
     | { type: 'setPassword', payload: string }
     | { type: 'setIsButtonDisabled', payload: boolean }
     | { type: 'loginSuccess', payload: string }

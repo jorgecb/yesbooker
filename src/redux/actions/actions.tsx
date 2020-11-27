@@ -1,5 +1,5 @@
-
 import BaseUrl from '../../config';
+
 const logout = async () => {
   let user = JSON.parse(localStorage.getItem('UserCredenciales') || '{}');
   const initialState = user.tkn
