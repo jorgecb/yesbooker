@@ -18,19 +18,23 @@ import headerLinksStyle from '../../assets/jss/material-dashboard-react/componen
 interface Props {
     classes: any;
 }
-/* let user = JSON.parse(localStorage.getItem('UserCredenciales') || '{}');
-const UserLog = user.data[0].email */
+let user = JSON.parse(localStorage.getItem('UserCredenciales') || '{}');
+
+
+
+
 
 class HeaderLinks extends React.Component<Props, {}> {
 
     anchorEl: any;
 
     state = {
-        open: false
+        open: false,
+        username:'',
     };
 
     handleToggle = () => {
-        this.setState({ open: !this.state.open });
+        this.setState({ open: !this.state.open, username: user.data[0].email });
     }
 
     handleClose = (event: any) => {
@@ -44,6 +48,7 @@ class HeaderLinks extends React.Component<Props, {}> {
     render() {
         const { classes } = this.props;
         const { open } = this.state;
+        const{username}=this.state;
         return (
 
             <div className={classes.manager}>
@@ -59,13 +64,11 @@ class HeaderLinks extends React.Component<Props, {}> {
                     onClick={this.handleToggle}
                     className={classes.buttonLink}
                 >
-               {/*      <Person className={classes.icons} /> */}
+                    <Person className={classes.icons} />
                     <Hidden mdUp={true} implementation="css">
                         <p className={classes.linkText}>
-                            {/* onClick={this.handleClick} */}
-{/*                             {'Usuario: ' + UserLog}
- */}
-              </p>
+
+                        </p>
                     </Hidden>
                 </Button>
                 <Poppers
@@ -96,8 +99,8 @@ class HeaderLinks extends React.Component<Props, {}> {
                                             className={classes.dropdownItem}
 
                                         >
-                                          {/*   {'Usuario: ' + UserLog} */}
-                                        </MenuItem>
+                                             {username}
+                                       </MenuItem>
                                         <MenuItem
                                             onClick={action.logout}
                                             className={classes.dropdownItem}

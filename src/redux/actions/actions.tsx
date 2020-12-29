@@ -12,7 +12,7 @@ const logout = async () => {
   
   const rawResponse = await fetch(BaseUrl.UrlApi + 'Auth/logout', requestOptions)
   const content = await rawResponse.json()
-  if (content.status === 200) {
+  if (content.status === 200,401) {
     localStorage.removeItem("UserCredenciales");
     window.location.href = "./login";
   } else {

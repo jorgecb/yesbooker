@@ -1,89 +1,108 @@
-import { Button } from "@material-ui/core";
-import React, { Component } from "react";
-import "./E.css";
+import { Slider } from "@material-ui/core";
+import React, { ChangeEvent, useEffect, useRef, useState } from "react";
+import Editor from "react-avatar-editor";
+import Alert from "@material-ui/lab/Alert";
+import IconButton from "@material-ui/core/IconButton";
+import Collapse from "@material-ui/core/Collapse";
+import Button from "@material-ui/core/Button";
+import CloseIcon from "@material-ui/icons/Close";
 
-export class App extends Component {
+import { ReactComponent as Plus } from "../../assets/img/plus.svg";
+export { Editor };
 
-
-
-
-    
-    state = {
-        profileImg:
-            "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
-    };
-    imageHandler = (e: any) => {
-        const reader = new FileReader();
-        reader.onload = () => {
-            if (reader.readyState === 2) {
-                this.setState({ profileImg: reader.result });
-            }
-        };
-        reader.readAsDataURL(e.target.files[0]);
-        
-    };
-
-
-    render() {
-        const { profileImg } = this.state;
-
-        var img = new Image();
-        img.crossOrigin = 'Anonymous';
-
-        img.onload = function () {
-            var canvas = document.createElement('canvas'),
-
-
-                ctx = canvas.getContext('2d');
-            if (ctx) {
-                canvas.height = img.naturalHeight;
-                canvas.width = img.naturalWidth;
-                ctx.drawImage(img, 0, 0);
-
-            }
-
-
-            var uri = canvas.toDataURL('image/jpg'),
-                b64 = uri.replace(/^data:image.+;base64,/, '');
-
-            console.log(b64);
-        };
-
-
-        var url = profileImg;
-        img.src = url;
-
-
-
-
-        return (
-            <div className="page">
-                <div className="container">
-
-                    <div className="img-holder">
-                        <img src={profileImg} alt="" id="img" className="img" />
-                    </div>
-                    <input
-                        type="file"
-                        accept="image/*"
-                        name="image-upload"
-                        id="input"
-                        onChange={this.imageHandler}
-                    />
-                    <div className="label">
-
-
-                        <label className="image-upload" htmlFor="input">
-                            Agregar foto
-                            </label>
-
-
-
-                    </div>
-                </div>
-            </div>
-        );
-    }
+interface OwnProps {
+  inputId: string;
+  url: string;
+  ref: React.Ref<Editor>;
+  errorMessage: string | null;
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  onCancel: () => void;
 }
+type Props = OwnProps;
+const AvatarEditor = React.forwardRef<Editor, Props>((props, ref) => {
+  const { inputId, onChange, url, onCancel, errorMessage,  } = props;
+  const [rotation, setRotation] = useState<number>(0);
+  const [scaleValue, setScaleValue] = useState<number>(1.3);
 
-export default App;
+  const handleChange = (event: any, newValue: number | number[]) => {
+    setScaleValue(newValue as number);
+  };
+
+  const rotateLeft = () => {
+    setRotation((prevState) => prevState - 90);
+  };
+
+  const rotateRight = () => {
+    setRotation((prevstate) => prevstate + 90);
+  };
+
+  const firstMount = useRef(true);
+  useEffect(() => {
+    firstMount.current = false;
+  }, []);
+
+  return (
+    <>
+      <input key={url} id={inputId} type="file" onChange={onChange} />
+      {url ? (
+        <Editor
+          image={url}
+          ref={ref}
+          width={200}
+          height={200}
+          borderRadius={100}
+          rotate={rotation}
+          scale={scaleValue}
+          color={[255, 255, 255, 0.6]}
+          crossOrigin="anonymous"
+        />
+      ) : (
+        <>
+          <label htmlFor={inputId}>
+            <Plus width="50%" height="50%" />
+          </label>
+        </>
+      )}
+
+      {url && (
+        <div className="remove-change">
+          <Button
+            variant="outlined"
+            size="small"
+            color="primary"
+            onClick={rotateLeft}
+          >
+            Rotar a la Izquierda
+          </Button>
+          <Button
+            variant="outlined"
+            size="small"
+            color="primary"
+            onClick={onCancel}
+          >
+            Quitar
+          </Button>
+          <Button
+            variant="outlined"
+            size="small"
+            color="primary"
+            onClick={rotateRight}
+          >
+            Rotar a la derecha
+          </Button>
+          <Slider
+            value={scaleValue}
+            onChange={handleChange}
+            max={10}
+            min={1}
+            aria-labelledby="continuous-slider"
+          />
+
+          <label htmlFor={inputId}>Cambiar</label>
+        </div>
+      )}
+    </>
+  );
+});
+
+export default AvatarEditor;
