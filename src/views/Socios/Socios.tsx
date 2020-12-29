@@ -71,7 +71,7 @@ const socioList = (props : any) => {
             };
             console.log(dev);
         })
-        dispatch( fetchSo( 'nehhh' ,'List'));
+        dispatch( fetchSo( {} ,'List'));
     }
     useEffect(()=>{
         console.log(socio);
@@ -80,7 +80,7 @@ const socioList = (props : any) => {
         /* Socio.add({nombre_socio:"chuy",email:"chuy@chuy.com",inserver:false}) */
         listadoUpd();
     },[]);
-    const columns = ["id","nombre_socio","email"];
+    const columns = ["id","nombre_socio","email","nombre_contacto","telefono","clabe","beneficiario","cuota","notas","fecha_modifica","fecha_agrega","usuario_modifica","usuario_crea"];
     let dataT:any;
     if(Object.keys(Socios).length<=1){
         if(Object.keys(Socios).length===0){

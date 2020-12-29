@@ -23,6 +23,7 @@ export const sociosReducer=(state:{}={},action:any)=>{
                 return lista;
             }
             return {data: listadoSocios, name:action.payload.displayName}; */
+            console.log(typeof action.payload.data);
             return {data:action.payload.data, name:action.payload.displayName};
         case types.addSocio:
             return {data:action.payload.data, name:action.payload.displayName};
