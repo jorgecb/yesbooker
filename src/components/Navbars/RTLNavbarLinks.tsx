@@ -158,18 +158,7 @@ class HeaderLinks extends React.Component<Props, {}> {
             )}
           </Poppers>
         </div>
-        <Button
-          color={window.innerWidth > 959 ? 'transparent' : 'white'}
-          justIcon={window.innerWidth > 959}
-          simple={!(window.innerWidth > 959)}
-          aria-label="Person"
-          className={classes.buttonLink}
-        >
-          <Person className={classes.icons} />
-          <Hidden mdUp={true} implementation="css">
-            <p className={classes.linkText}>حساب کاربری</p>
-          </Hidden>
-        </Button>
+       
       </div>
     );
   }

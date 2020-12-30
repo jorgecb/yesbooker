@@ -13,6 +13,19 @@ const User={
                return data;
             });
     },
+    listNotDell() {
+      var data = db
+        .table(tableName)
+        .filter((todo)=>{return todo.deleted===false;})
+        .toArray()
+        .then((todos) => {
+          return todos;
+        })
+        .catch((err) => {
+          return err;
+        });
+      return data;
+    },
     listAll(){
        var data=   db.table(tableName)
        .toArray()
