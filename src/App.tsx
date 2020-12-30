@@ -1,3 +1,4 @@
+
 import React, { useEffect } from 'react';
 import { Router, Route, Switch, Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -25,6 +26,8 @@ return (
                             <PrivateRoute exact path="/admin" component={admin} />
                             <PrivateRoute exact path="/admin/usuarios" component={admin} />
 
+                            <PrivateRoute exact path="/admin/Socios" component={admin} />
+                            <PrivateRoute exact path="/admin/Sucursales" component={admin} />
                             <LoginRoute path="/login" component={Login} />
                             <Redirect from="*" to="/login" />
                         </Switch>

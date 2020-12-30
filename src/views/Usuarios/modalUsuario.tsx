@@ -6,10 +6,13 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import withStyles from '@material-ui/core/styles/withStyles';
-import { createStyles } from '@material-ui/core';
+import { createStyles, FormControl, FormHelperText, makeStyles, MenuItem, Select } from '@material-ui/core';
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
-import Img from './ImgEdit';
+import {App} from './formImg';
+import { Theme } from '@material-ui/core/styles';
 const styles = createStyles({
+
+
     cardCategoryWhite: {
         '&,& a,& a:hover,& a:focus': {
             color: 'rgba(255,255,255,.62)',
@@ -23,6 +26,20 @@ const styles = createStyles({
         }
     }
 });
+
+
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        formControl: {
+            margin: theme.spacing(1),
+            minWidth: 120,
+        },
+        selectEmpty: {
+            marginTop: theme.spacing(2),
+        },
+    }),
+);
+
 interface Usuario {
     nombre?: string,
     materno?: string,
@@ -32,6 +49,12 @@ interface Usuario {
     inserver?: boolean
 }
 const modalUsuario = (props: any) => {
+    const classes = useStyles();
+    const [age, setAge] = React.useState('');
+
+    const handleChangeSele = (event: React.ChangeEvent<{ value: unknown }>) => {
+        setAge(event.target.value as string);
+    };
     // eslint-disable-next-line react-hooks/rules-of-hooks
     let usuario: Usuario = { nombre: "", materno: "", email: "", deleted: false, inserver: false };
     const [open, setOpen] = useState(false);
@@ -114,7 +137,7 @@ const modalUsuario = (props: any) => {
             });
             return;
         };
-        
+
         props.create({ nombre: Data.nombre, materno: Data.materno, email: Data.email, deleted: Data.deleted, inserver: Data.inserver });
         setOpen(false);
         setData(usuario);
@@ -128,23 +151,23 @@ const modalUsuario = (props: any) => {
             <Button variant="contained" color="secondary" onClick={handleClickOpen2}>
                 Actualizar Usuario
         </Button>
-            <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+            <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title"
+                fullWidth
+            >
                 <DialogTitle id="form-dialog-title">{intfz.ttl.toString()}</DialogTitle>
                 <DialogContent>
+                    
                     <DialogContentText>
                         Formulario para registro de Usuarios
                 </DialogContentText>
                     <ValidatorForm onSubmit={handleSubmit}>
-                        <Img
-                            
-
-                        />
+                        <App />
                         <TextValidator
                             autoFocus
                             margin="dense"
                             id="name"
                             name="nombre"
-                            label="Nombre Usuario"
+                            label="Cargo"
                             type="text"
                             onChange={handleChange}
                             value={nombre}
@@ -154,21 +177,9 @@ const modalUsuario = (props: any) => {
                         />
                         <TextValidator
                             margin="dense"
-                            id="materno"
-                            name="materno"
-                            label="Apellido Materno"
-                            type="text"
-                            onChange={handleChange}
-                            value={materno}
-                            validators={["required", "isValidName", "notFT"]}
-                            errorMessages={["el campo es requerido", "No ingresar caracteres especiales", "no ingresal false/true"]}
-                            fullWidth
-                        />
-                        <TextValidator
-                            margin="dense"
                             id="email"
                             name="email"
-                            label="email"
+                            label="Email"
                             type="email"
                             onChange={handleChange}
                             value={email}
@@ -176,6 +187,75 @@ const modalUsuario = (props: any) => {
                             errorMessages={["el campo es requerido", "tiene que ser un formato de email valido"]}
                             fullWidth
                         />
+                        <TextValidator
+                            autoFocus
+                            margin="dense"
+                            id="name"
+                            name="nombre"
+                            label="Nombre"
+                            type="text"
+                            onChange={handleChange}
+                            value={nombre}
+                            validators={["required", "isValidName", "notFT"]}
+                            errorMessages={["el campo es requerido", "No ingresar caracteres especiales", "no ingresal false/true"]}
+                            fullWidth
+                        />
+
+                        <FormControl className={classes.formControl}>
+                            <Select
+                                value={age}
+                                onChange={handleChangeSele}
+                                displayEmpty
+                                className={classes.selectEmpty}
+                                inputProps={{ 'aria-label': 'Without label' }}
+                            >
+                                <MenuItem value="" disabled>
+                                    Roles          </MenuItem>
+                                <MenuItem value={10}>Ten</MenuItem>
+                                {/* <MenuItem value={20}>Twenty</MenuItem>
+                                <MenuItem value={30}>Thirty</MenuItem>
+                             */}</Select>
+                            <FormHelperText>Placeholder</FormHelperText>
+                        </FormControl>
+
+                        <TextValidator
+                            margin="dense"
+                            id="materno"
+                            name="materno"
+                            label="1° Apellido"
+                            type="text"
+                            onChange={handleChange}
+                            value={materno}
+                            validators={["required", "isValidName", "notFT"]}
+                            errorMessages={["el campo es requerido", "No ingresar caracteres especiales", "no ingresal false/true"]}
+                            width="50%"
+                        />
+                        <TextValidator
+                            margin="dense"
+                            id="materno"
+                            name="materno"
+                            label="2° Apellido"
+                            type="text"
+                            onChange={handleChange}
+                            value={materno}
+                            validators={["required", "isValidName", "notFT"]}
+                            errorMessages={["el campo es requerido", "No ingresar caracteres especiales", "no ingresal false/true"]}
+                            width="50%"
+                        />
+                        <TextValidator
+                            margin="dense"
+                            id="materno"
+                            name="materno"
+                            label="Telefono"
+                            type="text"
+                            onChange={handleChange}
+                            value={materno}
+                            validators={["required", "isValidName", "notFT"]}
+                            errorMessages={["el campo es requerido", "No ingresar caracteres especiales", "no ingresal false/true"]}
+                            fullWidth
+                        />
+
+
                         <DialogActions>
                             <Button onClick={handleClose} color="primary">
                                 Cancelar

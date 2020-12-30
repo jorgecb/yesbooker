@@ -1,6 +1,7 @@
-import { createStore, combineReducers, applyMiddleware  } from 'redux';
+
+import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
-import { devToolsEnhancer } from 'redux-devtools-extension';
+import { composeWithDevTools } from 'redux-devtools-extension'
 import { sucursalesReducer } from '../reducers/sucursalesReducer';
 import { sociosReducer } from '../reducers/sociosReducer';
 import { usuariosReducer } from '../reducers/usuariosReducer';
@@ -11,8 +12,12 @@ const reducers = combineReducers({
     usuarios: usuariosReducer,
     clientes: clientesReducer,
 });
+const middlewareEnhancers = applyMiddleware(thunk);
+const composedEnharcers = composeWithDevTools(...[middlewareEnhancers]);
 export const store = createStore(
-    reducers,
-    devToolsEnhancer(
-        name
-   ));
+    reducers, composedEnharcers
+);
+
+
+
+

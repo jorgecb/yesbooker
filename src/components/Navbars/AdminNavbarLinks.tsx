@@ -17,7 +17,7 @@ import Search from '@material-ui/icons/Search';
 // core components
 import CustomInput from '../CustomInput/CustomInput';
 import Button from '../CustomButtons/Button';
-import UserBar from './BarUser';
+import Logout from './BarUser';
 
 
 import headerLinksStyle from '../../assets/jss/material-dashboard-react/components/headerLinksStyle';
@@ -49,6 +49,7 @@ class HeaderLinks extends React.Component<Props, {}> {
   render() {
     const { classes } = this.props;
     const { open } = this.state;
+  
     return (
       <div>
         <div className={classes.searchWrapper}>
@@ -162,11 +163,13 @@ class HeaderLinks extends React.Component<Props, {}> {
           </Poppers>
         </div>
 
+      
+
         <div className={classes.manager}>
-          <UserBar />
+          <Logout />
         </div>
 
-      </div>
+      </div >
     );
   }
 }
