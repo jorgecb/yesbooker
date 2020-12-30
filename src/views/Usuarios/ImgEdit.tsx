@@ -1,11 +1,7 @@
-import { Slider } from "@material-ui/core";
+import { Slider, TextField } from "@material-ui/core";
 import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 import Editor from "react-avatar-editor";
-import Alert from "@material-ui/lab/Alert";
-import IconButton from "@material-ui/core/IconButton";
-import Collapse from "@material-ui/core/Collapse";
 import Button from "@material-ui/core/Button";
-import CloseIcon from "@material-ui/icons/Close";
 
 import { ReactComponent as Plus } from "../../assets/img/plus.svg";
 export { Editor };
@@ -20,18 +16,16 @@ interface OwnProps {
 }
 type Props = OwnProps;
 const AvatarEditor = React.forwardRef<Editor, Props>((props, ref) => {
-  const { inputId, onChange, url, onCancel, errorMessage,  } = props;
+  const { inputId, onChange, url, onCancel, errorMessage } = props;
   const [rotation, setRotation] = useState<number>(0);
   const [scaleValue, setScaleValue] = useState<number>(1.3);
 
   const handleChange = (event: any, newValue: number | number[]) => {
     setScaleValue(newValue as number);
   };
-
   const rotateLeft = () => {
     setRotation((prevState) => prevState - 90);
   };
-
   const rotateRight = () => {
     setRotation((prevstate) => prevstate + 90);
   };
@@ -43,8 +37,23 @@ const AvatarEditor = React.forwardRef<Editor, Props>((props, ref) => {
 
   return (
     <>
-      <input key={url} id={inputId} type="file" onChange={onChange} />
-      {url ? (
+      <TextField
+        id={inputId}
+        key={url}
+        type="file"
+        onChange={onChange}
+        label="Label"
+        style={{ margin: 8 }}
+        placeholder="Placeholder"
+        helperText="Full width!"
+        fullWidth
+        margin="normal"
+        InputLabelProps={{
+          shrink: true,
+        }}
+      />
+{/*       <input key={url} id={inputId} type="file" onChange={onChange} />
+ */}      {url ? (
         <Editor
           image={url}
           ref={ref}

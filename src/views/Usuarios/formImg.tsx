@@ -17,19 +17,17 @@ export function App() {
     errorMessage: null,
   });
   const [newImage, setNewImage] = useState<string>("");
-
   const editorRef = useRef<Editor>(null);
-
   const { errorMessage, url } = profileImg;
   const [open, setOpen] = React.useState(false);
 
   const onAvatarImgChange = async (e: any) => {
+    setOpen(false);
     e.preventDefault();
     let file = e.target.files[0];
     if (!file) return;
     const validExts = ["jpg", "jpeg"];
     const maxFileSize = 5;
-
     const fileExt = file.name.substring(file.name.lastIndexOf(".") + 1);
     const fileSize = file.size / 1000000;
     if (!validExts.includes(fileExt)) {
@@ -67,6 +65,7 @@ export function App() {
   };
 
   const onAvatarImgCancel = () => {
+    setOpen(false);
     setProfileImg({
       errorMessage: null,
       url: "",
@@ -80,60 +79,61 @@ export function App() {
       setNewImage(url);
     }
   };
-  const onSubmit = (e: React.FormEvent) => {
+  /*   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (editorRef.current) {
       let img: Blob;
       const canvasElement = editorRef.current.getImage();
       canvasElement.toBlob((blob) => {
         img = blob!;
-
         console.log(img);
       }, "image/jpeg");
     }
-  };
+  }; */
 
   return (
     <div className="App">
-      <form className="form" onSubmit={onSubmit}>
-        <div className="editor">
-          <img src={newImage} />
-          <AvatarEditor
-            ref={editorRef}
-            inputId="main"
-            errorMessage={errorMessage}
-            url={url}
-            onChange={onAvatarImgChange}
-            onCancel={onAvatarImgCancel}
-          />
-          <Button variant="contained" color="primary" onClick={onCrop}>
-            Ajustar
-          </Button>
+      {/*       <form className="form" onSubmit={onSubmit} >
+       */}{" "}
+      <div className="editor">
+        <img src={newImage} />
+        <AvatarEditor
+          ref={editorRef}
+          inputId="main"
+          errorMessage={errorMessage}
+          url={url}
+          onChange={onAvatarImgChange}
+          onCancel={onAvatarImgCancel}
+        />
+        <Button variant="contained" color="primary" onClick={onCrop}>
+          Ajustar
+        </Button>
 
-          <Collapse in={open}>
-            <Alert
-              severity="error"
-              action={
-                <IconButton
-                  aria-label="close"
-                  color="inherit"
-                  size="small"
-                  onClick={() => {
-                    setOpen(false);
-                  }}
-                >
-                  <CloseIcon fontSize="inherit" />
-                </IconButton>
-              }
-            >
-              {errorMessage}
-            </Alert>
-          </Collapse>
-        </div>
-        <div className="button">
+        <Collapse in={open}>
+          <Alert
+            severity="error"
+            action={
+              <IconButton
+                aria-label="close"
+                color="inherit"
+                size="small"
+                onClick={() => {
+                  setOpen(false);
+                }}
+              >
+                <CloseIcon fontSize="inherit" />
+              </IconButton>
+            }
+          >
+            {errorMessage}
+          </Alert>
+        </Collapse>
+      </div>
+      {/*     <div className="button">
           <button type="submit">Enviar</button>
-        </div>
-      </form>
+        </div> */}
+      {/*       </form>
+       */}{" "}
     </div>
   );
 }
