@@ -12,6 +12,9 @@ export const types = {
   addSocio: '[Socios] Add',
   uptSocio: '[Socios] Upt',
   delSocio: '[Socios] Del',
+  addCliente:'[Clientes] Add',
+  uptCliente:'[Clientes] Upt',
+  delCliente:'[Clientes] Del',
 }
 
 
