@@ -173,6 +173,7 @@ const FormClientes = (props: any) => {
     if (props.update.client === true) {
       return alert("debes elegir sólo un(1) campo a la vez");
     }
+    componentDidMount();
     setData({
       Nombre: props.update.data.Nombre,
       Email: props.update.data.Email,
@@ -183,7 +184,7 @@ const FormClientes = (props: any) => {
     });
     setIntfz({ ttl: "Actualizar Cliente", bt: "Actualizar" });
     componentDidMount();
-
+    
     const val: any =
       props.update.client != true
         ? setOpen(true)
@@ -240,6 +241,7 @@ const FormClientes = (props: any) => {
       textmask: "(  )    -    ",
     });
   };
+
   return (
     <>
       <DialogTitle id="form-dialog-title">{intfz.ttl.toString()}</DialogTitle>

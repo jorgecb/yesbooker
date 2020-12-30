@@ -67,15 +67,6 @@ const socioList = (props: any) => {
     }); */
   const listadoUpd = () => {
     
-    SociosDB.listAll().then(function(res) {
-      /* 
-            setSocios(res);
-            if(Object.keys(res).length<=1){
-                alert("Los ejemplos se eliminaran automaticamente al ir ingresando datos");
-            }; */
-      console.log(res);
-    });
-
     SociosDB.listNotDell().then(function(dev) {
       setSocios(dev);
       if (Object.keys(dev).length <= 1) {
