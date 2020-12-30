@@ -1,5 +1,6 @@
 
 export const types = {
+  fetchSucursales: '[Sucursales] List',
   addSucursal: '[Sucursales] Add',
   uptSucursal: '[Sucursales] Upt',
   delSucursal: '[Sucursales] Del',

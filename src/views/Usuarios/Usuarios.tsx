@@ -9,7 +9,6 @@ import CardBody from "../../components/Card/CardBody";
 import User from "./../../database/Usuarios";
 import MUIDataTable from "mui-datatables";
 import ModalUsuario from "./modalUsuario";
-
 import { useDispatch } from "react-redux";
 import { addUsuario, uptUsuario, delUsuario } from "../../actions/usuariosAct";
 import { usePostUsuariosService } from "../../actions/usuariosAct";

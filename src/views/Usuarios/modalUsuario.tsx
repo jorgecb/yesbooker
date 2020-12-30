@@ -156,6 +156,7 @@ const modalUsuario = (props: any) => {
             >
                 <DialogTitle id="form-dialog-title">{intfz.ttl.toString()}</DialogTitle>
                 <DialogContent>
+                    
                     <DialogContentText>
                         Formulario para registro de Usuarios
                 </DialogContentText>
