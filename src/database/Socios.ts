@@ -13,7 +13,9 @@ const Socio = {
   listNotDell() {
     var data = db
       .table(tableName)
-      .filter((todo)=>{return todo.deleted===false;})
+      .filter((todo) => {
+        return todo.deleted === false;
+      })
       .toArray()
       .then((todos) => {
         return todos;
@@ -42,6 +44,6 @@ const Socio = {
         return data;
       });
   },
-};
+}; 
 
 export default Socio;

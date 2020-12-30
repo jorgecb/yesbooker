@@ -6,12 +6,14 @@ import { sucursalesReducer } from '../reducers/sucursalesReducer';
 import { sociosReducer } from '../reducers/sociosReducer';
 import { usuariosReducer } from '../reducers/usuariosReducer';
 import rootReducer from "../redux/reducers";
+import { clientesReducer } from '../reducers/clientesReducer';
 
 export const reducers = combineReducers({
     rootReducer,
     sucursales: sucursalesReducer,
     socios: sociosReducer,
     usuarios: usuariosReducer,
+    clientes: clientesReducer,
 });
 const middlewareEnhancers = applyMiddleware(thunk);
 const composedEnharcers = composeWithDevTools(...[middlewareEnhancers]);

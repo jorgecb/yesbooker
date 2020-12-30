@@ -12,18 +12,18 @@ import {App} from '../Usuarios/formImg';
 import classNames from 'classnames';
 import { Theme } from '@material-ui/core/styles';
 const styles = createStyles({
-    cardCategoryWhite: {
-        '&,& a,& a:hover,& a:focus': {
-            color: 'rgba(255,255,255,.62)',
-            margin: '0',
-            fontSize: '14px',
-            marginTop: '0',
-            marginBottom: '0'
-        },
-        '& a,& a:hover,& a:focus': {
-            color: '#FFFFFF'
-        }
-    }
+  cardCategoryWhite: {
+    "&,& a,& a:hover,& a:focus": {
+      color: "rgba(255,255,255,.62)",
+      margin: "0",
+      fontSize: "14px",
+      marginTop: "0",
+      marginBottom: "0",
+    },
+    "& a,& a:hover,& a:focus": {
+      color: "#FFFFFF",
+    },
+  },
 });
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -318,12 +318,12 @@ const modalSocio = (props:any) =>{
                     fullWidth
                 />
             <DialogActions>
-                <Button onClick={handleClose} color="primary">
-                    Cancelar
-                </Button>
-                <Button type="submit" color="primary">
-                    {intfz.bt}
-                </Button>
+              <Button onClick={handleClose} color="primary">
+                Cancelar
+              </Button>
+              <Button type="submit" color="primary">
+                {intfz.bt}
+              </Button>
             </DialogActions>
             </ValidatorForm>
             </DialogContent>

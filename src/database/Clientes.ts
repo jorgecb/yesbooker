@@ -8,11 +8,14 @@ const Cliente = {
       .add(data)
       .then((id) => {
         return data;
-      });
+      }); 
   },
-  listAll() {
+  listNotDell() {
     var data = db
       .table(tableName)
+      .filter((todo) => {
+        return todo.deleted === false;
+      })
       .toArray()
       .then((todos) => {
         return todos;
@@ -29,5 +32,5 @@ const Cliente = {
         return data;
       });
   },
-};
+}; 
 export default Cliente;

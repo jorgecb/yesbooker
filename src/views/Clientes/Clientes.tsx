@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
-import ReactDOM from "react-dom";
-import { v4 as uuidv4 } from "uuid";
-import Cliente from "../../database/Clientes";
+import ClientesDb from "../../database/Clientes";
 import FormClientes from "./modalClientes";
 import withStyles from "@material-ui/core/styles/withStyles";
 import Icon from "@material-ui/core/Icon";
+// @material-ui/icons
 import Store from "@material-ui/pickers";
 import Warning from "@material-ui/icons/Warning";
 import DateRange from "@material-ui/icons/DateRange";
@@ -28,6 +27,9 @@ import User from "./../../database/Usuarios";
 import MUIDataTable from "mui-datatables";
 import { CheckBox } from "@material-ui/icons";
 import globalVars from "../../config";
+import { useDispatch } from "react-redux";
+import {addCliente,uptCliente,delCliente} from "../../actions/clientesAct"
+
 
 const styles = createStyles({
   cardCategoryWhite: {
@@ -45,28 +47,49 @@ const styles = createStyles({
 });
 
 function Clientes(props: any) {
-  const peticion = fetch(globalVars.UrlApi + "clientes", {
-    method: "GET",
+  const dispatch = useDispatch();
+  const [Clientes, setClientes] = useState([]);
+  const [cliente, setCliente] = useState({
+    data: {},
+    client: false,
   });
-  peticion.then((data) => console.log(data.json()));
 
-  const [clientes, setClientes] = useState({});
-  let result = Array();
+  const onupd = (clienteUpd: any) =>{
+    
+    console.log(clienteUpd)
+    ClientesDb.update(clienteUpd.id, clienteUpd.clit);
+    dispatch(uptCliente(clienteUpd,"Actualizado"));
+    setCliente({
+      data: {},
+      client: false,
+    });
+    
+    alert("Se actualizo el Registro");
+    listadoUpd();
+  }
+
 
   const oncreate = (cliente: any) => {
-    Cliente.add(cliente);
+    ClientesDb.add(cliente);
+    dispatch(addCliente(cliente,"guardado"));
+    setCliente({
+      data: {},
+      client: false,
+    })
     listadoUpd();
   };
 
-  
   const listadoUpd = () => {
-    Cliente.listAll().then(function(res) {
-      setClientes(res);
-      console.log(res);
+    
+       ClientesDb.listNotDell().then(function(dev){
+      setClientes(dev);
+
+      
     });
+
   };
 
-  useEffect(() => {
+  useEffect(()=>{
     listadoUpd();
   }, []);
 
@@ -80,28 +103,126 @@ function Clientes(props: any) {
     "Edad",
     "Notas",
   ];
-  const data: any =
-    clientes.valueOf() != {} && clientes.toString() != "[object Object]"
-      ? clientes.valueOf()
-      : [];
+
+  let clientela:any;
+
+  /* if (Object.keys(Clientes).length <= 1) {
+    if (Object.keys(Clientes).length === 0) {
+      clientela = [
+        {
+          nombre_socio: "example",
+          email: "example@live.com",
+          deleted: false,
+          inserver: true,
+        },
+        {
+          nombre_socio: "ejemplo",
+          email: "ejemplo@live.com",
+          deleted: false,
+          inserver: true,
+        },
+      ];
+    } else {
+      clientela = [
+        Clientes[0],
+        {
+          nombre_socio: "ejemplo",
+          email: "ejemplo@live.com",
+          deleted: false,
+          inserver: true,
+        },
+      ];
+    }
+  } else  */{
+    clientela = Clientes.valueOf();
+  }
+ 
+  
+
+const options:{} = {
+  filterType:"checkbox",
+  onRowSelectionChange: (dat: any, cell:any) => {
+
+    if(cell.length <=0){
+      setCliente({data: {}, client:false});
+      return;
+    }
+    if (cell.length > 1){
+      setCliente({
+        data: clientela[cell[0].dataIndex].valueOf(),
+        client:false
+      }); 
+      return;
+    }
+    setCliente({
+      data: clientela[cell[0].dataIndex].valueOf(),
+      client:false
+    }); 
+    return;
+  }, 
+  
+  onRowsDelete:(ro: {data:[] } )=>{
+    ro.data.map((dato: { dataIndex: any })=>{
+
+      let regD: any = {
+        id: clientela[dato.dataIndex].id,
+        Nombre: clientela[dato.dataIndex].Nombre,
+      }; 
+      
+      delete regD.id;
+
+      let valDel = confirm(
+        "deseas borrar: \n" + regD.Nombre
+      ); 
+      
+
+      if (valDel === true){
+        clientela[dato.dataIndex].deleted = true;
+        clientela[dato.dataIndex].inserver = false;
+
+        ClientesDb.update(regD.id, clientela[dato.dataIndex])
+        alert("Eliminado correctamente: \n" + regD.Nombre);
+
+        dispatch(delCliente(clientela[dato.dataIndex], "borrado"));
+        listadoUpd();
+      } else {
+        alert("se conservo la informacion: \n"+ regD.Nombre);
+        listadoUpd();
+      }
+    });
+    setCliente({
+      data:{},
+      client: false,
+    });
+    return
+  }
+}
+
+  /* const  clientelas: any =
+    Clientes.valueOf() != {} && Clientes.toString() != "[object Object]"
+      ? Clientes.valueOf()
+      : []; */
   return (
+    <React.Fragment>
     <GridContainer>
       <GridItem xs={12} sm={12} md={12}>
         <Card>
           <CardHeader color="$38">
             <h4>Listado de Clientes</h4>
-            <FormClientes create={oncreate} />
+            <FormClientes create={oncreate} update={cliente} upd={onupd}/>
 
             <MUIDataTable
               title={"Listado de Clientes"}
-              data={data}
+              data={clientela}
               columns={columns}
+              options={options}
             />
           </CardHeader>
           <CardBody />
         </Card>
       </GridItem>
     </GridContainer>
+    </React.Fragment>
   );
 }
 

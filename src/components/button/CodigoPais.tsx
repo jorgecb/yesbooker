@@ -1,26 +1,80 @@
-import * as React from 'react'
-import Button from '@material-ui/core/Button'
-import Menu from '@material-ui/core/Menu'
-import MenuItem from '@material-ui/core/MenuItem'
-import {
-  usePopupState,
-  bindTrigger,
-  bindMenu,
-} from 'material-ui-popup-state/hooks'
- 
-const MenuPopupState = () => {
-  const popupState = usePopupState({ variant: 'popover', popupId: 'demoMenu' })
+import React, { useEffect, useState } from 'react';
+import TextField from '@material-ui/core/TextField';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles({
+  option: {
+    fontSize: 15,
+    '& > span': {
+      marginRight: 10,
+      fontSize: 18,
+    },
+  },
+});
+
+export default function CountrySelect(props:any) {
+  const classes = useStyles();
+
+  const [error, setError] = useState(null);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [items, setItems] = useState([{
+    "id": "36",
+    "codigo": "+53",
+    "pais": "Cuba"
+}]);
+
+  useEffect(() => {
+    fetch("http://localhost/restfull/public/codigoPais")
+      .then(res => res.json())
+      .then(
+        (result) => {
+          setIsLoaded(true);
+          setItems(result);
+        },
+        (error) => {
+          setIsLoaded(true);
+          setError(error);
+        }
+      ) 
+  }, []) 
+
+
   return (
-    <div>
-      <Button variant="contained" color="primary" {...bindTrigger(popupState)}>
-          +52
-      </Button>
-      <Menu {...bindMenu(popupState)}>
-        <MenuItem onClick={popupState.close}>Cake</MenuItem>
-        <MenuItem onClick={popupState.close}>Death</MenuItem>
-      </Menu>
-    </div>
-  )
+    <Autocomplete
+      id="Pais"
+      style={{ width: 300 }}
+      options={items}
+      classes={{
+        option: classes.option,
+        
+      }}
+      autoHighlight
+      renderOption={(option) => (
+        <React.Fragment>
+          <span>{(option.codigo)}</span>
+          {option.pais}
+          
+        </React.Fragment>
+        
+      )} 
+      getOptionLabel={(option) => option.codigo + option.pais}
+        
+      renderInput={(params) => (
+        <TextField
+          {...params} 
+          label="Codigo de pais"
+          variant="outlined"
+          inputProps={{
+            
+            ...params.inputProps,
+            autoComplete: 'codigopais',
+            onBlur:(opt)=>{props.create({code:params.inputProps});return params.inputProps},
+            
+          }}
+          
+        />
+        )} 
+    />
+  );
 }
- 
-export default MenuPopupState

@@ -49,10 +49,6 @@ export default function SimpleListMenu(props:any) {
   };
   
 
- /*  props.create({
-    Idioma: selectedIndex.Idioma
-  }); */
-
 
   return (
     <div className={classes.root}>

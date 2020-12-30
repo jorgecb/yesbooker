@@ -38,7 +38,7 @@ export const listSucursales = (data:{}, displayName:any) =>({
 });
 export const addSucursal =(data:{}, displayName:any)=>({
     type: types.addSucursal,
-    payload:{
+    payload:{ 
         data,
         displayName
     }

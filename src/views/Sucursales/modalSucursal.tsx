@@ -1,26 +1,26 @@
-import React, { FormEvent, useState } from 'react';
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import withStyles from '@material-ui/core/styles/withStyles';
-import { createStyles } from '@material-ui/core';
-import { ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
+import React, { FormEvent, useState } from "react";
+import Button from "@material-ui/core/Button";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import withStyles from "@material-ui/core/styles/withStyles";
+import { createStyles } from "@material-ui/core";
+import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
 const styles = createStyles({
-    cardCategoryWhite: {
-        '&,& a,& a:hover,& a:focus': {
-            color: 'rgba(255,255,255,.62)',
-            margin: '0',
-            fontSize: '14px',
-            marginTop: '0',
-            marginBottom: '0'
-        },
-        '& a,& a:hover,& a:focus': {
-            color: '#FFFFFF'
-        }
-    }
+  cardCategoryWhite: {
+    "&,& a,& a:hover,& a:focus": {
+      color: "rgba(255,255,255,.62)",
+      margin: "0",
+      fontSize: "14px",
+      marginTop: "0",
+      marginBottom: "0",
+    },
+    "& a,& a:hover,& a:focus": {
+      color: "#FFFFFF",
+    },
+  },
 });
  
 interface Sucursal{
@@ -147,8 +147,8 @@ const modalSocio = (props:any) =>{
     const handleClose = () => {
       setData(sucursal);
       setIntfz({
-          ttl:"Resgistro de Sucursales",
-          bt:"Registrar",
+        ttl: "Resgistro de Sucursales",
+        bt: "Registrar",
       });
       setOpen(false);
     };
@@ -379,17 +379,17 @@ const modalSocio = (props:any) =>{
                     fullWidth
                 />
             <DialogActions>
-                <Button onClick={handleClose} color="primary">
-                    Cancelar
-                </Button>
-                <Button type="submit" color="primary">
-                    {intfz.bt}
-                </Button>
+              <Button onClick={handleClose} color="primary">
+                Cancelar
+              </Button>
+              <Button type="submit" color="primary">
+                {intfz.bt}
+              </Button>
             </DialogActions>
-            </ValidatorForm>
-            </DialogContent>
-        </Dialog>
-        </>
-    );
-  }
-  export default withStyles(styles)(modalSocio);
+          </ValidatorForm>
+        </DialogContent>
+      </Dialog>
+    </>
+  );
+};
+export default withStyles(styles)(modalSocio);

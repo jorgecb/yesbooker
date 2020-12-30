@@ -10,6 +10,8 @@ db.version(1).stores(
     Clientes:'++id, Nombre, Telefono, Email, Idioma, Edad, deleted, inserver',
     Rol: "++id, rol, inserve",
     });
+     
+
     db.version(10).stores(
         { 
         Usuarios: '++id, nombre, materno, email, deleted, inserver',
