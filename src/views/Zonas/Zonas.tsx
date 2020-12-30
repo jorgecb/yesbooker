@@ -19,7 +19,7 @@ const styles = createStyles({
             color: 'rgba(255,255,255,.62)',
             margin: '0',
             fontSize: '14px',
-            marginTop: '0',
+            marginTop: '0', 
             marginBottom: '0'
         },
         '& a,& a:hover,& a:focus': {
@@ -44,7 +44,7 @@ const zonaList = (props:[] ) =>{
         listadoUpd();
        
 },[]);
-const columns = ["id","nombre_socio","email"];
+const columns = ["id","nombre_zona","descripcion"];
     const data:any = (Zonas.valueOf() != {} && Zonas.toString() != '[object Object]') 
     ? Zonas.valueOf() : [];
 
@@ -54,6 +54,7 @@ return(
     <React.Fragment>
     <GridContainer>
         <GridItem xs={12} sm={12} md={12}>
+            <Card>
             <CardHeader color="$38">
                 <h4>zonas</h4><ModalZonas create={oncreate}/>
                 <MUIDataTable
@@ -62,6 +63,7 @@ return(
                 columns={columns}
                 />
             </CardHeader>
+            </Card>
         </GridItem>
     </GridContainer>
     </React.Fragment>

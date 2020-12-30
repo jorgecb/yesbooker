@@ -7,3 +7,17 @@ export const addSucursal =(data:{}, displayName:any)=>({
         displayName
     }
 });
+export const uptSucursal =(data:{}, displayName:any)=>({
+    type: types.uptSucursal,
+    payload:{
+        data,
+        displayName
+    }
+});
+export const delSucursal =(data:{}, displayName:any)=>({
+    type: types.delSucursal,
+    payload:{
+        data,
+        displayName
+    }
+});

@@ -1,4 +1,4 @@
-import React, { useEffect, useState,} from 'react';
+import React, { useEffect, useState, useRef} from 'react';
 import ReactDOM from 'react-dom';
 import withStyles from '@material-ui/core/styles/withStyles';
 import { createStyles, Grid } from '@material-ui/core';
@@ -13,7 +13,7 @@ import CardBody from '../../components/Card/CardBody';
 import MUIDataTable,{MUIDataTableState,TableSelectCell} from "mui-datatables";
 
 import { useDispatch } from 'react-redux';
-import { addSocio } from '../../actions/sociosAct'
+import { addSocio,uptSocio,delSocio, fetchSo } from '../../actions/sociosAct'
 const styles = createStyles({
     cardCategoryWhite: {
         '&,& a,& a:hover,& a:focus': {
@@ -28,7 +28,7 @@ const styles = createStyles({
         }
     }
 });
-const socioList = (props : any) => {  
+const socioList = (props : any) => {
     const dispatch = useDispatch();
     const [Socios, setSocios] = useState([]);
     const [socio, setSocio] = useState({
@@ -37,6 +37,7 @@ const socioList = (props : any) => {
     const onupd=(socioUpd:any)=>{
         console.log(socioUpd);
         SociosDB.update(socioUpd.id,socioUpd.soc);
+        dispatch( uptSocio(socioUpd,'actualizado'));
         setSocio({
             data:{},
             chPas:false,});
@@ -46,19 +47,22 @@ const socioList = (props : any) => {
     const oncreate=(socio:any)=>{
       SociosDB.add(socio);
       dispatch( addSocio(socio,'guardado'));
+      setSocio({
+        data:{},
+        chPas:false,});
       listadoUpd();
     }/* 
     setSocio({
         ...socio.data.valueOf(),
     }); */
     const listadoUpd=()=>{
-        SociosDB.listAll().then(function(res){/* 
+/*         SociosDB.listAll().then(function(res){
             setSocios(res);
             if(Object.keys(res).length<=1){
                 alert("Los ejemplos se eliminaran automaticamente al ir ingresando datos");
-            }; */
+            }; 
             console.log(res);
-        });
+        }); */
         SociosDB.listNotDell().then(function(dev){
             setSocios(dev);
             if(Object.keys(dev).length<=1){
@@ -67,6 +71,7 @@ const socioList = (props : any) => {
             };
             console.log(dev);
         })
+        dispatch( fetchSo( {} ,'List'));
     }
     useEffect(()=>{
         console.log(socio);
@@ -75,7 +80,7 @@ const socioList = (props : any) => {
         /* Socio.add({nombre_socio:"chuy",email:"chuy@chuy.com",inserver:false}) */
         listadoUpd();
     },[]);
-    const columns = ["id","nombre_socio","email"];
+    const columns = ["id","nombre_socio","email","nombre_contacto","telefono","clabe","beneficiario","cuota","notas","fecha_modifica","fecha_agrega","usuario_modifica","usuario_crea"];
     let dataT:any;
     if(Object.keys(Socios).length<=1){
         if(Object.keys(Socios).length===0){
@@ -110,7 +115,7 @@ const socioList = (props : any) => {
             return },
             onRowsDelete:(ro:{data:[]},lookup:{})=>{
                 ro.data.map((dato:{dataIndex:any})=>{
-                    setSocio({data:dataT[dato.dataIndex],chPas:false});
+                    /* setSocio({data:dataT[dato.dataIndex],chPas:false}); */
                     let regD:any ={id:dataT[dato.dataIndex].id,nombre:dataT[dato.dataIndex].nombre_socio};
                     delete dataT[dato.dataIndex].id;
                     let valDel = confirm("deseas borrar datos: \n"+dataT[dato.dataIndex].nombre_socio);
@@ -119,20 +124,21 @@ const socioList = (props : any) => {
                         dataT[dato.dataIndex].inserver=false;
                         SociosDB.update(regD.id,dataT[dato.dataIndex]);
                         alert("Borrado correctamente: \n"+regD.nombre);
+                        dispatch( delSocio(dataT[dato.dataIndex],'borrado'));
                         listadoUpd();
                     }else{
                         alert("Se conservo la información: \n"+regD.nombre);
                         listadoUpd();
                     };
-                    console.log(dato,socio,dataT[dato.dataIndex],regD.id);
                 });
+                setSocio({data:{},chPas:false,});
                 return console.log(ro.data);},
     };
     return ( 
         <React.Fragment>
-        <GridContainer>
+        <GridContainer >
             <GridItem xs={12} sm={12} md={12}>
-                <Card>
+                <Card >
                     <CardHeader color="$38" >
                         <h4>Listado de Socios</h4><ModalSocio create={oncreate} update={socio} upd={onupd} />
                         <MUIDataTable

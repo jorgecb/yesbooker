@@ -1,4 +1,4 @@
-import React, { FormEvent, useState } from 'react';
+import React, { FormEvent, useState, useRef } from 'react';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -8,6 +8,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import withStyles from '@material-ui/core/styles/withStyles';
 import { createStyles } from '@material-ui/core';
 import { ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
+import classNames from 'classnames';
 const styles = createStyles({
     cardCategoryWhite: {
         '&,& a,& a:hover,& a:focus': {
@@ -22,19 +23,39 @@ const styles = createStyles({
         }
     }
 });
-
 interface Socio{
     nombre_socio?: string,
+    nombre_contacto?: string,
     email?: string,
+    telefono?: string,
+    clabe?: string,
+    beneficiario?: string,
+    cuota?: number,
+    notas?: string,
+    fecha_modifica?: Date,
+    fecha_agrega?: Date,
     deleted?:boolean,
     inserver?: boolean
 }
 const modalSocio = (props:any) =>{
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    let socio:Socio={nombre_socio:"" , email:"", deleted:false, inserver:false};
+    const reference = useRef(); 
+    let socio:Socio={
+        nombre_socio:"" ,
+        email:"",
+        nombre_contacto:"",
+        telefono: "",
+        clabe: "",
+        beneficiario: "",
+        cuota: 0,
+        notas: "",
+        fecha_modifica:  new Date(),
+        fecha_agrega: new Date(),
+        deleted:false, 
+        inserver:false};
     const [open, setOpen] = useState(false);
     const [Data, setData] = useState<Socio>(socio);
-    const {nombre_socio, email} = Data;
+    const {nombre_socio, email, nombre_contacto, telefono, clabe, beneficiario, cuota, notas, fecha_agrega, fecha_modifica} = Data;
     const [intfz,setIntfz] = useState({
         ttl:"Resgistro de Socios",
         bt:"Registrar",
@@ -62,11 +83,11 @@ const modalSocio = (props:any) =>{
     const handleClose = () => {
         setData(socio);
         setIntfz({
-            ttl:"Resgistro de Socios",
+               ttl:"Resgistro de Socios",
             bt:"Registrar",
         });
       setOpen(false);
-    };
+    };  
     const valida=()=>{
         ValidatorForm.addValidationRule("isValidName",(valueSt)=>{
             let val:any = /[^ \.A-Za-z0-9_\-]/g.test(valueSt.trim());
@@ -94,7 +115,7 @@ const modalSocio = (props:any) =>{
             [e.currentTarget.name]:e.currentTarget.value
         });
     };
-    const handleSubmit =() =>{
+    const handleSubmit =(e:FormEvent) =>{
         setData({
             ...Data,
             deleted:false,
@@ -116,7 +137,7 @@ const modalSocio = (props:any) =>{
         return;
     };
     return (
-        <>
+        <div>
         <Button variant="contained" color="primary" onClick={handleClickOpen}>
             Ingresar Socio
         </Button>
@@ -125,7 +146,7 @@ const modalSocio = (props:any) =>{
         </Button>
         <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">{intfz.ttl.toString()}</DialogTitle>
-            <DialogContent>
+            <DialogContent  ref={reference}>
                 <DialogContentText>
                     Formulario de Socios
                 </DialogContentText>
@@ -145,6 +166,18 @@ const modalSocio = (props:any) =>{
                 />
                 <TextValidator
                     margin="dense"
+                    id="contact_name"
+                    name="nombre_contacto"
+                    label="Nombre Contacto"
+                    type="text"
+                    onChange={handleChange}
+                    value={nombre_contacto}
+                    validators={["required","isValidName","notFT"]}
+                    errorMessages={["el campo es requerido","No ingresar caracteres especiales","no ingresal false/true"]}
+                    fullWidth
+                />
+                <TextValidator
+                    margin="dense"
                     id="email"
                     name="email"
                     label="Email"
@@ -153,6 +186,30 @@ const modalSocio = (props:any) =>{
                     value={email}
                     validators={["required","isEmail"]}
                     errorMessages={["el campo es requerido","tiene que ser un formato de email valido"]}
+                    fullWidth
+                />
+                <TextValidator
+                    margin="dense"
+                    id="telefono"
+                    name="telefono"
+                    label="Telefono de Contacto"
+                    type="text"
+                    onChange={handleChange}
+                    value={telefono}
+                    validators={["required","isValidName","notFT"]}
+                    errorMessages={["el campo es requerido","No ingresar caracteres especiales","no ingresal false/true"]}
+                    fullWidth
+                />
+                <TextValidator
+                    margin="dense"
+                    id="clabe"
+                    name="clabe"
+                    label="Clab interbancaria"
+                    type="text"
+                    onChange={handleChange}
+                    value={clabe}
+                    validators={["required","isValidName","notFT"]}
+                    errorMessages={["el campo es requerido","No ingresar caracteres especiales","no ingresal false/true"]}
                     fullWidth
                 />
             <DialogActions>
@@ -166,7 +223,7 @@ const modalSocio = (props:any) =>{
             </ValidatorForm>
             </DialogContent>
         </Dialog>
-        </>
+        </div>
     );
   }
   export default withStyles(styles)(modalSocio);

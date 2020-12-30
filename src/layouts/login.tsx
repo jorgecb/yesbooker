@@ -230,6 +230,7 @@ const Alogin = () => {
             {/*   <input type="submit" value="Login" id='input_submit' className='input_field' 
                          onClick={handleLogin}
                         disabled={state.isButtonDisabled}>
+
                          </input>
                        */}
             <CardActions>
