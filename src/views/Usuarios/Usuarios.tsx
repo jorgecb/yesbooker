@@ -12,7 +12,8 @@ import ModalUsuario from "./modalUsuario";
 
 import { useDispatch } from "react-redux";
 import { addUsuario, uptUsuario, delUsuario } from "../../actions/usuariosAct";
-import { usePostUsuariosService } from "../../actions/usuariosAct";
+import { getRoles } from "../../actions/Roles";
+
 const styles = createStyles({
   cardCategoryWhite: {
     "&,& a,& a:hover,& a:focus": {
@@ -29,8 +30,6 @@ const styles = createStyles({
 });
 
 const userList = (props: any) => {
-  const service = usePostUsuariosService();
-  console.log(service);
   const dispatch = useDispatch();
   const [Usuarios, setUsuarios] = useState([]);
   const [usuario, setUsuario] = useState({
@@ -38,8 +37,8 @@ const userList = (props: any) => {
     chPas: false,
   });
   const onupd = (usuarioUpd: any) => {
-    console.log(usuarioUpd);
-    User.update(usuarioUpd.id, usuarioUpd.usr);
+    /*     console.log(usuarioUpd);
+     */ User.update(usuarioUpd.id, usuarioUpd.usr);
     dispatch(uptUsuario(usuarioUpd, "actualizado"));
     setUsuario({
       data: {},
@@ -60,7 +59,8 @@ const userList = (props: any) => {
           if(Object.keys(res).length<=1){
               alert("Los ejemplos se eliminaran automaticamente al ir ingresando datos");
           }; */
-      console.log(res);
+/*       console.log(res);
+ */
     });
     User.listNotDell().then(function(dev) {
       setUsuarios(dev);
@@ -70,8 +70,9 @@ const userList = (props: any) => {
             "es indisplensable llenar los dos primeros registros para comenzar"
         );
       }
-      console.log(dev);
-    });
+/*       console.log(dev);
+ */    });
+    dispatch(getRoles({}, "List"));
   };
   useEffect(() => {
     listadoUpd();

@@ -1,31 +1,32 @@
-
 export const types = {
-  addSucursal: '[Sucursales] Add',
-  uptSucursal: '[Sucursales] Upt',
-  delSucursal: '[Sucursales] Del',
-  getUsuarios: '[Usuarios] List',
-  addUsuario: '[Usuarios] Add',
-  uptUsuario: '[Usuarios] Upt',
-  delUsuario: '[Usuarios] Add',
-  fetchSocios: '[Socios] List',
-  addSocio: '[Socios] Add',
-  uptSocio: '[Socios] Upt',
-  delSocio: '[Socios] Del',
-}
+  addSucursal: "[Sucursales] Add",
+  uptSucursal: "[Sucursales] Upt",
+  delSucursal: "[Sucursales] Del",
 
+  getRoles: "[Roles] List",
+
+  getUsuarios: "[Usuarios] List",
+  addUsuario: "[Usuarios] Add",
+  uptUsuario: "[Usuarios] Upt",
+  delUsuario: "[Usuarios] Add",
+  fetchSocios: "[Socios] List",
+  addSocio: "[Socios] Add",
+  uptSocio: "[Socios] Upt",
+  delSocio: "[Socios] Del",
+};
 
 interface ServiceInit {
-  status: 'init';
+  status: "init";
 }
 interface ServiceLoading {
-  status: 'Cargando....';
+  status: "Cargando....";
 }
 interface ServiceLoaded<T> {
-  status: 'Cargado';
+  status: "Cargado";
   payload: T;
 }
 interface ServiceError {
-  status: 'error';
+  status: "error";
   error: Error;
 }
 export type Service<T> =

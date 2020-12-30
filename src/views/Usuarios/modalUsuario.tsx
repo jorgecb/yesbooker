@@ -12,11 +12,15 @@ import {
   FormHelperText,
   makeStyles,
   MenuItem,
+  NativeSelect,
   Select,
 } from "@material-ui/core";
+import Rol from "../../database/AcRoles";
+
 import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
 import { App } from "./formImg";
 import { Theme } from "@material-ui/core/styles";
+
 const styles = createStyles({
   cardCategoryWhite: {
     "&,& a,& a:hover,& a:focus": {
@@ -73,6 +77,9 @@ const modalUsuario = (props: any) => {
   };
   const [open, setOpen] = useState(false);
   const [Data, setData] = useState<Usuario>(usuario);
+  const [Roles, setRoles] = useState();
+  console.log(Roles);
+
   const { nombre, materno, email, password, repeatPassword, Img64 } = Data;
   const [intfz, setIntfz] = useState({
     ttl: "Resgistro de Usuarios",
@@ -97,12 +104,25 @@ const modalUsuario = (props: any) => {
     });
     /* ValidatorForm.addValidationRule("isValidName",(valueSt)=>/(^[ \w+])/g.test(valueSt)); */
   };
+
   const handleClickOpen = () => {
     if (Object.keys(props.update.data).length !== 0) {
       return alert(
         "no se puede registrar mientras existan elementos selecionados"
       );
     }
+    Rol.listAll().then((res: any) => {
+      res.map((item: any, i: any) => {
+        console.log(item.rol);
+        setRoles(item.rol);
+        return;
+      });
+    });
+   
+   
+
+
+
     setOpen(true);
     valida();
   };
@@ -127,28 +147,15 @@ const modalUsuario = (props: any) => {
       bt: "Registrar",
     });
     setOpen(false);
-  }; /* 
-    useEffect(() => {
-        console.log(Data),
-        console.log(Data.email)
-    }, [Data]) */
-    if (!ValidatorForm.hasValidationRule('addValidationRule')) {
-      ValidatorForm.addValidationRule('isPasswordMatch', (value) => {
-          const { formData } = this.state;
-          if (value !== formData.password) {
-              return false;
-          }
-          return true;
-      });
-  }
+  };
   const handleChange = (e: FormEvent<HTMLInputElement>, t: string) => {
     setData({
       ...Data,
       [e.currentTarget.name]: e.currentTarget.value,
     });
-    if (e.currentTarget.name === "password") {
+    /*    if (e.currentTarget.name === "password") {
       this.form.isFormValid(false);
-    }
+    } */
   };
 
   const handleSubmit = () => {
@@ -241,6 +248,7 @@ const modalUsuario = (props: any) => {
               ]}
               fullWidth
             />
+
             <TextValidator
               label="Password"
               onChange={handleChange}
@@ -260,6 +268,7 @@ const modalUsuario = (props: any) => {
               errorMessages={["password mismatch", "this field is required"]}
               value={repeatPassword}
             />
+
             <TextValidator
               autoFocus
               margin="dense"
@@ -279,21 +288,20 @@ const modalUsuario = (props: any) => {
             />
 
             <FormControl className={classes.formControl}>
-              <Select
-                value={age}
-                onChange={handleChangeSele}
-                displayEmpty
+              <NativeSelect
                 className={classes.selectEmpty}
-                inputProps={{ "aria-label": "Without label" }}
+                value={Roles}
+                name="age"
+                /* onChange={handleChange}
+                 */ inputProps={{ "aria-label": "age" }}
               >
-                <MenuItem value="" disabled>
-                  Roles{" "}
-                </MenuItem>
-                <MenuItem value={10}>Ten</MenuItem>
-                {/* <MenuItem value={20}>Twenty</MenuItem>
-                                <MenuItem value={30}>Thirty</MenuItem>
-                             */}
-              </Select>
+                <option value="" disabled>
+                  Placeholder
+                </option>
+
+                <option value={Roles}></option>
+
+              </NativeSelect>
               <FormHelperText>Placeholder</FormHelperText>
             </FormControl>
 
