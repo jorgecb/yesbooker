@@ -22,7 +22,6 @@ const styles = createStyles({
     },
   },
 });
-<<<<<<< HEAD
 
 interface Sucursal {
   nombre_sucursal?: string;
@@ -121,8 +120,7 @@ const modalSocio = (props: any) => {
         },
       });
       setOpen(false);
-=======
- 
+
 interface Sucursal{
     nombre_sucursal?: string,
     nombre_contacto?: string,
@@ -245,13 +243,12 @@ const modalSocio = (props:any) =>{
         setOpen(true);
       };
     const handleClose = () => {
->>>>>>> 1e47b25e46bb1fe537200646b5d3e380fd29b11b
       setData(sucursal);
       setIntfz({
         ttl: "Resgistro de Sucursales",
         bt: "Registrar",
       });
-<<<<<<< HEAD
+
       return;
     }
     props.create({
@@ -315,7 +312,6 @@ const modalSocio = (props:any) =>{
               ]}
               fullWidth
             />
-=======
       setOpen(false);
     };
     /* useEffect(() => {
@@ -544,7 +540,10 @@ const modalSocio = (props:any) =>{
                     errorMessages={["el campo es requerido","Debe tener el sigiente formato dd:dd en 24 hrs (10:30 o 22:30)"]}
                     fullWidth
                 />
+<<<<<<< HEAD
 >>>>>>> 1e47b25e46bb1fe537200646b5d3e380fd29b11b
+=======
+>>>>>>> ebc7f6c826d8034a0beb74114dccd860f020f90e
             <DialogActions>
               <Button onClick={handleClose} color="primary">
                 Cancelar

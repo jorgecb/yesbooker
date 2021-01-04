@@ -5,8 +5,11 @@ import { composeWithDevTools } from 'redux-devtools-extension'
 import { sucursalesReducer } from '../reducers/sucursalesReducer';
 import { sociosReducer } from '../reducers/sociosReducer';
 import { usuariosReducer } from '../reducers/usuariosReducer';
+import rootReducer from "../redux/reducers";
 import { clientesReducer } from '../reducers/clientesReducer';
-const reducers = combineReducers({
+
+export const reducers = combineReducers({
+    rootReducer,
     sucursales: sucursalesReducer,
     socios: sociosReducer,
     usuarios: usuariosReducer,

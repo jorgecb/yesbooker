@@ -27,7 +27,7 @@ const dashboardRoutes = [
     layout: '/admin'
   },
   {
-    path: '/Cientes',
+    path: '/Clientes',
     name: 'Clientes',   
 
     icon: AssignmentIndIcon,

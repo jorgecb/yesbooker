@@ -9,12 +9,8 @@ const db = new Dexie("Roles");
 db.version(1).stores({
   Rol: "++Id, Roles",
 });
-export const uptUsuario =(data:{}, displayName:any)=>({
-    type: types.uptUsuario,
-    payload:{
-        data,
-        displayName
-    } 
+db.open().catch((err) => {
+  console.log(err);
 });
 
 const tableName = "Rol";
