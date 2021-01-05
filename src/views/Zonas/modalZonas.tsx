@@ -26,10 +26,12 @@ const styles = createStyles({
 interface Zona{
     nombre_zona? : string,
     descripcion? : string,
+    deleted?:boolean,
     inserver? : boolean
 }
 const modalZonas = (props:any) => {
-  let zona:Zona={nombre_zona:"", descripcion:""};
+  let zona:Zona={nombre_zona:"", descripcion:"", deleted:false, inserver:false};
+
   const [open, setOpen] = useState(false);
   const [Data, setdata] = useState<Zona>(zona);
   const {nombre_zona, descripcion} = Data;
@@ -54,7 +56,7 @@ const modalZonas = (props:any) => {
         ...Data,
         inserver: false
       });
-      props.create({nombre_zona: Data.nombre_zona,descripcion: Data.descripcion, inserver: Data.inserver});
+      props.create({nombre_zona: Data.nombre_zona,descripcion: Data.descripcion,deleted:Data.deleted, inserver: Data.inserver});
       setOpen(false);
       setdata(zona);
     };

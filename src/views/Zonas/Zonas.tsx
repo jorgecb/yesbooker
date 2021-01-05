@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import ReactDOM from 'react-dom';
 import withStyles from '@material-ui/core/styles/withStyles';
-import Zona from '../../database/Zonas';
-import ModalZonas from './modalZonas';
 import { createStyles, Grid } from '@material-ui/core';
 import GridContainer from '../../components/Grid/GridContainer';
 import GridItem from '../../components/Grid/GridItem';
-import { card } from '../../assets/jss/material-dashboard-react';
-import { cardHeader } from '../../assets/jss/material-dashboard-react';
 import Card from '../../components/Card/Card';
 import CardHeader from '../../components/Card/CardHeader';
 import CardBody from '../../components/Card/CardBody';
 import MUIDataTable from 'mui-datatables';
+import Zone from '../../database/Zonas';
+import ModalZonas from './modalZonas';
+
+
+import { useDispatch } from 'react-redux';
+import { addZona, uptZona, delZona } from '../../actions/zonasAct'
 
 const styles = createStyles({
     cardCategoryWhite: {
@@ -27,27 +28,104 @@ const styles = createStyles({
         }
     }
 });
-const zonaList = (props:[] ) =>{
-    const[Zonas, setZonas] = useState({});
-    let result=Array();
-    const oncreate =(zona:any)=>{
-        Zona.add(zona);
+const zonaList = (props:any ) =>{
+    const dispatch= useDispatch();
+    const[Zonas, setZonas] = useState([]);
+    const[Zona, setZona] = useState({
+        data:{},
+        chPas:false,
+    });
+    const onupd=(zonaUpd:any)=>{
+        Zone.update(zonaUpd.id,zonaUpd.zon);
+        dispatch( uptZona(zonaUpd,'actualizado'));
+        setZona({
+            data:{},
+            chPas:false,
+          });
+        alert("se actualizo una zona");
+        listadoUpd();
+    };
+    const oncreate=(zona:any)=>{
+        Zone.add(zona);
+        dispatch( addZona(zona,'guardado'));
         listadoUpd();
     }
     const listadoUpd=()=>{
-        Zona.listAll().then(function(res){
-            setZonas(res);
-            console.log(res);
-        });
+        Zone.listAll().then(function(res){/* 
+          setUsuarios(res);
+          if(Object.keys(res).length<=1){
+              alert("Los ejemplos se eliminaran automaticamente al ir ingresando datos");
+          }; */
+          /* console.log(res);
+       */});
+      Zone.listNotDell().then(function(dev){
+          console.log(dev);
+          setZonas(dev);
+          if(Object.keys(dev).length<=1){
+              alert("Los ejemplos se eliminaran automaticamente al ir ingresando datos \n"+
+              "es indisplensable llenar los dos primeros registros para comenzar");
+          };
+          console.log(dev);
+      });
     }
-    useEffect(() => {
-        listadoUpd();
-       
-},[]);
+  useEffect(() => {
+      
+      listadoUpd();
+  }, [])
 const columns = ["id","nombre_zona","descripcion"];
-    const data:any = (Zonas.valueOf() != {} && Zonas.toString() != '[object Object]') 
-    ? Zonas.valueOf() : [];
+let dataS:any;
+if(Object.keys(Zonas).length<=1){
+    if(Object.keys(Zonas).length===0){
+        dataS=[{nombre_zona:"name", descripcion:"description", deleted:false,inserver:true},
+        {nombre_zona:"name2", descripcion:"descripcion", deleted:false,inserver:true}];
 
+    }else{
+        dataS=[Zonas[0],
+        {nombre_zona:"name2", descripcion:"descripcion", deleted:false,inserver:true}]; 
+    }
+
+}else{
+    dataS=Zonas.valueOf();
+};
+
+const options:{} = {
+    filterType: 'checkbox',
+    onRowSelectionChange:(dat:any,cell:any)=>{
+        if(cell.length <= 0){
+            setZona({data:{},chPas:false,});
+            return;
+        };
+        if(cell.length > 1){
+            setZona({
+                data:dataS[cell[0].dataIndex].valueOf(),
+                chPas:false,
+            });
+           return;
+        };
+        setZona({data:dataS[cell[0].dataIndex].valueOf(),chPas:true,});
+        return; },
+        onRowsDelete:(ro:{data:[]},lookup:{})=>{
+            ro.data.map((dato:{dataIndex:any})=>{
+                /* setUsuario({data:dataT[dato.dataIndex],chPas:false,}); */
+                let regD:any ={id:dataS[dato.dataIndex].id,nombre:dataS[dato.dataIndex].nombre};
+                delete dataS[dato.dataIndex].id;
+                let valDel = confirm("deseas borrar datos: \n"+dataS[dato.dataIndex].nombre);
+                if(valDel===true){
+                    dataS[dato.dataIndex].deleted=true;
+                    dataS[dato.dataIndex].inserver=false;
+                    Zone.update(regD.id,dataS[dato.dataIndex]);
+                    dispatch( delZona(dataS[dato.dataIndex],'borrado'));
+                    alert("Borrado correctamente: \n"+regD.nombre);
+                    listadoUpd();
+                }else{
+                    alert("Se conservo la información: \n"+regD.nombre);
+                    listadoUpd();
+                };
+                setZona({data:{},chPas:false,});
+            });
+            return /* console.log(ro.data); */},
+};
+ 
 
 return(
 
@@ -56,11 +134,12 @@ return(
         <GridItem xs={12} sm={12} md={12}>
             <Card>
             <CardHeader color="$38">
-                <h4>zonas</h4><ModalZonas create={oncreate}/>
+                <h4>zonas</h4><ModalZonas create={oncreate}update={Zonas} upd={onupd}/>
                 <MUIDataTable
                 title={"zonas"}
-                data={data}
+                data={dataS}
                 columns={columns}
+                options={options}
                 />
             </CardHeader>
             </Card>

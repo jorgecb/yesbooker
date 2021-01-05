@@ -9,4 +9,7 @@ export const types ={
     addSocio: '[Socios] Add',
     uptSocio:'[Socios] Upt',
     delSocio:'[Socios] Del',
+    addZona: '[Zonas] Add',
+    uptZona:'[Zonas] Upt',
+    delZona:'[Zonas] Del',
 }

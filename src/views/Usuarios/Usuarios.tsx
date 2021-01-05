@@ -41,7 +41,7 @@ const userList = (props: any) => {
         setUsuario({
             data:{},
             chPas:false,
-          });
+          }); 
         alert("se actualizo un registro");
         listadoUpd();
     };
