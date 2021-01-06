@@ -5,7 +5,6 @@ import GridContainer from '../../components/Grid/GridContainer';
 import GridItem from '../../components/Grid/GridItem';
 import Card from '../../components/Card/Card';
 import CardHeader from '../../components/Card/CardHeader';
-import CardBody from '../../components/Card/CardBody';
 import MUIDataTable from 'mui-datatables';
 import Zone from '../../database/Zonas';
 import ModalZonas from './modalZonas';
@@ -28,7 +27,7 @@ const styles = createStyles({
         }
     }
 });
-const zonaList = (props:any ) =>{
+const zonaList = (props:[] ) =>{
     const dispatch= useDispatch();
     const[Zonas, setZonas] = useState([]);
     const[Zona, setZona] = useState({
@@ -51,11 +50,11 @@ const zonaList = (props:any ) =>{
         listadoUpd();
     }
     const listadoUpd=()=>{
-        Zone.listAll().then(function(res){/* 
-          setUsuarios(res);
+        Zone.listAll().then(function(res){ 
+          setZonas(res);
           if(Object.keys(res).length<=1){
               alert("Los ejemplos se eliminaran automaticamente al ir ingresando datos");
-          }; */
+          }; 
           /* console.log(res);
        */});
       Zone.listNotDell().then(function(dev){
@@ -63,7 +62,7 @@ const zonaList = (props:any ) =>{
           setZonas(dev);
           if(Object.keys(dev).length<=1){
               alert("Los ejemplos se eliminaran automaticamente al ir ingresando datos \n"+
-              "es indisplensable llenar los dos primeros registros para comenzar");
+              "es indisplensable llenar los dos registros para comenzar");
           };
           console.log(dev);
       });
@@ -106,7 +105,7 @@ const options:{} = {
         return; },
         onRowsDelete:(ro:{data:[]},lookup:{})=>{
             ro.data.map((dato:{dataIndex:any})=>{
-                /* setUsuario({data:dataT[dato.dataIndex],chPas:false,}); */
+                /* setZona({data:dataT[dato.dataIndex],chPas:false,}); */
                 let regD:any ={id:dataS[dato.dataIndex].id,nombre:dataS[dato.dataIndex].nombre};
                 delete dataS[dato.dataIndex].id;
                 let valDel = confirm("deseas borrar datos: \n"+dataS[dato.dataIndex].nombre);
@@ -121,15 +120,17 @@ const options:{} = {
                     alert("Se conservo la información: \n"+regD.nombre);
                     listadoUpd();
                 };
-                setZona({data:{},chPas:false,});
+                console.log(dato,Zona,dataS[dato.dataIndex],regD.id);
+                
             });
-            return /* console.log(ro.data); */},
+            setZona({data:{},chPas:false,});
+            return console.log(ro.data); },
 };
  
 
 return(
 
-    <React.Fragment>
+   
     <GridContainer>
         <GridItem xs={12} sm={12} md={12}>
             <Card>
@@ -145,7 +146,7 @@ return(
             </Card>
         </GridItem>
     </GridContainer>
-    </React.Fragment>
+   
 )
 
 }
