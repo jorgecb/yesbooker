@@ -73,8 +73,9 @@ const modalZonas= (props:any) =>{
         setIntfz({ttl:"Actualizar Zona",
                     bt:"Actualizar",
         });
-        valida();
         setOpen(true);
+        valida();
+        
       };
     const handleClose = () => {
         setData(zonas);
