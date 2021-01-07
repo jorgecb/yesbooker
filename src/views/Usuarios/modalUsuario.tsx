@@ -55,29 +55,32 @@ interface Usuario {
   Img64?: string;
   password?: string;
   repeatPassword?: string;
+  rol?: string;
+
   deleted?: boolean;
   inserver?: boolean;
 }
 const modalUsuario = (props: any) => {
   const classes = useStyles();
-  const [age, setAge] = React.useState("");
 
-  const handleChangeSele = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setAge(event.target.value as string);
-  };
-  // eslint-disable-next-line react-hooks/rules-of-hooks
   let usuario: Usuario = {
     nombre: "",
     materno: "",
     email: "",
     password: "",
     repeatPassword: "",
+    rol: "",
     deleted: false,
     inserver: false,
   };
   const [open, setOpen] = useState(false);
   const [Data, setData] = useState<Usuario>(usuario);
-  const [Roles, setRoles] = useState();
+  const [Roles, setRoles] = useState([]);
+  const DataSelect = ["this", "example", "isnt", "funny"],
+    MakeItem = function(X: any) {
+      return <MenuItem value={X.id}>{X.rol}</MenuItem>;
+    };
+
   console.log(Roles);
 
   const { nombre, materno, email, password, repeatPassword, Img64 } = Data;
@@ -112,16 +115,17 @@ const modalUsuario = (props: any) => {
       );
     }
     Rol.listAll().then((res: any) => {
-      res.map((item: any, i: any) => {
-        console.log(item.rol);
-        setRoles(item.rol);
-        return;
-      });
+      setRoles(res);
     });
-   
-   
 
+    /* {
+      console.log(res)
 
+      res.map((value: any) => {
+        console.log(value)
+        return setRoles(value.rol);
+      });
+    }); */
 
     setOpen(true);
     valida();
@@ -156,6 +160,12 @@ const modalUsuario = (props: any) => {
     /*    if (e.currentTarget.name === "password") {
       this.form.isFormValid(false);
     } */
+  };
+
+  const [age, setAge] = React.useState("");
+
+  const handleChange1 = (event: React.ChangeEvent<{ value: unknown }>) => {
+    setAge(event.target.value as string);
   };
 
   const handleSubmit = () => {
@@ -233,6 +243,7 @@ const modalUsuario = (props: any) => {
               ]}
               fullWidth
             />
+
             <TextValidator
               margin="dense"
               id="email"
@@ -248,7 +259,6 @@ const modalUsuario = (props: any) => {
               ]}
               fullWidth
             />
-
             <TextValidator
               label="Password"
               onChange={handleChange}
@@ -268,7 +278,6 @@ const modalUsuario = (props: any) => {
               errorMessages={["password mismatch", "this field is required"]}
               value={repeatPassword}
             />
-
             <TextValidator
               autoFocus
               margin="dense"
@@ -288,20 +297,18 @@ const modalUsuario = (props: any) => {
             />
 
             <FormControl className={classes.formControl}>
-              <NativeSelect
+              <Select
+                value={age}
+                onChange={handleChange1}
+                displayEmpty
                 className={classes.selectEmpty}
-                value={Roles}
-                name="age"
-                /* onChange={handleChange}
-                 */ inputProps={{ "aria-label": "age" }}
+                inputProps={{ "aria-label": "Without label" }}
               >
-                <option value="" disabled>
-                  Placeholder
-                </option>
-
-                <option value={Roles}></option>
-
-              </NativeSelect>
+                <MenuItem value="" disabled>
+                  Seleccione un Rol
+                </MenuItem>
+                {Roles.map(MakeItem)}
+              </Select>
               <FormHelperText>Placeholder</FormHelperText>
             </FormControl>
 
@@ -353,7 +360,6 @@ const modalUsuario = (props: any) => {
               ]}
               fullWidth
             />
-
             <DialogActions>
               <Button onClick={handleClose} color="primary">
                 Cancelar
