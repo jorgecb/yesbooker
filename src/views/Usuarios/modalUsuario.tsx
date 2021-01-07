@@ -38,10 +38,10 @@ const styles = createStyles({
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    formControl: {
+    /*    formControl: {
       margin: theme.spacing(1),
       minWidth: 120,
-    },
+    }, */
     selectEmpty: {
       marginTop: theme.spacing(2),
     },
@@ -76,14 +76,11 @@ const modalUsuario = (props: any) => {
   const [open, setOpen] = useState(false);
   const [Data, setData] = useState<Usuario>(usuario);
   const [Roles, setRoles] = useState([]);
-  const DataSelect = ["this", "example", "isnt", "funny"],
-    MakeItem = function(X: any) {
-      return <MenuItem value={X.id}>{X.rol}</MenuItem>;
-    };
+  const [roleSelect, setRole] = React.useState("");
 
-  console.log(Roles);
+  const MakeItem = (X: any) => <MenuItem value={X.rol}>{X.rol}</MenuItem>;
 
-  const { nombre, materno, email, password, repeatPassword, Img64 } = Data;
+  const { nombre, materno, email, rol, password, repeatPassword, Img64 } = Data;
   const [intfz, setIntfz] = useState({
     ttl: "Resgistro de Usuarios",
     bt: "Registrar",
@@ -118,15 +115,6 @@ const modalUsuario = (props: any) => {
       setRoles(res);
     });
 
-    /* {
-      console.log(res)
-
-      res.map((value: any) => {
-        console.log(value)
-        return setRoles(value.rol);
-      });
-    }); */
-
     setOpen(true);
     valida();
   };
@@ -139,6 +127,7 @@ const modalUsuario = (props: any) => {
       nombre: props.update.data.nombre,
       materno: props.update.data.materno,
       email: props.update.data.email,
+      rol: props.update.data.rol,
     });
     setIntfz({ ttl: "Actualizar Usuario", bt: "Actualizar" });
     valida();
@@ -162,10 +151,8 @@ const modalUsuario = (props: any) => {
     } */
   };
 
-  const [age, setAge] = React.useState("");
-
   const handleChange1 = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setAge(event.target.value as string);
+    setRole(event.target.value as string);
   };
 
   const handleSubmit = () => {
@@ -181,7 +168,9 @@ const modalUsuario = (props: any) => {
           nombre: Data.nombre,
           materno: Data.materno,
           email: Data.email,
+          rol: roleSelect,
           deleted: false,
+
           inserver: false,
         },
       });
@@ -198,6 +187,8 @@ const modalUsuario = (props: any) => {
       nombre: Data.nombre,
       materno: Data.materno,
       email: Data.email,
+      rol: roleSelect,
+
       deleted: Data.deleted,
       inserver: Data.inserver,
     });
@@ -259,7 +250,7 @@ const modalUsuario = (props: any) => {
               ]}
               fullWidth
             />
-            <TextValidator
+           {/*  <TextValidator
               label="Password"
               onChange={handleChange}
               name="password"
@@ -277,7 +268,7 @@ const modalUsuario = (props: any) => {
               validators={["isPasswordMatch", "required"]}
               errorMessages={["password mismatch", "this field is required"]}
               value={repeatPassword}
-            />
+            /> */}
             <TextValidator
               autoFocus
               margin="dense"
@@ -296,21 +287,18 @@ const modalUsuario = (props: any) => {
               fullWidth
             />
 
-            <FormControl className={classes.formControl}>
-              <Select
-                value={age}
-                onChange={handleChange1}
-                displayEmpty
-                className={classes.selectEmpty}
-                inputProps={{ "aria-label": "Without label" }}
-              >
-                <MenuItem value="" disabled>
-                  Seleccione un Rol
-                </MenuItem>
-                {Roles.map(MakeItem)}
-              </Select>
-              <FormHelperText>Placeholder</FormHelperText>
-            </FormControl>
+            <Select
+              value={roleSelect}
+              onChange={handleChange1}
+              displayEmpty
+              className={classes.selectEmpty}
+            >
+              <MenuItem value="" disabled>
+                Seleccione un Rol
+              </MenuItem>
+              {Roles.map(MakeItem)}
+            </Select>
+            <FormHelperText>Sele</FormHelperText>
 
             <TextValidator
               margin="dense"

@@ -59,8 +59,8 @@ const userList = (props: any) => {
           if(Object.keys(res).length<=1){
               alert("Los ejemplos se eliminaran automaticamente al ir ingresando datos");
           }; */
-/*       console.log(res);
- */
+      /*       console.log(res);
+       */
     });
     User.listNotDell().then(function(dev) {
       setUsuarios(dev);
@@ -70,15 +70,16 @@ const userList = (props: any) => {
             "es indisplensable llenar los dos primeros registros para comenzar"
         );
       }
-/*       console.log(dev);
- */    });
+      /*       console.log(dev);
+       */
+    });
     dispatch(getRoles({}, "List"));
   };
   useEffect(() => {
     listadoUpd();
   }, []);
 
-  const columns = ["id", "nombre", "materno", "email"];
+  const columns = ["id", "nombre", "rol", "materno", "email"];
   let dataT: any;
   if (Object.keys(Usuarios).length <= 1) {
     if (Object.keys(Usuarios).length === 0) {
