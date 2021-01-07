@@ -1,19 +1,9 @@
-export function HaderAccess() {
-  const user = JSON.parse(localStorage.getItem("usuarios") || "{}");
+let user = JSON.parse(localStorage.getItem("UserCredenciales") || "{}");
+const initialState = user.tkn;
+let myHeaders = new Headers();
+myHeaders.append("tkn", initialState);
 
-  if (user && user.token) {
-    return user.token;
-  } else {
-    return {};
-  }
-}
-export const token = JSON.parse(localStorage.getItem("usuarios") || "{}");
-export function authHeader() {
-  let user = JSON.parse(localStorage.getItem("usuarios") || "{}");
-
-  if (user && user.accessToken) {
-    return { "x-access-token": user.accessToken };
-  } else {
-    return {};
-  }
-}
+export const HaderAccessGET: RequestInit = {
+  method: "GET",
+  headers: myHeaders,
+};
