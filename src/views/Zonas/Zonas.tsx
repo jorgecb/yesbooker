@@ -51,12 +51,12 @@ const zonaList = (props:[] ) =>{
     }
     const listadoUpd=()=>{
         Zone.listAll().then(function(res){ 
-          setZonas(res);
+          /* setZonas(res);
           if(Object.keys(res).length<=1){
               alert("Los ejemplos se eliminaran automaticamente al ir ingresando datos");
-          }; 
-          /* console.log(res);
-       */});
+          }; */ 
+           console.log(res);
+        });
       Zone.listNotDell().then(function(dev){
           console.log(dev);
           setZonas(dev);
@@ -70,17 +70,17 @@ const zonaList = (props:[] ) =>{
   useEffect(() => {
       
       listadoUpd();
-  }, [])
-const columns = ["id","nombre_zona","descripcion"];
-let dataS:any;
-if(Object.keys(Zonas).length<=1){
-    if(Object.keys(Zonas).length===0){
-        dataS=[{nombre_zona:"name", descripcion:"description", deleted:false,inserver:true},
-        {nombre_zona:"name2", descripcion:"descripcion", deleted:false,inserver:true}];
+  }, []);
+    const columns = ["id","nombre_zona","descripcion"];
+    let dataS:any;
+        if(Object.keys(Zonas).length<=1){
+            if(Object.keys(Zonas).length===0){
+        dataS=[{nombre_zona:"nombre", descripcion:"descripcion", deleted:false,inserver:true},
+        {nombre_zona:"nombre", descripcion:"descripcion", deleted:false,inserver:true}];
 
     }else{
         dataS=[Zonas[0],
-        {nombre_zona:"name2", descripcion:"descripcion", deleted:false,inserver:true}]; 
+        {nombre_zona:"nombre", descripcion:"descripcion", deleted:false,inserver:true}]; 
     }
 
 }else{

@@ -26,7 +26,7 @@ interface Zona{
     nombre_zona?: string,
     descripcion?: string,
     deleted?:boolean,
-    inserver?: boolean
+    inserver?: boolean,
 }
 const modalZonas= (props:any) =>{
     // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -67,10 +67,10 @@ const modalZonas= (props:any) =>{
             return alert("debes elegir sólo un(1) campo a la vez");
         };
         setData({
-            nombre_zona:props.update.data.nombre_zona,
-            descripcion:props.update.data.descripcion,
+           nombre_zona:props.update.data.nombre_zona,
+           descripcion:props.update.data.descripcion,
         });
-        setIntfz({ttl:"Actualizar Zona",
+        setIntfz({ttl:"Actualizar zona",
                     bt:"Actualizar",
         });
         setOpen(true);
@@ -80,7 +80,7 @@ const modalZonas= (props:any) =>{
     const handleClose = () => {
         setData(zonas);
         setIntfz({
-            ttl:"Resgistro de zonas",
+            ttl:"Resgistro de zona",
             bt:"Registrar",
         });
       setOpen(false);
@@ -100,7 +100,7 @@ const modalZonas= (props:any) =>{
             inserver:false,
         });
         if(props.update.chPas===true){
-            props.upd({id:props.update.data.id, usr:{nombre_zona:Data.nombre_zona,descripcion:Data.descripcion,deleted:false,inserver:false}});
+            props.upd({id:props.update.data.id, zon:{nombre_zona:Data.nombre_zona,descripcion:Data.descripcion,deleted:false,inserver:false}});
             setOpen(false);
             setData(zonas);
             setIntfz({
