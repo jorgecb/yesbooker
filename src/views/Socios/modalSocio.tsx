@@ -139,6 +139,7 @@ const modalSocio = (props: any) => {
       setData(socio);
       return;
     }
+    
     props.create({
       nombre_socio: Data.nombre_socio,
       email: Data.email,

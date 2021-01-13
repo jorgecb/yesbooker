@@ -26,7 +26,7 @@ const Socio = {
     return data;
   },
   listAll() {
-    var data = db
+    var data = db 
       .table(tableName)
       .toArray()
       .then((todos) => {

@@ -72,6 +72,7 @@ const FormClientes = (props: any) => {
     Nombre: "",
     Email: "",
     Edad: "",
+    Telefono: "",
     deleted: false,
     inserver: false,
   };
@@ -80,7 +81,7 @@ const FormClientes = (props: any) => {
   const [values, setValues] = useState<State>({
     textmask: "(  )    -    ",
   });
-  const { Nombre, Email, Edad } = Data;
+  const { Nombre, Email, Edad, Telefono } = Data;
 
   const [intfz, setIntfz] = useState({
     ttl: "Resgistro de Clientes",
@@ -97,11 +98,33 @@ const FormClientes = (props: any) => {
     componentDidMount();
   };
 
- 
+  const handleClickOpening = () => {
+    if (props.update.client === true) {
+      return alert("debes elegir sólo un(1) campo a la vez");
+    }
+
+    componentDidMount();
+    setData({
+      Nombre: props.update.data.Nombre,
+      Email: props.update.data.Email,
+      Edad: props.update.data.Edad,
+      Telefono: props.update.data.Telefono,
+    });
+    console.log(props.update.data.Telefono);
+
+    setIntfz({ ttl: "Actualizar Cliente", bt: "Actualizar" });
+    componentDidMount();
+
+    const val: any =
+      props.update.client != true
+        ? setOpen(true)
+        : alert("solo se puede actualizar un registro");
+    return val;
+  };
 
   const componentDidMount = () => {
     ValidatorForm.addValidationRule("isValidName", (valueSt) => {
-      let val: any = /[^ \.A-Za-z0-9_\-]/g.test(valueSt.trim());
+      let val: any = /[^ \.A-Za-z\-]/g.test(valueSt.trim());
       if (val) {
         return false;
       } else {
@@ -117,7 +140,16 @@ const FormClientes = (props: any) => {
       }
     });
     ValidatorForm.addValidationRule("email", (valueSt) => {
-      let val: any = /[^ \.A-Za-z0-9_@\-]/g.test(valueSt.trim());
+      let val: any = /[^ \.A-Z a-z 0-9 _@\-]/g.test(valueSt.trim());
+      if (val) {
+        return false;
+      } else {
+        return true;
+      }
+    });
+   
+    ValidatorForm.addValidationRule("Telefono", (valueSt) => {
+      let val: any = /[^\.0-1-2-3-4-5-6-7-8-9\ -]/g.test(valueSt.trim());
       if (val) {
         return false;
       } else {
@@ -134,9 +166,9 @@ const FormClientes = (props: any) => {
       ttl: "Registro de Clientes",
       bt: "Registrar",
     });
-    setValues({
+    /*  setValues({
       textmask: "(  )    -    ",
-    });
+    }); */
     setOpen(false);
   };
 
@@ -147,12 +179,12 @@ const FormClientes = (props: any) => {
     });
   };
 
-  const handleChange2 = (event: any) => {
+  /* const handleChange2 = (event: any) => {
     setValues({
       ...values,
       [event.target.name]: event.target.value,
     });
-  };
+  }; */
 
   const handleSelect = (idiomas: any) => {
     setData({
@@ -168,45 +200,20 @@ const FormClientes = (props: any) => {
     });
   };
 
-  const handleClickOpening = () => {
-
-    if (props.update.client === true) {
-      return alert("debes elegir sólo un(1) campo a la vez");
-    }
-    componentDidMount();
-    setData({
-      Nombre: props.update.data.Nombre,
-      Email: props.update.data.Email,
-      Edad: props.update.data.Edad,
-      CodigoPais: props.update.data.CodigoPais,
-      Telefono: props.update.data.Telefono,
-      
-    });
-    setIntfz({ ttl: "Actualizar Cliente", bt: "Actualizar" });
-    componentDidMount();
-    
-    const val: any =
-      props.update.client != true
-        ? setOpen(true)
-        : alert("Solo un registro a la vez para actualizar");
-    return val;
-    
-  };
-
   const handleSubmit = () => {
     setData({
       ...Data,
       deleted: false,
       inserver: false,
-    }); console.log(Data)
-
+    });
+    console.log(Data);
 
     if (props.update.client === true) {
-      props.udp({
+      props.upd({
         id: props.update.data.id,
         clit: {
           Nombre: Data.Nombre,
-          Telefono: values.textmask,
+          Telefono: Data.Telefono,
           Email: Data.Email,
           Edad: Data.Edad,
           Idioma: Data.Idioma,
@@ -226,7 +233,7 @@ const FormClientes = (props: any) => {
 
     props.create({
       Nombre: Data.Nombre,
-      Telefono: values.textmask,
+      Telefono: Data.Telefono,
       Email: Data.Email,
       Edad: Data.Edad,
       Idioma: Data.Idioma,
@@ -234,12 +241,11 @@ const FormClientes = (props: any) => {
       deleted: Data.deleted,
       inserver: Data.inserver,
     });
-
-    setOpen(false);
-    setData(cliente);
     setValues({
       textmask: "(  )    -    ",
     });
+    setOpen(false);
+    setData(cliente);
   };
 
   return (
@@ -272,18 +278,31 @@ const FormClientes = (props: any) => {
                   name="Nombre"
                   value={Nombre}
                   onChange={handleChange}
-                  validators={["required"]}
+                  validators={["required","isValidName"]}
                   errorMessages={["Nombre requerido"]}
                   fullWidth
                 />
 
-                <Input
+                <TextValidator
+                  margin="dense"
+                  id="Telefono"
+                  label="Telefono"
+                  type="number"
+                  name="Telefono"
+                  value={Telefono}
+                  onChange={handleChange}
+                  validators={["Telefono"]}
+                  errorMessages={["ingresar solo numeros a diez digitos"]}
+                  fullWidth
+                />
+        
+                {/*  <Input
                   value={values.textmask}
                   onChange={handleChange2}
                   name="textmask"
                   id="Telefono"
                   inputComponent={TextMaskCustom as any}
-                />
+                /> */}
 
                 <TextValidator
                   margin="dense"
@@ -307,7 +326,7 @@ const FormClientes = (props: any) => {
                   fullWidth
                   value={Email}
                   onChange={handleChange}
-                  validators={["email"]}
+                  validators={["email","required"]}
                   errorMessages={["Correo invalido"]}
                   ref={re}
                 />

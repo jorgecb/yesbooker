@@ -56,7 +56,6 @@ function Clientes(props: any) {
 
   const onupd = (clienteUpd: any) =>{
     
-    console.log(clienteUpd)
     ClientesDb.update(clienteUpd.id, clienteUpd.clit);
     dispatch(uptCliente(clienteUpd,"Actualizado"));
     setCliente({

@@ -34,6 +34,7 @@ const socioList = (props : any) => {
     const [socio, setSocio] = useState({
         data:{},
         chPas:false,});
+
     const onupd=(socioUpd:any)=>{
         console.log(socioUpd);
         SociosDB.update(socioUpd.id,socioUpd.soc);
@@ -44,6 +45,8 @@ const socioList = (props : any) => {
         alert("se actualizo un registro");
         listadoUpd();
     };
+
+    
     const oncreate=(socio:any)=>{
       SociosDB.add(socio);
       dispatch( addSocio(socio,'guardado'));
