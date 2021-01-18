@@ -20,7 +20,6 @@ return (
         <div className="jumbotron">
             <div className="container">
                 <div className="col-md-8 offset-md-2">
-                  
                     <Router history={hist}>
                         <Switch>
                             <PrivateRoute exact path="/admin" component={admin} />
@@ -30,6 +29,7 @@ return (
                             <PrivateRoute exact path="/admin/Sucursales" component={admin} />
                             <PrivateRoute exact path="/admin/Clientes" component={admin} />
                             <PrivateRoute exact path="/admin/Zonas" component={admin} />
+                            <PrivateRoute exact path="/admin/Mesas" component={admin} />
                             <LoginRoute path="/login" component={Login} />
                             <Redirect from="*" to="/login" />
                         </Switch>

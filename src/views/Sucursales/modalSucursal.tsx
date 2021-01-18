@@ -1,4 +1,4 @@
-import React, { FormEvent, useState } from "react";
+import React, { FormEvent, useState, useEffect } from "react";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -8,6 +8,7 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import withStyles from "@material-ui/core/styles/withStyles";
 import { createStyles } from "@material-ui/core";
 import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
+import { KeyboardTimePicker } from "@material-ui/pickers";
 const styles = createStyles({
   cardCategoryWhite: {
     "&,& a,& a:hover,& a:focus": {
@@ -41,7 +42,7 @@ interface Sucursal{
     deleted?:boolean,
     inserver?: boolean,
 }
-const modalSocio = (props:any) =>{
+const modalSucursal = (props:any) =>{
     // eslint-disable-next-line react-hooks/rules-of-hooks
     let sucursal:Sucursal={
         nombre_sucursal:"" ,
@@ -59,12 +60,31 @@ const modalSocio = (props:any) =>{
         deleted:false, 
         inserver:false};
     const [open, setOpen] = useState(false);
+    const [selectedDate, handleDateChange] = useState({dateOpen:new Date("December 11, 2020 07:30:00"),dateClose:new Date("December 11, 2020 20:08:00")});
     const [Data, setData] = useState<Sucursal>(sucursal);
     const {nombre_sucursal, nombre_contacto, email_contacto, email_sucursal, telefono_contacto, telefono_sucursal, estado, localidad, direccion, apertura, cierre, codigopostal} = Data;
     const [intfz,setIntfz] = useState({
         ttl:"Resgistro de Sucursales",
         bt:"Registrar",
     });
+    useEffect(()=>{
+        console.log(typeof selectedDate, selectedDate);/* 
+        selectedDate.map((select:any)=>{
+            console.log(select);
+            return;
+        }); */ 
+        let hour1: string='';
+        if(selectedDate.dateOpen.getHours() < 10 && selectedDate.dateOpen.getMinutes() < 10) hour1 = "0"+selectedDate.dateOpen.getHours()+":0"+selectedDate.dateOpen.getMinutes();
+        else if(selectedDate.dateOpen.getHours() < 10 && selectedDate.dateOpen.getMinutes() >= 10) hour1 = "0"+selectedDate.dateOpen.getHours()+":"+selectedDate.dateOpen.getMinutes();
+        else if(selectedDate.dateOpen.getHours() >= 10 && selectedDate.dateOpen.getMinutes() < 10) hour1 = selectedDate.dateOpen.getHours()+":0"+selectedDate.dateOpen.getMinutes();
+        else if(selectedDate.dateOpen.getHours() >= 10 && selectedDate.dateOpen.getMinutes() >= 10) hour1 = selectedDate.dateOpen.getHours()+":"+selectedDate.dateOpen.getMinutes();
+        let hour2: any='';
+        if(selectedDate.dateClose.getHours() < 10 && selectedDate.dateClose.getMinutes() < 10) hour2 = "0"+selectedDate.dateClose.getHours()+":0"+selectedDate.dateClose.getMinutes();
+        else if(selectedDate.dateClose.getHours() < 10 && selectedDate.dateClose.getMinutes() >= 10) hour2 = "0"+selectedDate.dateClose.getHours()+":"+selectedDate.dateClose.getMinutes();
+        else if(selectedDate.dateClose.getHours() >= 10 && selectedDate.dateClose.getMinutes() < 10) hour2 = selectedDate.dateClose.getHours()+":0"+selectedDate.dateClose.getMinutes();
+        else if(selectedDate.dateClose.getHours() >= 10 && selectedDate.dateClose.getMinutes() >= 10) hour2 = selectedDate.dateClose.getHours()+":"+selectedDate.dateClose.getMinutes();
+        console.log(typeof hour1, hour1, typeof hour2, hour2);
+    },[selectedDate]);
     const valida=()=>{
         ValidatorForm.addValidationRule("isValidName",(valueSt)=>{
             let val:any = /[^ \.A-Za-z0-9_\-]/g.test(valueSt.trim());
@@ -84,14 +104,6 @@ const modalSocio = (props:any) =>{
             let val:any = /[^ \.0-9_+() \-]/g.test(valueSt.trim());
             let phrase:string = valueSt.trim();
             if(val || phrase.length < 10 || phrase.length > 15){
-                return false;    
-            }else{
-                return true;}
-        });
-        ValidatorForm.addValidationRule("isValidHour",(valueSt)=>{
-            let val:any = /[^ 0-9: \-]/g.test(valueSt.trim());
-            let phrase:string = valueSt.trim();
-            if(val || phrase.length < 4 || phrase.length > 6){
                 return false;    
             }else{
                 return true;}
@@ -185,7 +197,7 @@ const modalSocio = (props:any) =>{
                 apertura: Data.apertura,
                 cierre: Data.cierre,
                 codigopostal: Data.codigopostal,
-                fecha_agrega: Data.fecha_agrega,
+                fecha_agrega: props.update.data.fecha_agrega,
                 fecha_modifica: fecha_modifica.toString(),
                 deleted:false,
                 inserver:false}});
@@ -353,31 +365,30 @@ const modalSocio = (props:any) =>{
                     validators={["required","isValidPostalCode"]}
                     errorMessages={["el campo es requerido","Debe ser unicamente numeros de entre 4 y 6 digitos"]}
                     fullWidth
-                />
-                <TextValidator
-                    margin="dense"
-                    id="opening"
-                    name="apertura"
+                />                        
+                <KeyboardTimePicker
                     label="Apertura"
-                    type="text"
-                    onChange={handleChange}
-                    value={apertura}
-                    validators={["required","isValidHour"]}
-                    errorMessages={["el campo es requerido","Debe tener el sigiente formato dd:dd en 24 hrs (10:30 o 22:30)"]}
-                    fullWidth
-                />
-                <TextValidator
-                    margin="dense"
-                    id="ending"
-                    name="cierre"
+                    placeholder="08:00 AM"
+                    mask="__:__ _M"
+                    value={selectedDate.dateOpen}
+                    onChange={(date:any) => handleDateChange({...selectedDate,'dateOpen':date})}
+                />                           
+                <KeyboardTimePicker
                     label="Cierre"
-                    type="text"
-                    onChange={handleChange}
-                    value={cierre}
-                    validators={["required","isValidHour"]}
-                    errorMessages={["el campo es requerido","Debe tener el sigiente formato dd:dd en 24 hrs (10:30 o 22:30)"]}
-                    fullWidth
-                />
+                    placeholder="08:00 PM"
+                    mask="__:__ _M"
+                    value={selectedDate.dateClose}
+                    onChange={(date:any) => handleDateChange({...selectedDate,'dateClose':date})}
+                />{
+                    /* 
+                <TimePicker autoOk label="24 hours" value={selectedDate} onChange={(e)=>{console.log(e)}} /> */}
+{/*             <TimePicker
+                clearable
+                ampm={false}
+                label="24 hours"
+                value={selectedDate}
+                onChange={(e)=>{console.log(e)}}
+            /> */}
             <DialogActions>
               <Button onClick={handleClose} color="primary">
                 Cancelar
@@ -392,4 +403,4 @@ const modalSocio = (props:any) =>{
     </>
   );
 };
-export default withStyles(styles)(modalSocio);
+export default withStyles(styles)(modalSucursal);

@@ -15,6 +15,7 @@ import Zonas from './views/Zonas/Zonas';
 import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
 import Clientes from './views/Clientes/Clientes';
 import Sucursales from "./views/Sucursales/Sucursales"
+import Mesas from "./views/Mesas/Mesas"
 // core components/views for RTL layout
 
 const dashboardRoutes = [
@@ -56,6 +57,14 @@ const dashboardRoutes = [
 
     icon: Dashboard ,
     component: Zonas,
+    layout: '/admin'
+  },
+  {
+    path: '/Mesas',
+    name: 'Mesas',   
+
+    icon: Dashboard,
+    component: Mesas,
     layout: '/admin'
   },
   {
