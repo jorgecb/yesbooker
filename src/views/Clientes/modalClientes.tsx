@@ -1,4 +1,5 @@
 import React, { Fragment, useEffect, useState, useRef, FormEvent } from "react";
+import { createStyles, Theme, makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import LongMenu from "../../components/button/Idiomas";
 import Dialog from "@material-ui/core/Dialog";
@@ -8,55 +9,121 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import AddIcon from "@material-ui/icons/Add";
 import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
-import MenuPopupState from "../../components/button/CodigoPais";
+import CountrySelect from "../../components/button/CodigoPais";
+
+import Input from "@material-ui/core/Input";
+import InputLabel from "@material-ui/core/InputLabel";
+
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      "& > *": {
+        margin: theme.spacing(1),
+      },
+    },
+  })
+);
 
 interface Cliente {
   Nombre?: string;
-  Telefono?: number;
+  Telefono?: string;
   Email?: string;
   Edad?: string;
   Idioma?: string;
   CodigoPais?: string;
+  deleted?: boolean;
   inserver?: boolean;
 }
+
+interface State {
+  textmask: string;
+}
+
 const FormClientes = (props: any) => {
-  let cliente: Cliente = {};
-  const [open, setOpen] = useState(false);
-
-  const [Data, setData] = useState<Cliente>(cliente);
-
-  const {
-    Nombre = "",
-    Telefono = Number,
-    Email = "",
-    Edad = "",
-    Idioma = "",
-    CodigoPais = "",
-  } = Data;
-
-  const componentDidMount = () => {
-    ValidatorForm.addValidationRule("isValidName", (string) =>
-      /[a-zA-Z \u00E0-\u00F0]{1,20}/g.test(string)
-    );
+  const classes = useStyles();
+  let cliente: Cliente = {
+    Nombre: "",
+    Email: "",
+    Edad: "",
+    deleted: false,
+    inserver: false,
   };
+  const [open, setOpen] = useState(false);
+  const [Data, setData] = useState<Cliente>(cliente);
+  const [values, setValues] = useState<State>({
+    textmask: "(  )    -    ",
+  });
+  const { Nombre, Email, Edad } = Data;
 
-  const re = useRef(null);
+  const [intfz, setIntfz] = useState({
+    ttl: "Resgistro de Clientes",
+    bt: "Registrar Cliente",
+  });
 
   const handleClickOpen = () => {
+    if (Object.keys(props.update.data).length !== 0) {
+      return alert(
+        "no se puede registrar el cliente mientras existan elementos seleccionados"
+      );
+    }
     setOpen(true);
     componentDidMount();
   };
 
-  const handleClose = () => {
-    setOpen(false);
+ 
+
+  const componentDidMount = () => {
+    ValidatorForm.addValidationRule("isValidName", (valueSt) => {
+      let val: any = /[^ \.A-Za-z0-9_\-]/g.test(valueSt.trim());
+      if (val) {
+        return false;
+      } else {
+        return true;
+      }
+    });
+    ValidatorForm.addValidationRule("notFT", (valueSt) => {
+      let val: any = /(false|true|FALSE|TRUE)/g.test(valueSt.trim());
+      if (val) {
+        return false;
+      } else {
+        return true;
+      }
+    });
+    ValidatorForm.addValidationRule("email", (valueSt) => {
+      let val: any = /[^ \.A-Za-z0-9_@\-]/g.test(valueSt.trim());
+      if (val) {
+        return false;
+      } else {
+        return true;
+      }
+    });
   };
 
-  /*  useEffect(() => {}, [Data]); */
+  const re = useRef(null);
+
+  const handleClose = () => {
+    setData(cliente);
+    setIntfz({
+      ttl: "Registro de Clientes",
+      bt: "Registrar",
+    });
+    setValues({
+      textmask: "(  )    -    ",
+    });
+    setOpen(false);
+  };
 
   const handleChange = (e: FormEvent<HTMLInputElement>, t: string) => {
     setData({
       ...Data,
       [e.currentTarget.name]: e.currentTarget.value,
+    });
+  };
+
+  const handleChange2 = (event: any) => {
+    setValues({
+      ...values,
+      [event.target.name]: event.target.value,
     });
   };
 
@@ -66,28 +133,95 @@ const FormClientes = (props: any) => {
       Idioma: idiomas.idi,
     });
   };
+
+  const handleSelectCodigo = (opt: any) => {
+    setData({
+      ...Data,
+      CodigoPais: opt.code.value,
+    });
+  };
+
+  const handleClickOpening = () => {
+
+    if (props.update.client === true) {
+      return alert("debes elegir sólo un(1) campo a la vez");
+    }
+    setData({
+      Nombre: props.update.data.Nombre,
+      Email: props.update.data.Email,
+      Edad: props.update.data.Edad,
+      CodigoPais: props.update.data.CodigoPais,
+      Telefono: props.update.data.Telefono,
+      
+    });
+    setIntfz({ ttl: "Actualizar Cliente", bt: "Actualizar" });
+    componentDidMount();
+
+    const val: any =
+      props.update.client != true
+        ? setOpen(true)
+        : alert("Solo un registro a la vez para actualizar");
+    return val;
+    
+  };
+
   const handleSubmit = () => {
     setData({
       ...Data,
+      deleted: false,
       inserver: false,
-    });
+    }); console.log(Data)
+
+
+    if (props.update.client === true) {
+      props.udp({
+        id: props.update.data.id,
+        clit: {
+          Nombre: Data.Nombre,
+          Telefono: values.textmask,
+          Email: Data.Email,
+          Edad: Data.Edad,
+          Idioma: Data.Idioma,
+          CodigoPais: Data.CodigoPais,
+          deleted: false,
+          inserver: false,
+        },
+      });
+      setOpen(false);
+      setIntfz({
+        ttl: "Registro de Clientes",
+        bt: "registrar",
+      });
+      setData(cliente);
+      return;
+    }
 
     props.create({
       Nombre: Data.Nombre,
-      Telefono: Data.Telefono,
+      Telefono: values.textmask,
       Email: Data.Email,
       Edad: Data.Edad,
       Idioma: Data.Idioma,
+      CodigoPais: Data.CodigoPais,
+      deleted: Data.deleted,
       inserver: Data.inserver,
     });
+
     setOpen(false);
     setData(cliente);
+    setValues({
+      textmask: "(  )    -    ",
+    });
   };
   return (
     <>
+      <DialogTitle id="form-dialog-title">{intfz.ttl.toString()}</DialogTitle>
       <Fragment>
         <Button variant="outlined" color="primary" onClick={handleClickOpen}>
           Registra Clientes <AddIcon />
+        </Button>
+        <Button variant="outlined" color="primary" onClick={handleClickOpening}>
+          Actualizar Cliente <AddIcon />
         </Button>
         <Dialog
           open={open}
@@ -96,77 +230,68 @@ const FormClientes = (props: any) => {
         >
           <DialogTitle id="form-dialog-title">Clientes</DialogTitle>
           <DialogContentText>
-          <ValidatorForm onSubmit={handleSubmit}>
-            <DialogContent>
-              <TextValidator
-                autoFocus
-                margin="dense"
-                id="Nombre"
-                label="Nombre del Cliente"
-                type="text"
-                name="Nombre"
-                value={Nombre}
-                onChange={handleChange}
-                validators={["required"]}
-                errorMessages={["Nombre requerido"]}
-                ref={re}
-                fullWidth
-              />
-              <TextValidator
-                margin="dense"
-                id="Telefono"
-                label="Telefono"
-                type="Numbers"
-                name="Telefono"
-                fullWidth
-                value={Telefono}
-                onChange={handleChange}
-                validators={["required"]}
-                errorMessages={[
-                  "Telefono invalido",
-                  "Telefono maximo 10 digitos",
-                ]}
-                ref={re}
-              />
-              <TextValidator
-                margin="dense"
-                id="Edad"
-                label="Edad"
-                type="text"
-                name="Edad"
-                fullWidth
-                value={Edad}
-                onChange={handleChange}
-                validators={["required", "isValidName"]}
-                errorMessages={[""]}
-                ref={re}
-              />
-              <TextValidator
-                margin="dense"
-                id="Email"
-                label="Correo Electronico"
-                type="email"
-                name="Email"
-                fullWidth
-                value={Email}
-                onChange={handleChange}
-                validators={["required", "isValidName"]}
-                errorMessages={["Correo invalido"]}
-                ref={re}
-              />
-              <MenuPopupState />
-              <LongMenu create={handleSelect} />
-            </DialogContent>
+            ................................................................................................................................
+            ................................................................................................................................
+            <ValidatorForm onSubmit={handleSubmit}>
+              <DialogContent>
+                <TextValidator
+                  autoFocus
+                  margin="dense"
+                  id="Nombre"
+                  label="Nombre del Cliente"
+                  type="text"
+                  name="Nombre"
+                  value={Nombre}
+                  onChange={handleChange}
+                  validators={["required"]}
+                  errorMessages={["Nombre requerido"]}
+                  fullWidth
+                />
 
-            <DialogActions>
-              <Button onClick={handleClose} color="primary">
-                Cancelar
-              </Button>
-              <Button color="primary" type="submit">
-                Registrar
-              </Button>
-            </DialogActions>
-          </ValidatorForm>
+              
+
+                <TextValidator
+                  margin="dense"
+                  id="Edad"
+                  label="Edad"
+                  type="text"
+                  name="Edad"
+                  fullWidth
+                  value={Edad}
+                  onChange={handleChange}
+                  validators={["required"]}
+                  errorMessages={[""]}
+                  ref={re}
+                />
+                <TextValidator
+                  margin="dense"
+                  id="Email"
+                  label="Correo Electronico"
+                  type="email"
+                  name="Email"
+                  fullWidth
+                  value={Email}
+                  onChange={handleChange}
+                  validators={["email"]}
+                  errorMessages={["Correo invalido"]}
+                  ref={re}
+                />
+                <br />
+
+                <CountrySelect create={handleSelectCodigo} />
+
+                <LongMenu create={handleSelect} />
+              </DialogContent>
+
+              <DialogActions>
+                <Button onClick={handleClose} color="primary">
+                  Cancelar
+                </Button>
+                <Button color="primary" type="submit">
+                  {intfz.bt}
+                </Button>
+              </DialogActions>
+            </ValidatorForm>
           </DialogContentText>
         </Dialog>
       </Fragment>

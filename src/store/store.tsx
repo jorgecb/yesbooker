@@ -7,13 +7,20 @@ import { usuariosReducer } from "../reducers/usuariosReducer";
 import { getRoles } from "../reducers/RolesReducer";
 
 import rootReducer from "../redux/reducers";
+import { clientesReducer } from '../reducers/clientesReducer';
+import { mesasReducer } from '../reducers/mesasReducer';
 
 export const reducers = combineReducers({
-  rootReducer,
-  sucursales: sucursalesReducer,
-  socios: sociosReducer,
-  usuarios: usuariosReducer,
-  roles: getRoles,
+
+
+
+    rootReducer,
+    roles: getRoles,
+    sucursales: sucursalesReducer,
+    socios: sociosReducer,
+    usuarios: usuariosReducer,
+    clientes: clientesReducer,
+    mesas: mesasReducer,
 });
 const middlewareEnhancers = applyMiddleware(thunk);
 const composedEnharcers = composeWithDevTools(...[middlewareEnhancers]);

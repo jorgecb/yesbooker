@@ -38,11 +38,11 @@ export const fetchSocios = (data:{}, displayName:any) =>({
 })
 export const addSocio =(data:{}, displayName:any)=>({
     type: types.addSocio,
-    payload:{
+    payload:{ 
         data,
         displayName
     }
-});
+}); 
 export const uptSocio =(data:{}, displayName:any)=>({
     type: types.uptSocio,
     payload:{

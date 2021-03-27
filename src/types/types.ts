@@ -1,20 +1,30 @@
 export const types = {
-  addSucursal: "[Sucursales] Add",
-  uptSucursal: "[Sucursales] Upt",
-  delSucursal: "[Sucursales] Del",
 
   getRoles: "[Roles] List",
+  fetchSucursales: '[Sucursales] List',
+  addSucursal: '[Sucursales] Add',
+  uptSucursal: '[Sucursales] Upt',
+  delSucursal: '[Sucursales] Del',
+  getUsuarios: '[Usuarios] List',
+  addUsuario: '[Usuarios] Add',
+  uptUsuario: '[Usuarios] Upt',
+  delUsuario: '[Usuarios] Add',
+  fetchSocios: '[Socios] List',
+  addSocio: '[Socios] Add',
+  uptSocio: '[Socios] Upt',
+  delSocio: '[Socios] Del',
+  fetchMesas: '[Mesas] List',
+  addMesa: '[Mesas] Add',
+  uptMesa: '[Mesas] Upt',
+  delMesa: '[Mesas] Del',
+  addCliente:'[Clientes] Add',
+  uptCliente:'[Clientes] Upt',
+  delCliente:'[Clientes] Del',
+}
 
-  getUsuarios: "[Usuarios] List",
-  addUsuario: "[Usuarios] Add",
-  uptUsuario: "[Usuarios] Upt",
-  delUsuario: "[Usuarios] Del",
+
   
-  fetchSocios: "[Socios] List",
-  addSocio: "[Socios] Add",
-  uptSocio: "[Socios] Upt",
-  delSocio: "[Socios] Del",
-};
+
 
 interface ServiceInit {
   status: "init";

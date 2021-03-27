@@ -1,19 +1,15 @@
 import {types} from '../types/types';
 
-export const sucursalesReducer=(state:{}={},action:any)=>{
+export const clientesReducer=(state:{}={},action:any)=>{
     switch (action.type) {
-
-        case types.fetchSucursales:
-            console.log(typeof action.payload.data);
+        case types.addCliente:
             return {data:action.payload.data, name:action.payload.displayName};
-        case types.addSucursal:
+        case types.uptCliente:
             return {data:action.payload.data, name:action.payload.displayName};
-        case types.uptSucursal:
-            return {data:action.payload.data, name:action.payload.displayName};   
-        case types.delSucursal:
+        case types.delCliente:
             return {data:action.payload.data, name:action.payload.displayName};
         
         default:
             return state;
     }
-}
+} 

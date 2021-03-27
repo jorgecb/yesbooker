@@ -1,8 +1,8 @@
 import { types } from '../types/types';
-export const fetchSucursales = (data:any, displayName:any) => {
+export const fetchMesas = (data:any, displayName:any) => {
     /*     */
     return (dispatch:any) => {
-        const url = 'http://reservasapi.yes-admin.com/index.php/sucursales/todos';
+        const url = 'http://reservasapi.yes-admin.com/index.php/mesas/todos';
         const ren: any = window.localStorage.getItem('UserCredenciales');
         let user = JSON.parse(ren);
         console.log(user.tkn);
@@ -20,7 +20,7 @@ export const fetchSucursales = (data:any, displayName:any) => {
         .then(result => {
             /* JSON.parse(lista.toString());
                 */console.log(typeof result, result);
-            dispatch( listSucursales(JSON.parse(result), displayName));
+            dispatch( listMesas(JSON.parse(result), displayName));
         })
         .catch(error => console.log('error',error));/* 
         console.log(lista);
@@ -29,29 +29,29 @@ export const fetchSucursales = (data:any, displayName:any) => {
         },3500); */
     }    
 }
-export const listSucursales = (data:{}, displayName:any) =>({
-    type: types.fetchSucursales,
+export const listMesas = (data:{}, displayName:any) =>({
+    type: types.fetchMesas,
     payload: {
         data,
         displayName
     }
 });
-export const addSucursal =(data:{}, displayName:any)=>({
-    type: types.addSucursal,
+export const addMesa =(data:{}, displayName:any)=>({
+    type: types.addMesa,
     payload:{ 
         data,
         displayName
     }
 });
-export const uptSucursal =(data:{}, displayName:any)=>({
-    type: types.uptSucursal,
+export const uptMesa =(data:{}, displayName:any)=>({
+    type: types.uptMesa,
     payload:{
         data,
         displayName
     }
 });
-export const delSucursal =(data:{}, displayName:any)=>({
-    type: types.delSucursal,
+export const delMesa =(data:{}, displayName:any)=>({
+    type: types.delMesa,
     payload:{
         data,
         displayName
