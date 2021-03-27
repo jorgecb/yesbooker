@@ -3,6 +3,7 @@ import BaseUrl from "../config";
 import Rol from "../database/AcRoles";
 import { HaderAccessGET } from "./HaderAccess";
 
+
 export const getRoles = (data: any, displayName: any) => {
   return (dispatch: any) => {
     fetch(BaseUrl.UrlApi + "Usuario/roles", HaderAccessGET).then((response) => {

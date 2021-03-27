@@ -1,7 +1,8 @@
 import Dexie from "dexie";
 const db = new Dexie("reservas");
 db.version(1).stores({
-  Usuarios: "++id, nombre, materno,rol, email, deleted, inserver",
+  Usuarios:
+    "++id,apellido,email,fechaConexion,fechaCreacion,fechaModifica,imageProfile,nombre,rol,status,telefono,deleted, inserver",
   Socios:
     "++id, nombre_socio, nombre_contacto, telefono, email, clabe, beneficiario, cuota, notas, fecha_modifica, fecha_agrega, usuario_modifica, usuario_crea, imagen_logo, deleted, inserver",
   Zonas: "++id, nombre_zona, descripcion, deleted, inserver",
@@ -11,7 +12,8 @@ db.version(1).stores({
   Rol: "++id, rol, inserve",
 });
 db.version(10).stores({
-  Usuarios: "++id, nombre, materno,rol, email, deleted, inserver",
+  Usuarios:
+    "++id,apellido,email,fechaConexion,fechaCreacion,fechaModifica,imageProfile,nombre,rol,status,telefono,deleted, inserver",
   Socios:
     "++id, nombre_socio, nombre_contacto, telefono, email, clabe, beneficiario, cuota, notas, fecha_modifica, fecha_agrega, usuario_modifica, usuario_crea, imagen_logo, deleted, inserver",
   Zonas: "++id, nombre_zona, descripcion, deleted, inserver",

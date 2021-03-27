@@ -13,10 +13,11 @@ interface OwnProps {
   errorMessage: string | null;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
   onCancel: () => void;
+  onCrop: () => void;
 }
 type Props = OwnProps;
 const AvatarEditor = React.forwardRef<Editor, Props>((props, ref) => {
-  const { inputId, onChange, url, onCancel, errorMessage } = props;
+  const { inputId, onChange, url, onCrop, onCancel, errorMessage } = props;
   const [rotation, setRotation] = useState<number>(0);
   const [scaleValue, setScaleValue] = useState<number>(1.3);
 
@@ -37,6 +38,7 @@ const AvatarEditor = React.forwardRef<Editor, Props>((props, ref) => {
 
   return (
     <>
+    
       <TextField
         id={inputId}
         key={url}
@@ -45,15 +47,15 @@ const AvatarEditor = React.forwardRef<Editor, Props>((props, ref) => {
         label="Label"
         style={{ margin: 8 }}
         placeholder="Placeholder"
-        helperText="Full width!"
         fullWidth
         margin="normal"
         InputLabelProps={{
           shrink: true,
         }}
       />
-{/*       <input key={url} id={inputId} type="file" onChange={onChange} />
- */}      {url ? (
+      {/*       <input key={url} id={inputId} type="file" onChange={onChange} />
+       */}{" "}
+      {url ? (
         <Editor
           image={url}
           ref={ref}
@@ -72,7 +74,6 @@ const AvatarEditor = React.forwardRef<Editor, Props>((props, ref) => {
           </label>
         </>
       )}
-
       {url && (
         <div className="remove-change">
           <Button
@@ -91,6 +92,10 @@ const AvatarEditor = React.forwardRef<Editor, Props>((props, ref) => {
           >
             Quitar
           </Button>
+          <Button variant="contained" color="primary" onClick={onCrop}>
+            Ajustar
+          </Button>
+
           <Button
             variant="outlined"
             size="small"

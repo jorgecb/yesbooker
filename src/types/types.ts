@@ -8,7 +8,8 @@ export const types = {
   getUsuarios: "[Usuarios] List",
   addUsuario: "[Usuarios] Add",
   uptUsuario: "[Usuarios] Upt",
-  delUsuario: "[Usuarios] Add",
+  delUsuario: "[Usuarios] Del",
+  
   fetchSocios: "[Socios] List",
   addSocio: "[Socios] Add",
   uptSocio: "[Socios] Upt",

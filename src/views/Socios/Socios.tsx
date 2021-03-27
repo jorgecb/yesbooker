@@ -82,10 +82,34 @@ const socioList = (props : any) => {
     },[]);
     const columns = ["id","nombre_socio","email","nombre_contacto","telefono","clabe","beneficiario","cuota","notas","fecha_modifica","fecha_agrega","usuario_modifica","usuario_crea"];
     let dataT:any;
+    let fake_agrega: any = new Date();
+    let fake_modifica: any = new Date();
     if(Object.keys(Socios).length<=1){
         if(Object.keys(Socios).length===0){
-            dataT = [{nombre_socio:"example" , email:"example@live.com", deleted:false, inserver:true},
-            {nombre_socio:"ejemplo" , email:"ejemplo@live.com", deleted:false, inserver:true}];
+            dataT = [{nombre_socio:"example" ,
+             email:"example@live.com",
+             nombre_contacto:"Exam Ple",
+             telefono: "000-000-0000",
+             clabe: "000000000000000000",
+             beneficiario: "",
+             cuota: "123456",
+             notas: "Bring some notes for unsderstand our relation",
+             fecha_agrega: fake_agrega.toString(),
+             fecha_modifica: fake_modifica.toString(),
+             deleted:false, 
+             inserver:true},
+            {nombre_socio:"ejemplo" , 
+             email:"ejemplo@live.com",
+             nombre_contacto:"Ejem Plo",
+             telefono: "000-000-0000",
+             clabe: "000000000000000000",
+             beneficiario: "",
+             cuota: "123456",
+             notas: "Proporciona alunas notas para entedender la relacion",
+             fecha_agrega: fake_agrega.toString(),
+             fecha_modifica: fake_modifica.toString(),
+             deleted:false, 
+             inserver:true}];
         }else{
             dataT = [Socios[0],
             {nombre_socio:"ejemplo" , email:"ejemplo@live.com", deleted:false, inserver:true}];

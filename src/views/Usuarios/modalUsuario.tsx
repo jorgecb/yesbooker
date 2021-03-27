@@ -1,4 +1,4 @@
-import React, { FormEvent, useState } from "react";
+import React, { FormEvent, useState, useRef, ChangeEvent } from "react";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -18,8 +18,20 @@ import {
 import Rol from "../../database/AcRoles";
 
 import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
-import { App } from "./formImg";
+import App from "./formImg";
 import { Theme } from "@material-ui/core/styles";
+
+import AvatarEditor, { Editor } from "./ImgEdit";
+import Alert from "@material-ui/lab/Alert";
+import IconButton from "@material-ui/core/IconButton";
+import Collapse from "@material-ui/core/Collapse";
+import CloseIcon from "@material-ui/icons/Close";
+import Usuarios from "./Usuarios";
+
+export type Img = {
+  url: string;
+  errorMessage: string | null;
+};
 
 const styles = createStyles({
   cardCategoryWhite: {
@@ -50,13 +62,13 @@ const useStyles = makeStyles((theme: Theme) =>
 
 interface Usuario {
   nombre?: string;
-  materno?: string;
+  apellido?: string;
   email?: string;
+  telefono?: string;
   Img64?: string;
   password?: string;
   repeatPassword?: string;
   rol?: string;
-
   deleted?: boolean;
   inserver?: boolean;
 }
@@ -64,9 +76,11 @@ const modalUsuario = (props: any) => {
   const classes = useStyles();
 
   let usuario: Usuario = {
+    Img64: "",
     nombre: "",
-    materno: "",
     email: "",
+    apellido: "",
+    telefono: "",
     password: "",
     repeatPassword: "",
     rol: "",
@@ -77,14 +91,29 @@ const modalUsuario = (props: any) => {
   const [Data, setData] = useState<Usuario>(usuario);
   const [Roles, setRoles] = useState([]);
   const [roleSelect, setRole] = React.useState("");
-
   const MakeItem = (X: any) => <MenuItem value={X.rol}>{X.rol}</MenuItem>;
 
-  const { nombre, materno, email, rol, password, repeatPassword, Img64 } = Data;
+  const state = {
+    user: {
+      password: "",
+      repeatPassword: "",
+    },
+  };
+
+  const {
+    nombre,
+    apellido,
+    telefono,
+    email,
+    password,
+    repeatPassword,
+    Img64,
+  } = Data;
   const [intfz, setIntfz] = useState({
     ttl: "Resgistro de Usuarios",
     bt: "Registrar",
   });
+
   const valida = () => {
     ValidatorForm.addValidationRule("isValidName", (valueSt) => {
       let val: any = /[^ \.A-Za-z0-9_\-]/g.test(valueSt.trim());
@@ -102,7 +131,16 @@ const modalUsuario = (props: any) => {
         return true;
       }
     });
-    /* ValidatorForm.addValidationRule("isValidName",(valueSt)=>/(^[ \w+])/g.test(valueSt)); */
+    ValidatorForm.addValidationRule("isPasswordMatch", (value) => {
+      console.log(usuario.password);
+      console.log(Data.password);
+      console.log();
+
+      if (value !== password) {
+        return false;
+      }
+      return true;
+    });
   };
 
   const handleClickOpen = () => {
@@ -123,9 +161,13 @@ const modalUsuario = (props: any) => {
     if (props.update.chPas === false) {
       return alert("debes elegir sólo un(1) campo a la vez");
     }
+    Rol.listAll().then((res: any) => {
+      setRoles(res);
+    });
     setData({
       nombre: props.update.data.nombre,
-      materno: props.update.data.materno,
+      apellido: props.update.data.apellido,
+      telefono: props.update.data.telefono,
       email: props.update.data.email,
       rol: props.update.data.rol,
     });
@@ -166,11 +208,11 @@ const modalUsuario = (props: any) => {
         id: props.update.data.id,
         usr: {
           nombre: Data.nombre,
-          materno: Data.materno,
+          apellido: Data.apellido,
+          telefono: Data.telefono,
           email: Data.email,
           rol: roleSelect,
           deleted: false,
-
           inserver: false,
         },
       });
@@ -184,11 +226,14 @@ const modalUsuario = (props: any) => {
     }
 
     props.create({
+      imageProfile: newImage,
       nombre: Data.nombre,
-      materno: Data.materno,
+      apellido: Data.apellido,
+      telefono: Data.telefono,
       email: Data.email,
+      password: Data.password,
+      passwordConfirma: Data.repeatPassword,
       rol: roleSelect,
-
       deleted: Data.deleted,
       inserver: Data.inserver,
     });
@@ -196,6 +241,81 @@ const modalUsuario = (props: any) => {
     setData(usuario);
     return;
   };
+
+  const [profileImg, setProfileImg] = useState<Img>({
+    url: "",
+    errorMessage: null,
+  });
+  const [newImage, setNewImage] = useState<string>("");
+  const editorRef = useRef<Editor>(null);
+  const { errorMessage, url } = profileImg;
+  const [open2, setOpen2] = React.useState(false);
+
+  const onAvatarImgChange = async (e: any) => {
+    setOpen2(false);
+    e.preventDefault();
+    let file = e.target.files[0];
+    if (!file) return;
+    const validExts = ["jpg", "jpeg"];
+    const maxFileSize = 5;
+    const fileExt = file.name.substring(file.name.lastIndexOf(".") + 1);
+    const fileSize = file.size / 1000000;
+    if (!validExts.includes(fileExt)) {
+      setOpen2(true);
+      setProfileImg((prevState) => ({
+        ...prevState,
+        errorMessage: `Exteciones Soportadas(${validExts.join(" , ")})`,
+      }));
+      return;
+    }
+
+    if (fileSize > maxFileSize) {
+      setOpen2(true);
+      setProfileImg((prevState) => ({
+        ...prevState,
+        errorMessage: `Tamaño de imagen ${maxFileSize}Mb`,
+      }));
+      return;
+    }
+
+    const dataUrl = await getFileDataUrl(file);
+
+    setProfileImg({
+      url: dataUrl,
+      errorMessage: null,
+    });
+  };
+
+  const getFileDataUrl = (file: File) => {
+    return new Promise<string>((res) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => res(reader.result as string);
+    });
+  };
+
+  const onAvatarImgCancel = () => {
+    setOpen2(false);
+    setProfileImg({
+      errorMessage: null,
+      url: "",
+    });
+  };
+
+  const onCrop = () => {
+    if (editorRef && editorRef.current) {
+      let url = editorRef.current.getImageScaledToCanvas().toDataURL();
+
+      var string = url;
+      var newstring = string.replace(
+        "data:image/png;base64",
+        "data:image/jpeg;base64"
+      );
+
+      setNewImage(newstring);
+    }
+  };
+
   return (
     <>
       <Button variant="outlined" color="primary" onClick={handleClickOpen}>
@@ -216,24 +336,39 @@ const modalUsuario = (props: any) => {
             Formulario para registro de Usuarios
           </DialogContentText>
           <ValidatorForm onSubmit={handleSubmit}>
-            <App />
-            <TextValidator
-              autoFocus
-              margin="dense"
-              id="name"
-              name="nombre"
-              label="Cargo"
-              type="text"
-              onChange={handleChange}
-              value={nombre}
-              validators={["required", "isValidName", "notFT"]}
-              errorMessages={[
-                "el campo es requerido",
-                "No ingresar caracteres especiales",
-                "no ingresal false/true",
-              ]}
-              fullWidth
-            />
+            <div className="editor">
+              <img src={newImage} />
+
+              <AvatarEditor
+                ref={editorRef}
+                inputId="main"
+                errorMessage={errorMessage}
+                onCrop={onCrop}
+                url={url}
+                onChange={onAvatarImgChange}
+                onCancel={onAvatarImgCancel}
+              />
+
+              <Collapse in={open2}>
+                <Alert
+                  severity="error"
+                  action={
+                    <IconButton
+                      aria-label="close"
+                      color="inherit"
+                      size="small"
+                      onClick={() => {
+                        setOpen(false);
+                      }}
+                    >
+                      <CloseIcon fontSize="inherit" />
+                    </IconButton>
+                  }
+                >
+                  {errorMessage}
+                </Alert>
+              </Collapse>
+            </div>
 
             <TextValidator
               margin="dense"
@@ -250,25 +385,7 @@ const modalUsuario = (props: any) => {
               ]}
               fullWidth
             />
-           {/*  <TextValidator
-              label="Password"
-              onChange={handleChange}
-              name="password"
-              type="password"
-              validators={["required"]}
-              errorMessages={["this field is required"]}
-              value={password}
-            />
-            <br />
-            <TextValidator
-              label="Repeat password"
-              onChange={handleChange}
-              name="repeatPassword"
-              type="password"
-              validators={["isPasswordMatch", "required"]}
-              errorMessages={["password mismatch", "this field is required"]}
-              value={repeatPassword}
-            /> */}
+
             <TextValidator
               autoFocus
               margin="dense"
@@ -278,6 +395,64 @@ const modalUsuario = (props: any) => {
               type="text"
               onChange={handleChange}
               value={nombre}
+              validators={["required", "isValidName", "notFT"]}
+              errorMessages={[
+                "el campo es requerido",
+                "No ingresar caracteres especiales",
+                "no ingresal false/true",
+              ]}
+              fullWidth
+            />
+
+            <TextValidator
+              margin="dense"
+              id="apellido"
+              name="apellido"
+              label="Apellido"
+              type="text"
+              onChange={handleChange}
+              value={apellido}
+              validators={["required", "isValidName", "notFT"]}
+              errorMessages={[
+                "el campo es requerido",
+                "No ingresar caracteres especiales",
+                "no ingresal false/true",
+              ]}
+              fullWidth
+            />
+
+            <TextValidator
+              label="Password"
+              onChange={handleChange}
+              name="password"
+              type="password"
+              validators={
+                [
+                  /* "required" */
+                ]
+              }
+              errorMessages={["this field is required"]}
+              value={password}
+            />
+            <TextValidator
+              label="Repeat password"
+              onChange={handleChange}
+              name="repeatPassword"
+              type="password"
+              validators={["isPasswordMatch" /* "required" */]}
+              errorMessages={["password mismatch", "this field is required"]}
+              value={repeatPassword}
+            />
+
+            <TextValidator
+              autoFocus
+              margin="dense"
+              id="telefono"
+              name="telefono"
+              label="Telefono"
+              type="text"
+              onChange={handleChange}
+              value={telefono}
               validators={["required", "isValidName", "notFT"]}
               errorMessages={[
                 "el campo es requerido",
@@ -298,56 +473,8 @@ const modalUsuario = (props: any) => {
               </MenuItem>
               {Roles.map(MakeItem)}
             </Select>
-            <FormHelperText>Sele</FormHelperText>
+            <FormHelperText>Selecione un Rol</FormHelperText>
 
-            <TextValidator
-              margin="dense"
-              id="materno"
-              name="materno"
-              label="1° Apellido"
-              type="text"
-              onChange={handleChange}
-              value={materno}
-              validators={["required", "isValidName", "notFT"]}
-              errorMessages={[
-                "el campo es requerido",
-                "No ingresar caracteres especiales",
-                "no ingresal false/true",
-              ]}
-              width="50%"
-            />
-            <TextValidator
-              margin="dense"
-              id="materno"
-              name="materno"
-              label="2° Apellido"
-              type="text"
-              onChange={handleChange}
-              value={materno}
-              validators={["required", "isValidName", "notFT"]}
-              errorMessages={[
-                "el campo es requerido",
-                "No ingresar caracteres especiales",
-                "no ingresal false/true",
-              ]}
-              width="50%"
-            />
-            <TextValidator
-              margin="dense"
-              id="Telefono"
-              name="Telefono"
-              label="Telefono"
-              type="text"
-              onChange={handleChange}
-              value={materno}
-              validators={["required", "isValidName", "notFT"]}
-              errorMessages={[
-                "el campo es requerido",
-                "No ingresar caracteres especiales",
-                "no ingresal false/true",
-              ]}
-              fullWidth
-            />
             <DialogActions>
               <Button onClick={handleClose} color="primary">
                 Cancelar

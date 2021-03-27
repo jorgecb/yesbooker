@@ -6,23 +6,36 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import withStyles from '@material-ui/core/styles/withStyles';
-import { createStyles } from '@material-ui/core';
+import { createStyles, FormControl, FormHelperText, makeStyles, MenuItem, Select } from '@material-ui/core';
 import { ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
+import App from '../Usuarios/formImg';
 import classNames from 'classnames';
+import { Theme } from '@material-ui/core/styles';
 const styles = createStyles({
-    cardCategoryWhite: {
-        '&,& a,& a:hover,& a:focus': {
-            color: 'rgba(255,255,255,.62)',
-            margin: '0',
-            fontSize: '14px',
-            marginTop: '0',
-            marginBottom: '0'
-        },
-        '& a,& a:hover,& a:focus': {
-            color: '#FFFFFF'
-        }
-    }
+  cardCategoryWhite: {
+    "&,& a,& a:hover,& a:focus": {
+      color: "rgba(255,255,255,.62)",
+      margin: "0",
+      fontSize: "14px",
+      marginTop: "0",
+      marginBottom: "0",
+    },
+    "& a,& a:hover,& a:focus": {
+      color: "#FFFFFF",
+    },
+  },
 });
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        formControl: {
+            margin: theme.spacing(1),
+            minWidth: 120,
+        },
+        selectEmpty: {
+            marginTop: theme.spacing(2),
+        },
+    }),
+);
 interface Socio{
     nombre_socio?: string,
     nombre_contacto?: string,
@@ -30,14 +43,16 @@ interface Socio{
     telefono?: string,
     clabe?: string,
     beneficiario?: string,
-    cuota?: number,
+    cuota?: string,
     notas?: string,
+    img64?: string,
     fecha_modifica?: Date,
     fecha_agrega?: Date,
     deleted?:boolean,
     inserver?: boolean
 }
 const modalSocio = (props:any) =>{
+    const classes = useStyles();
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const reference = useRef(); 
     let socio:Socio={
@@ -47,8 +62,9 @@ const modalSocio = (props:any) =>{
         telefono: "",
         clabe: "",
         beneficiario: "",
-        cuota: 0,
+        cuota: "",
         notas: "",
+        img64: "",
         fecha_modifica:  new Date(),
         fecha_agrega: new Date(),
         deleted:false, 
@@ -103,6 +119,29 @@ const modalSocio = (props:any) =>{
             }else{
                 return true;}
         });
+        ValidatorForm.addValidationRule("isValidTelephone",(valueSt)=>{
+            let val:any = /[^ \.0-9_+() \-]/g.test(valueSt.trim());
+            let phrase:string = valueSt.trim();
+            if(val || phrase.length < 10 || phrase.length > 15){
+                return false;    
+            }else{
+                return true;}
+        });
+        ValidatorForm.addValidationRule("isValidClabe",(valueSt)=>{
+            let val:any = /[^ 0-9 ]/g.test(valueSt.trim());
+            let phrase:string = valueSt.trim();
+            if(val || phrase.length !== 18){
+                return false;    
+            }else{
+                return true;}
+        });
+        ValidatorForm.addValidationRule("isValidNote",(valueSt)=>{
+            let val:any = /[^ \.A-Za-z0-9_:, \-]/g.test(valueSt.trim());
+            if(val){
+                return false;    
+            }else{
+                return true;}
+        });
             /* ValidatorForm.addValidationRule("isValidName",(valueSt)=>/(^[ \w+])/g.test(valueSt)); */
     };
 /*     useEffect(() => {
@@ -122,7 +161,22 @@ const modalSocio = (props:any) =>{
             inserver:false,
         });
         if(props.update.chPas===true){
-            props.upd({id:props.update.data.id, soc:{nombre_socio:Data.nombre_socio,email:Data.email,deleted:false,inserver:false}});
+            props.upd({id:props.update.data.id, 
+                soc:{
+                    nombre_socio:Data.nombre_socio,
+                    email:Data.email,
+                    nombre_contacto:Data.nombre_contacto,
+                    telefono: Data.telefono,
+                    clabe: Data.clabe,
+                    beneficiario: Data.beneficiario,
+                    cuota: Data.cuota,
+                    notas: Data.notas,
+                    img64: "",
+                    fecha_modifica:  new Date(),
+                    fecha_agrega: new Date(),
+                    deleted:Data.deleted,
+                    inserver:Data.inserver
+                }});
             setOpen(false);
             setIntfz({
                 ttl:"Resgistro de Socios",
@@ -131,7 +185,20 @@ const modalSocio = (props:any) =>{
             setData(socio);
             return;
         };
-        props.create({nombre_socio:Data.nombre_socio,email:Data.email,deleted:Data.deleted,inserver:Data.inserver});
+        props.create({
+            nombre_socio:Data.nombre_socio,
+            email:Data.email,
+            nombre_contacto:Data.nombre_contacto,
+            telefono: Data.telefono,
+            clabe: Data.clabe,
+            beneficiario: Data.beneficiario,
+            cuota: Data.cuota,
+            notas: Data.notas,
+            img64: "",
+            fecha_modifica:  new Date(),
+            fecha_agrega: new Date(),
+            deleted:Data.deleted,
+            inserver:Data.inserver});
         setOpen(false);
         setData(socio);
         return;
@@ -151,6 +218,8 @@ const modalSocio = (props:any) =>{
                     Formulario de Socios
                 </DialogContentText>
             <ValidatorForm onSubmit={handleSubmit}>
+
+            <App />
                 <TextValidator
                     autoFocus
                     margin="dense"
@@ -190,35 +259,71 @@ const modalSocio = (props:any) =>{
                 />
                 <TextValidator
                     margin="dense"
-                    id="telefono"
+                    id="telephone"
                     name="telefono"
                     label="Telefono de Contacto"
                     type="text"
                     onChange={handleChange}
                     value={telefono}
-                    validators={["required","isValidName","notFT"]}
-                    errorMessages={["el campo es requerido","No ingresar caracteres especiales","no ingresal false/true"]}
+                    validators={["required","isValidTelephone"]}
+                    errorMessages={["el campo es requerido","Debe ser un numero de almenos 10 digitos sin caracteres especiales"]}
                     fullWidth
                 />
                 <TextValidator
                     margin="dense"
                     id="clabe"
                     name="clabe"
-                    label="Clab interbancaria"
+                    label="Clabe Interbancaria"
                     type="text"
                     onChange={handleChange}
                     value={clabe}
+                    validators={["required","isValidClabe"]}
+                    errorMessages={["el campo es requerido","La clabe debe de ser de almenos 18 numeros sin caracteres especiales"]}
+                    fullWidth
+                />
+                <TextValidator
+                    margin="dense"
+                    id="beneficiary"
+                    name="beneficiario"
+                    label="Beneficiario"
+                    type="text"
+                    onChange={handleChange}
+                    value={beneficiario}
                     validators={["required","isValidName","notFT"]}
                     errorMessages={["el campo es requerido","No ingresar caracteres especiales","no ingresal false/true"]}
                     fullWidth
                 />
+                <TextValidator
+                    margin="dense"
+                    id="quote"
+                    name="cuota"
+                    label="Cuota"
+                    type="number"
+                    onChange={handleChange}
+                    value={cuota}
+                    validators={["required",]}
+                    errorMessages={["el campo es requerido",]}
+                    fullWidth
+                />
+                <TextValidator
+                    margin="dense"
+                    id="notes"
+                    name="notas"
+                    label="Notas"
+                    type="text"
+                    onChange={handleChange}
+                    value={notas}
+                    validators={["required","isValidNote","notFT"]}
+                    errorMessages={["el campo es requerido","No ingresar caracteres especiales","no ingresal false/true"]}
+                    fullWidth
+                />
             <DialogActions>
-                <Button onClick={handleClose} color="primary">
-                    Cancelar
-                </Button>
-                <Button type="submit" color="primary">
-                    {intfz.bt}
-                </Button>
+              <Button onClick={handleClose} color="primary">
+                Cancelar
+              </Button>
+              <Button type="submit" color="primary">
+                {intfz.bt}
+              </Button>
             </DialogActions>
             </ValidatorForm>
             </DialogContent>

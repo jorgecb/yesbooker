@@ -11,11 +11,8 @@ import Navbar from '../components/Navbars/Navbar';
 import Footer from '../components/Footer/Footer';
 import Sidebar from '../components/Sidebar/Sidebar';
 import FixedPlugin from '../components/FixedPlugin/FixedPlugin';
-
 import routes from '../routes';
-
 import dashboardStyle from '../assets/jss/material-dashboard-react/layouts/dashboardStyle';
-
 import image from 'assets/img/sidebar-2.jpg';
 import logo from 'assets/img/reactlogo.png';
 

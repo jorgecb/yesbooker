@@ -9,9 +9,16 @@ import CardBody from "../../components/Card/CardBody";
 import User from "./../../database/Usuarios";
 import MUIDataTable from "mui-datatables";
 import ModalUsuario from "./modalUsuario";
-
 import { useDispatch } from "react-redux";
-import { addUsuario, uptUsuario, delUsuario } from "../../actions/usuariosAct";
+import {
+  addUsuario,
+  uptUsuario,
+  delUsuario,
+  putUsuarios,
+  getUsuarios,
+  postUsuarios,
+  deltedUsuarios,
+} from "../../actions/usuariosAct";
 import { getRoles } from "../../actions/Roles";
 
 const styles = createStyles({
@@ -36,33 +43,43 @@ const userList = (props: any) => {
     data: {},
     chPas: false,
   });
+
   const onupd = (usuarioUpd: any) => {
+    console.log(usuarioUpd);
     /*     console.log(usuarioUpd);
-     */ User.update(usuarioUpd.id, usuarioUpd.usr);
+     */
+    /*  dispatch(putUsuarios(usuarioUpd.id, usuarioUpd.usr));
+    console.log(usuarioUpd.id, usuarioUpd.usr); */
+
+    putUsuarios(usuarioUpd.id, usuarioUpd.usr);
     dispatch(uptUsuario(usuarioUpd, "actualizado"));
     setUsuario({
       data: {},
       chPas: false,
     });
-    alert("se actualizo un registro");
     listadoUpd();
+    alert("se actualizo un registro");
   };
   const oncreate = (usuario: any) => {
-    User.add(usuario);
-    dispatch(addUsuario(usuario, "guardado"));
+    
+    postUsuarios(usuario);
+    /* User.add(usuario);
+     */ dispatch(addUsuario(usuario, "guardado"));
     listadoUpd();
   };
   const listadoUpd = () => {
-    User.listAll().then(function(res) {
-      /* 
-          setUsuarios(res);
-          if(Object.keys(res).length<=1){
-              alert("Los ejemplos se eliminaran automaticamente al ir ingresando datos");
-          }; */
+    User.listAll().then((res) => {
+      /*
+            setUsuarios(res);
+            if(Object.keys(res).length<=1){
+                alert("Los ejemplos se eliminaran automaticamente al ir ingresando datos");
+            }; */
       /*       console.log(res);
        */
     });
-    User.listNotDell().then(function(dev) {
+    dispatch(getUsuarios({}, "List"));
+
+    User.listNotDell().then((dev) => {
       setUsuarios(dev);
       if (Object.keys(dev).length <= 1) {
         alert(
@@ -79,8 +96,24 @@ const userList = (props: any) => {
     listadoUpd();
   }, []);
 
-  const columns = ["id", "nombre", "rol", "materno", "email"];
+
+  const columns = [
+    "id",
+    "apellido",
+    "email",
+    /*  "fechaConexion",
+    "fechaCreacion",
+    "fechaModifica", */
+    /*     "imageProfile",
+     */ "nombre",
+    "rol" /* 
+    "status", */,
+    "telefono" /* 
+    "deleted",
+    "inserver", */,
+  ];
   let dataT: any;
+
   if (Object.keys(Usuarios).length <= 1) {
     if (Object.keys(Usuarios).length === 0) {
       dataT = [
@@ -117,8 +150,13 @@ const userList = (props: any) => {
   //
   //aqui es donde se manejan los eventos y demas de la MUI-DT
   //
+  const MakeItem = (X: any) => <img src={X.imageProfile} />;
+
   const options: {} = {
     filterType: "checkbox",
+
+    customBodyRender: () => Usuarios.map(MakeItem),
+
     onRowSelectionChange: (dat: any, cell: any) => {
       console.log(cell);
       if (cell.length <= 0) {
@@ -150,6 +188,8 @@ const userList = (props: any) => {
           dataT[dato.dataIndex].deleted = true;
           dataT[dato.dataIndex].inserver = false;
           User.update(regD.id, dataT[dato.dataIndex]);
+
+          deltedUsuarios(regD.id);
           dispatch(delUsuario(dataT[dato.dataIndex], "borrado"));
           alert("Borrado correctamente: \n" + regD.nombre);
           listadoUpd();
@@ -177,6 +217,8 @@ const userList = (props: any) => {
               options={options}
             />
           </CardHeader>
+          {Usuarios.map(MakeItem)}
+
           <CardBody />
         </Card>
       </GridItem>

@@ -3,19 +3,18 @@ import AvatarEditor, { Editor } from "./ImgEdit";
 import Alert from "@material-ui/lab/Alert";
 import IconButton from "@material-ui/core/IconButton";
 import Collapse from "@material-ui/core/Collapse";
-import Button from "@material-ui/core/Button";
 import CloseIcon from "@material-ui/icons/Close";
 
 export type Img = {
   url: string;
   errorMessage: string | null;
 };
-
-export function App() {
+const App = (props: any) => {
   const [profileImg, setProfileImg] = useState<Img>({
     url: "",
     errorMessage: null,
   });
+
   const [newImage, setNewImage] = useState<string>("");
   const editorRef = useRef<Editor>(null);
   const { errorMessage, url } = profileImg;
@@ -79,7 +78,7 @@ export function App() {
       setNewImage(url);
     }
   };
-  /*   const onSubmit = (e: React.FormEvent) => {
+  const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (editorRef.current) {
       let img: Blob;
@@ -89,7 +88,7 @@ export function App() {
         console.log(img);
       }, "image/jpeg");
     }
-  }; */
+  };
 
   return (
     <div className="App">
@@ -101,13 +100,11 @@ export function App() {
           ref={editorRef}
           inputId="main"
           errorMessage={errorMessage}
+          onCrop={onCrop}
           url={url}
           onChange={onAvatarImgChange}
           onCancel={onAvatarImgCancel}
         />
-        <Button variant="contained" color="primary" onClick={onCrop}>
-          Ajustar
-        </Button>
 
         <Collapse in={open}>
           <Alert
@@ -136,7 +133,7 @@ export function App() {
        */}{" "}
     </div>
   );
-}
+};
 
-/* export default App;
- */
+export default App ;
+;
