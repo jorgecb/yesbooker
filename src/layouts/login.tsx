@@ -5,6 +5,7 @@ import { Button, CardActions, Grid, TextField } from "@material-ui/core";
 import carta from "../assets/img/carta.png";
 import "../assets/css/App.css";
 import Bg from "../assets/img/BGbACK.jpg";
+import { login } from "../actions/loginAct";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -123,6 +124,11 @@ const Alogin = () => {
     }
   }, [state.username, state.password]);
 
+  const PruebaLogin = () => {
+    login(state.username , state.password);
+
+  };
+
   const handleLogin = async () => {
     let myHeaders = new Headers();
     myHeaders.append("X-API-KEY", "709cd00931492fef092b3430b64389016fe7eb4f");
@@ -166,7 +172,7 @@ const Alogin = () => {
 
   const handleKeyPress = (event: React.KeyboardEvent) => {
     if (event.keyCode === 13 || event.which === 13) {
-      state.isButtonDisabled || handleLogin();
+      state.isButtonDisabled || Alogin();
     }
   };
 
@@ -239,7 +245,7 @@ const Alogin = () => {
                 size="large"
                 color="secondary"
                 className={classes.loginBtn}
-                onClick={handleLogin}
+                onClick={PruebaLogin}
                 disabled={state.isButtonDisabled}
               >
                 Iniciar Sesison

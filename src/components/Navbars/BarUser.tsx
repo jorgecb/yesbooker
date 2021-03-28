@@ -10,7 +10,7 @@ import Hidden from '@material-ui/core/Hidden';
 import Poppers from '@material-ui/core/Popper';
 import Person from '@material-ui/icons/Person';
 import Button from '../CustomButtons/Button';
-import action from '../../redux/actions/actions';
+import {logout} from '../../actions/loginAct';
 
 
 import headerLinksStyle from '../../assets/jss/material-dashboard-react/components/headerLinksStyle';
@@ -102,7 +102,7 @@ class HeaderLinks extends React.Component<Props, {}> {
                                              {username}
                                        </MenuItem>
                                         <MenuItem
-                                            onClick={action.logout}
+                                            onClick={logout}
                                             className={classes.dropdownItem}
 
                                         >

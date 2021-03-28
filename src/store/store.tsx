@@ -1,26 +1,22 @@
-import { createStore, combineReducers, applyMiddleware, compose } from "redux";
+import { createStore, combineReducers, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
 import { sucursalesReducer } from "../reducers/sucursalesReducer";
 import { sociosReducer } from "../reducers/sociosReducer";
 import { usuariosReducer } from "../reducers/usuariosReducer";
 import { getRoles } from "../reducers/RolesReducer";
-
-import rootReducer from "../redux/reducers";
-import { clientesReducer } from '../reducers/clientesReducer';
-import { mesasReducer } from '../reducers/mesasReducer';
+import { clientesReducer } from "../reducers/clientesReducer";
+import { mesasReducer } from "../reducers/mesasReducer";
+import auth from "../reducers/authStore";
 
 export const reducers = combineReducers({
-
-
-
-    rootReducer,
-    roles: getRoles,
-    sucursales: sucursalesReducer,
-    socios: sociosReducer,
-    usuarios: usuariosReducer,
-    clientes: clientesReducer,
-    mesas: mesasReducer,
+  auth,
+  roles: getRoles,
+  sucursales: sucursalesReducer,
+  socios: sociosReducer,
+  usuarios: usuariosReducer,
+  clientes: clientesReducer,
+  mesas: mesasReducer,
 });
 const middlewareEnhancers = applyMiddleware(thunk);
 const composedEnharcers = composeWithDevTools(...[middlewareEnhancers]);
