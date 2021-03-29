@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState} from 'react';
 import withStyles from '@material-ui/core/styles/withStyles';
 import { createStyles, Grid } from '@material-ui/core';
 import GridContainer from '../../components/Grid/GridContainer';
@@ -12,6 +12,7 @@ import ModalZonas from './modalZonas';
 
 import { useDispatch } from 'react-redux';
 import { addZona, uptZona, delZona } from '../../actions/zonasAct'
+
 
 const styles = createStyles({
     cardCategoryWhite: {
@@ -51,20 +52,19 @@ const zonaList = (props:[] ) =>{
     }
     const listadoUpd=()=>{
         Zone.listAll().then(function(res){ 
-          /* setZonas(res);
+           setZonas(res);
           if(Object.keys(res).length<=1){
               alert("Los ejemplos se eliminaran automaticamente al ir ingresando datos");
-          }; */ 
-           console.log(res);
+          }; 
+           
         });
       Zone.listNotDell().then(function(dev){
-          console.log(dev);
           setZonas(dev);
           if(Object.keys(dev).length<=1){
               alert("Los ejemplos se eliminaran automaticamente al ir ingresando datos \n"+
-              "es indisplensable llenar los dos registros para comenzar");
+              "es indisplensable llenar los registros para comenzar");
           };
-          console.log(dev);
+          
       });
     }
   useEffect(() => {
@@ -75,12 +75,12 @@ const zonaList = (props:[] ) =>{
     let dataS:any;
         if(Object.keys(Zonas).length<=1){
             if(Object.keys(Zonas).length===0){
-        dataS=[{nombre_zona:"nombre", descripcion:"descripcion", deleted:false,inserver:true},
-        {nombre_zona:"nombre", descripcion:"descripcion", deleted:false,inserver:true}];
+        dataS=[{nombre_zona:"name example", descripcion:"name descripcion", deleted:false,inserver:true},
+        {nombre_zona:"nombre zona", descripcion:"nombre descripcion", deleted:false,inserver:true}];
 
     }else{
         dataS=[Zonas[0],
-        {nombre_zona:"nombre", descripcion:"descripcion", deleted:false,inserver:true}]; 
+        {nombre_zona:"nombre zona", descripcion:"nombre descripcion", deleted:false,inserver:true}]; 
     }
 
 }else{
@@ -106,9 +106,9 @@ const options:{} = {
         onRowsDelete:(ro:{data:[]},lookup:{})=>{
             ro.data.map((dato:{dataIndex:any})=>{
                 /* setZona({data:dataT[dato.dataIndex],chPas:false,}); */
-                let regD:any ={id:dataS[dato.dataIndex].id,nombre:dataS[dato.dataIndex].nombre};
+                let regD:any ={id:dataS[dato.dataIndex].id,nombre:dataS[dato.dataIndex].nombre_zona};
                 delete dataS[dato.dataIndex].id;
-                let valDel = confirm("deseas borrar datos: \n"+dataS[dato.dataIndex].nombre);
+                let valDel = confirm("deseas borrar datos: \n"+dataS[dato.dataIndex].nombre_zona);
                 if(valDel===true){
                     dataS[dato.dataIndex].deleted=true;
                     dataS[dato.dataIndex].inserver=false;
@@ -128,6 +128,7 @@ const options:{} = {
 };
  
 
+
 return(
 
    
@@ -135,7 +136,8 @@ return(
         <GridItem xs={12} sm={12} md={12}>
             <Card>
             <CardHeader color="$38">
-                <h4>zonas</h4><ModalZonas create={oncreate}update={Zonas} upd={onupd}/>
+                <h4>zonas</h4>
+                <ModalZonas create={oncreate}update={Zonas} upd={onupd}/>
                 <MUIDataTable
                 title={"zonas"}
                 data={dataS}
