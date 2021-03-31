@@ -164,6 +164,7 @@ const modalUsuario = (props: any) => {
     Rol.listAll().then((res: any) => {
       setRoles(res);
     });
+    
     setData({
       nombre: props.update.data.nombre,
       apellido: props.update.data.apellido,

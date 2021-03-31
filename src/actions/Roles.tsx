@@ -30,7 +30,7 @@ export const getRoles = (data: any, displayName: any) => {
   };
 };
 
-export const fetchRoles = (data: {}, displayName: any) => ({
+ const fetchRoles = (data: {}, displayName: any) => ({
   type: types.getRoles,
   payload: {
     data,

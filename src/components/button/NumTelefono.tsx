@@ -1,5 +1,4 @@
 import React from 'react';
-import MaskedInput from 'react-text-mask';
 import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -17,8 +16,8 @@ const useStyles = makeStyles((theme: Theme) =>
 
 function TextMaskCustom(props:any) {
   const { inputRef, ...other } = props;
-  return (
-    <MaskedInput
+  return 
+   /*  <MaskedInput
       {...other}
       ref={(ref: any) => {
         inputRef(ref ? ref.inputElement : null);
@@ -26,8 +25,8 @@ function TextMaskCustom(props:any) {
       mask={['(', /[1-9]/, /\d/, /\d/, ')', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]}
       placeholderChar={'\u2000'}
       showMask
-    />
-  ); 
+    /> */
+  ; 
 }
 interface State {
   textmask: string;

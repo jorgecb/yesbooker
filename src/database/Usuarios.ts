@@ -4,7 +4,7 @@ const tableName = "Usuarios";
 
 const User = {
   search() {
-    var data = db
+    let data = db
       .table(tableName)
       .filter((todo) => {
         return todo.inserver === false;
@@ -16,7 +16,7 @@ const User = {
       .catch((err) => {
         return err;
       });
-      
+
     return data;
   },
   add(data: any) {
@@ -27,7 +27,7 @@ const User = {
       });
   },
   listNotDell() {
-    var data = db
+    let data = db
       .table(tableName)
       .filter((todo) => {
         return todo.deleted === false;
@@ -42,7 +42,7 @@ const User = {
     return data;
   },
   listAll() {
-    var data = db
+    let data = db
       .table(tableName)
       .toArray()
       .then((todos) => {

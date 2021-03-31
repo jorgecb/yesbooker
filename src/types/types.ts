@@ -1,7 +1,10 @@
 export const types = {
   login: "[Login] loginSuccess",
+  AgregarZona: "[addZona] add",
   LOGOUT: "[LOGOUT] LOGOUT",
+  getZonas: "[getZonas] List",
   getRoles: "[Roles] List",
+  delZona: "[Zona] Del",
   fetchSucursales: '[Sucursales] List',
   addSucursal: '[Sucursales] Add',
   uptSucursal: '[Sucursales] Upt',

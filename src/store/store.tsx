@@ -5,6 +5,8 @@ import { sucursalesReducer } from "../reducers/sucursalesReducer";
 import { sociosReducer } from "../reducers/sociosReducer";
 import { usuariosReducer } from "../reducers/usuariosReducer";
 import { getRoles } from "../reducers/RolesReducer";
+import { ZonasReducer } from "../reducers/zonasReducer";
+
 import { clientesReducer } from "../reducers/clientesReducer";
 import { mesasReducer } from "../reducers/mesasReducer";
 import auth from "../reducers/authStore";
@@ -12,6 +14,7 @@ import auth from "../reducers/authStore";
 export const reducers = combineReducers({
   auth,
   roles: getRoles,
+  Zonas: ZonasReducer,
   sucursales: sucursalesReducer,
   socios: sociosReducer,
   usuarios: usuariosReducer,
