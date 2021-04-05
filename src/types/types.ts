@@ -1,5 +1,8 @@
-
 export const types = {
+
+  getRoles: "[Roles] List",
+  getCodigo:"[Codigo] List",
+  getIdioma:"[Idioma] list",
   fetchSucursales: '[Sucursales] List',
   addSucursal: '[Sucursales] Add',
   uptSucursal: '[Sucursales] Upt',
@@ -12,24 +15,31 @@ export const types = {
   addSocio: '[Socios] Add',
   uptSocio: '[Socios] Upt',
   delSocio: '[Socios] Del',
+  fetchMesas: '[Mesas] List',
+  addMesa: '[Mesas] Add',
+  uptMesa: '[Mesas] Upt',
+  delMesa: '[Mesas] Del',
   addCliente:'[Clientes] Add',
   uptCliente:'[Clientes] Upt',
   delCliente:'[Clientes] Del',
 }
 
 
+  
+
+
 interface ServiceInit {
-  status: 'init';
+  status: "init";
 }
 interface ServiceLoading {
-  status: 'Cargando....';
+  status: "Cargando....";
 }
 interface ServiceLoaded<T> {
-  status: 'Cargado';
+  status: "Cargado";
   payload: T;
 }
 interface ServiceError {
-  status: 'error';
+  status: "error";
   error: Error;
 }
 export type Service<T> =

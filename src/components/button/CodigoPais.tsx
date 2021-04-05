@@ -25,7 +25,8 @@ export default function CountrySelect(props:any) {
 }]);
 
   useEffect(() => {
-    fetch("http://localhost/restfull/public/codigoPais")
+    
+    fetch("http://reservasapi.yes-admin.com/index.php/codigo")
       .then(res => res.json())
       .then(
         (result) => {

@@ -1,85 +1,83 @@
-import React from 'react';
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import MenuItem from '@material-ui/core/MenuItem';
-import Menu from '@material-ui/core/Menu';
-import Cliente  from "../../database/Clientes";
+import React, { useEffect, useState } from 'react';
+import TextField from '@material-ui/core/TextField';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import { makeStyles } from '@material-ui/core/styles';
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      backgroundColor: theme.palette.background.paper,
+const useStyles = makeStyles({
+  option: {
+    fontSize: 15,
+    '& > span': {
+      marginRight: 10,
+      fontSize: 18,
     },
-  }),
-);
+  },
+});
 
-const idiomas = [
-  "selecciona tu idioma",
-  'Ingles',
-  'Frances',
-  'Portugues',
-  'Español',
-];
+
 
 export default function SimpleListMenu(props:any) {
   
 
   const classes = useStyles();
-  
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
-  const [selectedIndex, setSelectedIndex] = React.useState(0);
+  const [error, setError] = useState(null);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [items, setItems] = useState([{
+    "id": "7",
+    "idioma": "Árabe"
+}]);
 
-  const [selected, setSelected] = React.useState("Selecciona tu idioma");
-
-  const handleClickListItem = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleMenuItemClick = (event: React.MouseEvent<HTMLElement>, index:any) => {
-    setSelectedIndex(index);
-    setAnchorEl(null);
-    setSelected(idiomas[index]);
-    props.create({idi:idiomas[index]});
-  };
-  
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-  
+  useEffect(() => {
+    fetch("http://reservasapi.yes-admin.com/index.php/idioma")
+    /* fetch("http://localhost/restfull/public/idioma") */
+      .then(res => res.json())
+      .then(
+        (result) => {
+          setIsLoaded(true);
+          setItems(result);
+        },
+        (error) => {
+          setIsLoaded(true);
+          setError(error);
+        }
+      ) 
+  }, []) 
 
 
   return (
-    <div className={classes.root}>
-      <List component="nav" aria-label="Device settings">
-        <ListItem
-          button
-          aria-haspopup="true"
-          aria-controls="lock-menu"
-          onClick={handleClickListItem}
-        >
-          <ListItemText primary={selected} secondary={selected} />
-        </ListItem>
-      </List>
-      <Menu
-        id="lock-menu"
-        anchorEl={anchorEl}
-        keepMounted
-        open={Boolean(anchorEl)}
-        onClose={handleClose}
-      >
-        {idiomas.map((option, index) => (
-          <MenuItem
-            key={option}
-            disabled={index === 0}
-            selected={index === selectedIndex}
-            onClick={(event) => handleMenuItemClick(event, index)}
-          >
-            {option}
-          </MenuItem>
-        ))}
-      </Menu>
-    </div>
+    <Autocomplete
+      id="Idioma"
+      style={{ width: 300 }}
+      options={items}
+      classes={{
+        option: classes.option,
+        
+      }}
+      autoHighlight
+      renderOption={(option) => (
+        <React.Fragment>
+          <span>{(option.idioma)}</span>
+          
+        </React.Fragment>
+        
+      )} 
+      getOptionLabel={(option) => option.idioma}
+        
+      renderInput={(params) => (
+        <TextField
+          {...params} 
+          label="Idioma"
+          variant="outlined"
+          inputProps={{
+            
+            ...params.inputProps,
+            autoComplete: 'Idioma',
+            onBlur:(idi)=>{props.create({code:params.inputProps});return params.inputProps},
+            
+          }}
+          
+        />
+        )} 
+    />
   );
 }

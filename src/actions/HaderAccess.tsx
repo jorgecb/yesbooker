@@ -1,19 +1,23 @@
-export function HaderAccess() {
-  const user = JSON.parse(localStorage.getItem("usuarios") || "{}");
+//headers-----
 
-  if (user && user.token) {
-    return user.token;
-  } else {
-    return {};
-  }
-}
-export const token = JSON.parse(localStorage.getItem("usuarios") || "{}");
-export function authHeader() {
-  let user = JSON.parse(localStorage.getItem("usuarios") || "{}");
+let user = JSON.parse(localStorage.getItem("UserCredenciales") || "{}");
+const initialState = user.tkn;
+let myHeaders = new Headers();
+myHeaders.append("tkn", initialState);
+myHeaders.append("Accept", "application/x-www-form-urlencoded");
+myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
 
-  if (user && user.accessToken) {
-    return { "x-access-token": user.accessToken };
-  } else {
-    return {};
-  }
-}
+
+
+//headers peticiones---
+
+export const HaderAccessGET: RequestInit = {
+  method: "GET",
+  headers: myHeaders,
+};
+
+export const HaderAccessDELETE: RequestInit = {
+  method: "DELETE",
+  headers: myHeaders,
+  redirect: "follow",
+};

@@ -2,33 +2,17 @@ import React, { useEffect, useState } from "react";
 import ClientesDb from "../../database/Clientes";
 import FormClientes from "./modalClientes";
 import withStyles from "@material-ui/core/styles/withStyles";
-import Icon from "@material-ui/core/Icon";
-// @material-ui/icons
-import Store from "@material-ui/pickers";
-import Warning from "@material-ui/icons/Warning";
-import DateRange from "@material-ui/icons/DateRange";
-import LocalOffer from "@material-ui/icons/LocalOffer";
-import Update from "@material-ui/icons/Update";
-import ArrowUpward from "@material-ui/icons/ArrowUpward";
-import AccessTime from "@material-ui/icons/AccessTime";
-import Accessibility from "@material-ui/icons/Accessibility";
-import BugReport from "@material-ui/icons/BugReport";
-import Code from "@material-ui/icons/Code";
-import Cloud from "@material-ui/icons/Cloud";
-import { createStyles, Grid } from "@material-ui/core";
+import { createStyles } from "@material-ui/core";
 import GridContainer from "../../components/Grid/GridContainer";
 import GridItem from "../../components/Grid/GridItem";
-import { card } from "../../assets/jss/material-dashboard-react";
 import Card from "../../components/Card/Card";
 import CardHeader from "../../components/Card/CardHeader";
 import CardBody from "../../components/Card/CardBody";
-import config from "../../config";
-import User from "./../../database/Usuarios";
 import MUIDataTable from "mui-datatables";
-import { CheckBox } from "@material-ui/icons";
-import globalVars from "../../config";
 import { useDispatch } from "react-redux";
-import {addCliente,uptCliente,delCliente} from "../../actions/clientesAct"
+import {uptCliente,delCliente,postClientes} from "../../actions/clientesAct"
+import {getCodigos} from "../../actions/CodigoAct";
+import {getIdiomas} from "../../actions/IdiomaAct";
 
 
 const styles = createStyles({
@@ -46,7 +30,7 @@ const styles = createStyles({
   },
 });
 
-function Clientes(props: any) {
+function Clientes () {
   const dispatch = useDispatch();
   const [Clientes, setClientes] = useState([]);
   const [cliente, setCliente] = useState({
@@ -55,13 +39,16 @@ function Clientes(props: any) {
   });
 
   const onupd = (clienteUpd: any) =>{
+
+    console.log(clienteUpd);
     
     ClientesDb.update(clienteUpd.id, clienteUpd.clit);
     dispatch(uptCliente(clienteUpd,"Actualizado"));
     setCliente({
       data: {},
       client: false,
-    });
+    }); console.log(clienteUpd.id);
+    
     
     alert("Se actualizo el Registro");
     listadoUpd();
@@ -69,8 +56,10 @@ function Clientes(props: any) {
 
 
   const oncreate = (cliente: any) => {
+
+    
     ClientesDb.add(cliente);
-    dispatch(addCliente(cliente,"guardado"));
+    dispatch(postClientes(cliente,"guardado"));
     setCliente({
       data: {},
       client: false,
@@ -79,21 +68,26 @@ function Clientes(props: any) {
   };
 
   const listadoUpd = () => {
-    
+
        ClientesDb.listNotDell().then(function(dev){
       setClientes(dev);
-
-      
     });
 
   };
 
   useEffect(()=>{
     listadoUpd();
+    dispatch (
+      getCodigos({},"List")
+      );
+      dispatch(
+      getIdiomas({},"List")
+      );
+    
   }, []);
 
   const columns = [
-    "id",
+    
     "Nombre",
     "CodigoPais",
     "Telefono",
@@ -105,44 +99,37 @@ function Clientes(props: any) {
 
   let clientela:any;
 
-  /* if (Object.keys(Clientes).length <= 1) {
+  
+
     if (Object.keys(Clientes).length === 0) {
+
       clientela = [
         {
-          nombre_socio: "example",
-          email: "example@live.com",
+          Nombre: "example",
+          Email: "example@live.com",
           deleted: false,
           inserver: true,
         },
         {
-          nombre_socio: "ejemplo",
-          email: "ejemplo@live.com",
+          Nombre: "ejemplo",
+          Email: "ejemplo@live.com",
           deleted: false,
           inserver: true,
         },
       ];
     } else {
-      clientela = [
-        Clientes[0],
-        {
-          nombre_socio: "ejemplo",
-          email: "ejemplo@live.com",
-          deleted: false,
-          inserver: true,
-        },
-      ];
-    }
-  } else  */{
     clientela = Clientes.valueOf();
   }
  
   
 
 const options:{} = {
+
   filterType:"checkbox",
+
   onRowSelectionChange: (dat: any, cell:any) => {
 
-    if(cell.length <=0){
+    if(cell.length <= 0){
       setCliente({data: {}, client:false});
       return;
     }
@@ -160,11 +147,10 @@ const options:{} = {
     return;
   }, 
   
-  onRowsDelete:(ro: {data:[] } )=>{
+  onRowsDelete:(ro: {data:[] } ) => {
     ro.data.map((dato: { dataIndex: any })=>{
 
       let regD: any = {
-        id: clientela[dato.dataIndex].id,
         Nombre: clientela[dato.dataIndex].Nombre,
       }; 
       
@@ -197,10 +183,7 @@ const options:{} = {
   }
 }
 
-  /* const  clientelas: any =
-    Clientes.valueOf() != {} && Clientes.toString() != "[object Object]"
-      ? Clientes.valueOf()
-      : []; */
+ 
   return (
     <React.Fragment>
     <GridContainer>
@@ -209,7 +192,6 @@ const options:{} = {
           <CardHeader color="$38">
             <h4>Listado de Clientes</h4>
             <FormClientes create={oncreate} update={cliente} upd={onupd}/>
-
             <MUIDataTable
               title={"Listado de Clientes"}
               data={clientela}

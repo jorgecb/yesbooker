@@ -1,7 +1,6 @@
-import React, { Fragment, useEffect, useState, useRef, FormEvent } from "react";
-import { createStyles, Theme, makeStyles } from "@material-ui/core/styles";
+import React, { Fragment, useState, useRef, FormEvent } from "react";
+import { MenuItem, Select} from "@material-ui/core";
 import Button from "@material-ui/core/Button";
-import LongMenu from "../../components/button/Idiomas";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
@@ -9,20 +8,10 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import AddIcon from "@material-ui/icons/Add";
 import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
-import CountrySelect from "../../components/button/CodigoPais";
-import MaskedInput from "react-text-mask";
-import Input from "@material-ui/core/Input";
-import InputLabel from "@material-ui/core/InputLabel";
+import codigo from "../../database/AcCodigo";
+import idioma from "../../database/AcIdioma";
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      "& > *": {
-        margin: theme.spacing(1),
-      },
-    },
-  })
-);
+
 
 interface Cliente {
   Nombre?: string;
@@ -34,61 +23,43 @@ interface Cliente {
   deleted?: boolean;
   inserver?: boolean;
 }
-function TextMaskCustom(props: any) {
-  const { inputRef, ...other } = props;
-  return (
-    <MaskedInput
-      {...other}
-      ref={(ref: any) => {
-        inputRef(ref ? ref.inputElement : null);
-      }}
-      mask={[
-        "(",
-        /[1-9]/,
-        /\d/,
-        /\d/,
-        ")",
-        /\d/,
-        /\d/,
-        /\d/,
-        "-",
-        /\d/,
-        /\d/,
-        /\d/,
-        /\d/,
-      ]}
-      placeholderChar={"\u2000"}
-      showMask
-    />
-  );
-}
-interface State {
-  textmask: string;
-}
-
 const FormClientes = (props: any) => {
-  const classes = useStyles();
   let cliente: Cliente = {
     Nombre: "",
     Email: "",
     Edad: "",
     Telefono: "",
+    CodigoPais: "",
     deleted: false,
     inserver: false,
   };
+  const MakeItem = (X: any) => (
+    <MenuItem value={X.codigo + X.pais}>
+      {X.codigo} {X.pais}
+    </MenuItem>
+  );
+  const Language = (X: any) => <MenuItem value={X.idioma}>{X.idioma}</MenuItem>;
   const [open, setOpen] = useState(false);
   const [Data, setData] = useState<Cliente>(cliente);
-  const [values, setValues] = useState<State>({
-    textmask: "(  )    -    ",
-  });
   const { Nombre, Email, Edad, Telefono } = Data;
-
+  const [codigoP, setcodigoP] = useState([]);
+  const [Idiomas, setIdiomas] = useState([]);
+  const [Codigo, setCodigo] = useState("");
+  const [Languages, setLanguages] = useState("");
   const [intfz, setIntfz] = useState({
     ttl: "Resgistro de Clientes",
     bt: "Registrar Cliente",
   });
 
   const handleClickOpen = () => {
+    idioma.listAll().then((res: any) => {
+      setIdiomas(res);
+    });
+
+    codigo.listAll().then((respuesta: any) => {
+      setcodigoP(respuesta);
+    });
+
     if (Object.keys(props.update.data).length !== 0) {
       return alert(
         "no se puede registrar el cliente mientras existan elementos seleccionados"
@@ -102,15 +73,20 @@ const FormClientes = (props: any) => {
     if (props.update.client === true) {
       return alert("debes elegir sólo un(1) campo a la vez");
     }
+    idioma.listAll().then((res: any) => {
+      setIdiomas(res);
+    });
 
-    componentDidMount();
+    codigo.listAll().then((respuesta: any) => {
+      setcodigoP(respuesta);
+    });
+
     setData({
       Nombre: props.update.data.Nombre,
       Email: props.update.data.Email,
       Edad: props.update.data.Edad,
       Telefono: props.update.data.Telefono,
     });
-    console.log(props.update.data.Telefono);
 
     setIntfz({ ttl: "Actualizar Cliente", bt: "Actualizar" });
     componentDidMount();
@@ -139,6 +115,7 @@ const FormClientes = (props: any) => {
         return true;
       }
     });
+
     ValidatorForm.addValidationRule("email", (valueSt) => {
       let val: any = /[^ \.A-Z a-z 0-9 _@\-]/g.test(valueSt.trim());
       if (val) {
@@ -147,9 +124,9 @@ const FormClientes = (props: any) => {
         return true;
       }
     });
-   
+
     ValidatorForm.addValidationRule("Telefono", (valueSt) => {
-      let val: any = /[^\.0-1-2-3-4-5-6-7-8-9\ -]/g.test(valueSt.trim());
+      let val: any = /[^\.0-9\ -]/g.test(valueSt.trim());
       if (val) {
         return false;
       } else {
@@ -166,38 +143,23 @@ const FormClientes = (props: any) => {
       ttl: "Registro de Clientes",
       bt: "Registrar",
     });
-    /*  setValues({
-      textmask: "(  )    -    ",
-    }); */
     setOpen(false);
   };
 
-  const handleChange = (e: FormEvent<HTMLInputElement>, t: string) => {
+  const handleChange = (e: FormEvent<HTMLInputElement>) => {
     setData({
       ...Data,
       [e.currentTarget.name]: e.currentTarget.value,
     });
   };
 
-  /* const handleChange2 = (event: any) => {
-    setValues({
-      ...values,
-      [event.target.name]: event.target.value,
-    });
-  }; */
-
-  const handleSelect = (idiomas: any) => {
-    setData({
-      ...Data,
-      Idioma: idiomas.idi,
-    });
+  const handleChangeSelect = (event: React.ChangeEvent<{ value: unknown }>) => {
+    setCodigo(event.target.value as string);
   };
 
-  const handleSelectCodigo = (opt: any) => {
-    setData({
-      ...Data,
-      CodigoPais: opt.code.value,
-    });
+  const handleSelect = (event: React.ChangeEvent<{ value: unknown }>) => {
+    setLanguages(event.target.value as string);
+  
   };
 
   const handleSubmit = () => {
@@ -206,7 +168,6 @@ const FormClientes = (props: any) => {
       deleted: false,
       inserver: false,
     });
-    console.log(Data);
 
     if (props.update.client === true) {
       props.upd({
@@ -216,12 +177,13 @@ const FormClientes = (props: any) => {
           Telefono: Data.Telefono,
           Email: Data.Email,
           Edad: Data.Edad,
-          Idioma: Data.Idioma,
-          CodigoPais: Data.CodigoPais,
+          Idioma: Languages,
+          CodigoPais: Codigo,
           deleted: false,
           inserver: false,
         },
       });
+
       setOpen(false);
       setIntfz({
         ttl: "Registro de Clientes",
@@ -236,16 +198,14 @@ const FormClientes = (props: any) => {
       Telefono: Data.Telefono,
       Email: Data.Email,
       Edad: Data.Edad,
-      Idioma: Data.Idioma,
-      CodigoPais: Data.CodigoPais,
+      Idioma: Languages,
+      CodigoPais: Codigo,
       deleted: Data.deleted,
       inserver: Data.inserver,
     });
-    setValues({
-      textmask: "(  )    -    ",
-    });
     setOpen(false);
     setData(cliente);
+    
   };
 
   return (
@@ -265,7 +225,7 @@ const FormClientes = (props: any) => {
         >
           <DialogTitle id="form-dialog-title">Clientes</DialogTitle>
           <DialogContentText>
-            ................................................................................................................................
+          ................................................................................................................................
             ................................................................................................................................
             <ValidatorForm onSubmit={handleSubmit}>
               <DialogContent>
@@ -278,7 +238,7 @@ const FormClientes = (props: any) => {
                   name="Nombre"
                   value={Nombre}
                   onChange={handleChange}
-                  validators={["required","isValidName"]}
+                  validators={["required", "isValidName"]}
                   errorMessages={["Nombre requerido"]}
                   fullWidth
                 />
@@ -295,20 +255,12 @@ const FormClientes = (props: any) => {
                   errorMessages={["ingresar solo numeros a diez digitos"]}
                   fullWidth
                 />
-        
-                {/*  <Input
-                  value={values.textmask}
-                  onChange={handleChange2}
-                  name="textmask"
-                  id="Telefono"
-                  inputComponent={TextMaskCustom as any}
-                /> */}
 
                 <TextValidator
                   margin="dense"
                   id="Edad"
                   label="Edad"
-                  type="text"
+                  type="number"
                   name="Edad"
                   fullWidth
                   value={Edad}
@@ -326,15 +278,31 @@ const FormClientes = (props: any) => {
                   fullWidth
                   value={Email}
                   onChange={handleChange}
-                  validators={["email","required"]}
+                  validators={["email", "required"]}
                   errorMessages={["Correo invalido"]}
-                  ref={re}
                 />
                 <br />
+                <br />
 
-                <CountrySelect create={handleSelectCodigo} />
-
-                <LongMenu create={handleSelect} />
+                <Select
+                  value={Codigo}
+                  onChange={handleChangeSelect}
+                  displayEmpty
+                >
+                  <MenuItem value="" disabled>
+                    Selecciona Codigo de Pais
+                  </MenuItem>
+                  {codigoP.map(MakeItem)}
+                </Select>
+                <br />
+                <br />
+                <br />
+                <Select value={Languages} onChange={handleSelect} displayEmpty>
+                  <MenuItem value="" disabled>
+                    Selecciona Idioma
+                  </MenuItem>
+                  {Idiomas.map(Language)}
+                </Select>
               </DialogContent>
 
               <DialogActions>

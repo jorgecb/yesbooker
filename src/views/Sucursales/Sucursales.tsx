@@ -8,7 +8,6 @@ import Card from "../../components/Card/Card";
 import CardHeader from "../../components/Card/CardHeader";
 import MUIDataTable from "mui-datatables";
 import ModalSucursal from './modalSucursal';
-
 import { useDispatch } from 'react-redux';
 import { addSucursal } from '../../actions/sucursalesAct'
 const styles = createStyles({
