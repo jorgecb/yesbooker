@@ -1,5 +1,5 @@
 import React, { Fragment, useState, useRef, FormEvent } from "react";
-import { MenuItem, Select} from "@material-ui/core";
+import { MenuItem, Select } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -10,8 +10,6 @@ import AddIcon from "@material-ui/icons/Add";
 import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
 import codigo from "../../database/AcCodigo";
 import idioma from "../../database/AcIdioma";
-
-
 
 interface Cliente {
   Nombre?: string;
@@ -70,32 +68,29 @@ const FormClientes = (props: any) => {
   };
 
   const handleClickOpening = () => {
-    if (props.update.client === true) {
-      return alert("debes elegir sólo un(1) campo a la vez");
-    }
-    idioma.listAll().then((res: any) => {
-      setIdiomas(res);
-    });
+    
+      idioma.listAll().then((res: any) => {
+        setIdiomas(res);
+      });
 
-    codigo.listAll().then((respuesta: any) => {
-      setcodigoP(respuesta);
-    });
+      codigo.listAll().then((respuesta: any) => {
+        setcodigoP(respuesta);
+      });
+      setData({
+        Nombre: props.update.data.Nombre,
+        Email: props.update.data.Email,
+        Edad: props.update.data.Edad,
+        Telefono: props.update.data.Telefono,
+        CodigoPais: props.update.data.CodigoPais,
+      });
 
-    setData({
-      Nombre: props.update.data.Nombre,
-      Email: props.update.data.Email,
-      Edad: props.update.data.Edad,
-      Telefono: props.update.data.Telefono,
-    });
+      console.log(props.update.data.CodigoPais);
 
-    setIntfz({ ttl: "Actualizar Cliente", bt: "Actualizar" });
-    componentDidMount();
+      setOpen(true);
+      setIntfz({ ttl: "Actualizar Cliente", bt: "Actualizar" });
+      componentDidMount();
 
-    const val: any =
-      props.update.client != true
-        ? setOpen(true)
-        : alert("solo se puede actualizar un registro");
-    return val;
+    
   };
 
   const componentDidMount = () => {
@@ -159,7 +154,6 @@ const FormClientes = (props: any) => {
 
   const handleSelect = (event: React.ChangeEvent<{ value: unknown }>) => {
     setLanguages(event.target.value as string);
-  
   };
 
   const handleSubmit = () => {
@@ -205,7 +199,6 @@ const FormClientes = (props: any) => {
     });
     setOpen(false);
     setData(cliente);
-    
   };
 
   return (
@@ -225,7 +218,7 @@ const FormClientes = (props: any) => {
         >
           <DialogTitle id="form-dialog-title">Clientes</DialogTitle>
           <DialogContentText>
-          ................................................................................................................................
+            ................................................................................................................................
             ................................................................................................................................
             <ValidatorForm onSubmit={handleSubmit}>
               <DialogContent>

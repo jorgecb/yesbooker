@@ -27,8 +27,6 @@ export const delCliente =(data:{}, displayName:any)=>({
 });
 
 export const postClientes = (data: any, name:any) => {
-
-  console.log(data);
    
   
     let user = JSON.parse(localStorage.getItem("UserCredenciales") || "{}");
@@ -59,20 +57,14 @@ export const postClientes = (data: any, name:any) => {
         response.text().then((result)=> {
             dispatch(addCliente(JSON.parse(result),name)); 
             let resp: any = JSON.parse(result);
-            console.log('lo mande al servidor');
+            console.log('lo mande al servidor', resp);
             
         })
         
       } else {
-
-        if(response.status === 400){
-          console.log('lo mande local');
-
-        }
-
-          /* Clientesdb.add(data)
-
-          console.log("lo mande local"); */
+        
+           Clientesdb.add(data)
+          console.log("lo mande local"); 
           
         /* userDb.add(data); */
       }
