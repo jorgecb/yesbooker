@@ -3,6 +3,11 @@ export const types = {
   getRoles: "[Roles] List",
   getCodigo:"[Codigo] List",
   getIdioma:"[Idioma] list",
+  login: "[Login] loginSuccess",
+  AgregarZona: "[addZona] add",
+  LOGOUT: "[LOGOUT] LOGOUT",
+  getZonas: "[getZonas] List",
+  delZona: "[Zona] Del",
   fetchSucursales: '[Sucursales] List',
   addSucursal: '[Sucursales] Add',
   uptSucursal: '[Sucursales] Upt',
@@ -25,7 +30,14 @@ export const types = {
 }
 
 
-  
+export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
+export const LOGIN_FAIL = "LOGIN_FAIL";
+export const LOGOUT = "LOGOUT";
+
+export const SET_MESSAGE = "SET_MESSAGE";
+export const CLEAR_MESSAGE = "CLEAR_MESSAGE";
+
+
 
 
 interface ServiceInit {

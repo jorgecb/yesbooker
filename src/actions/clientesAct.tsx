@@ -1,8 +1,7 @@
 import { types } from "../types/types";
-/* import { data } from "./UserConst"; */
 import BaseUrl from "../config";
 import Clientesdb from "../database/Clientes";
-/* import { HaderAccessGET, HaderAccessDELETE } from "./HaderAccess"; */
+
 
 export const addCliente =(data:{}, displayName:any)=>({
     type: types.addCliente,
@@ -53,6 +52,7 @@ export const postClientes = (data: any, name:any) => {
   return(dispatch:any) =>{
 
     fetch(BaseUrl.UrlApi + "clientes", HaderAccessPost).then((response) => {
+      
       if (response.status === 200) {
         response.text().then((result)=> {
             dispatch(addCliente(JSON.parse(result),name)); 

@@ -10,10 +10,13 @@ import CardHeader from "../../components/Card/CardHeader";
 import CardBody from "../../components/Card/CardBody";
 import MUIDataTable from "mui-datatables";
 import { useDispatch } from "react-redux";
-import {uptCliente,delCliente,postClientes} from "../../actions/clientesAct"
-import {getCodigos} from "../../actions/CodigoAct";
-import {getIdiomas} from "../../actions/IdiomaAct";
-
+import {
+  uptCliente,
+  delCliente,
+  postClientes,
+} from "../../actions/clientesAct";
+import { getCodigos } from "../../actions/CodigoAct";
+import { getIdiomas } from "../../actions/IdiomaAct";
 
 const styles = createStyles({
   cardCategoryWhite: {
@@ -30,7 +33,7 @@ const styles = createStyles({
   },
 });
 
-function Clientes () {
+function Clientes() {
   const dispatch = useDispatch();
   const [Clientes, setClientes] = useState([]);
   const [cliente, setCliente] = useState({
@@ -38,56 +41,44 @@ function Clientes () {
     client: false,
   });
 
-  const onupd = (clienteUpd: any) =>{
-
+  const onupd = (clienteUpd: any) => {
     console.log(clienteUpd);
-    
+
     ClientesDb.update(clienteUpd.id, clienteUpd.clit);
-    dispatch(uptCliente(clienteUpd,"Actualizado"));
+    dispatch(uptCliente(clienteUpd, "Actualizado"));
     setCliente({
       data: {},
       client: false,
-    }); console.log(clienteUpd.id);
-    
-    
+    });
+    console.log(clienteUpd.id);
+
     alert("Se actualizo el Registro");
     listadoUpd();
-  }
-
+  };
 
   const oncreate = (cliente: any) => {
-
-    
     ClientesDb.add(cliente);
-    dispatch(postClientes(cliente,"guardado"));
+    dispatch(postClientes(cliente, "guardado"));
     setCliente({
       data: {},
       client: false,
-    })
+    });
     listadoUpd();
   };
 
   const listadoUpd = () => {
-
-       ClientesDb.listNotDell().then(function(dev){
+    ClientesDb.listNotDell().then(function(dev) {
       setClientes(dev);
     });
-
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     listadoUpd();
-    dispatch (
-      getCodigos({},"List")
-      );
-      dispatch(
-      getIdiomas({},"List")
-      );
-    
+    dispatch(getCodigos({}, "List"));
+    dispatch(getIdiomas({}, "List"));
   }, []);
 
   const columns = [
-    
     "Nombre",
     "CodigoPais",
     "Telefono",
@@ -97,112 +88,100 @@ function Clientes () {
     "Notas",
   ];
 
-  let clientela:any;
+  let clientela: any;
 
-  
-
-    if (Object.keys(Clientes).length === 0) {
-
-      clientela = [
-        {
-          Nombre: "example",
-          Email: "example@live.com",
-          deleted: false,
-          inserver: true,
-        },
-        {
-          Nombre: "ejemplo",
-          Email: "ejemplo@live.com",
-          deleted: false,
-          inserver: true,
-        },
-      ];
-    } else {
+  if (Object.keys(Clientes).length === 0) {
+    clientela = [
+      {
+        Nombre: "example",
+        Email: "example@live.com",
+        deleted: false,
+        inserver: true,
+      },
+      {
+        Nombre: "ejemplo",
+        Email: "ejemplo@live.com",
+        deleted: false,
+        inserver: true,
+      },
+    ];
+  } else {
     clientela = Clientes.valueOf();
   }
- 
-  
 
-const options:{} = {
+  const options: {} = {
+    filterType: "checkbox",
 
-  filterType:"checkbox",
-
-  onRowSelectionChange: (dat: any, cell:any) => {
-
-    if(cell.length <= 0){
-      setCliente({data: {}, client:false});
-      return;
-    }
-    if (cell.length > 1){
+    onRowSelectionChange: (dat: any, cell: any) => {
+      if (cell.length <= 0) {
+        setCliente({ data: {}, client: false });
+        return;
+      }
+      if (cell.length > 1) {
+        setCliente({
+          data: clientela[cell[0].dataIndex].valueOf(),
+          client: false,
+        });
+        return;
+      }
       setCliente({
         data: clientela[cell[0].dataIndex].valueOf(),
-        client:false
-      }); 
+        client: false,
+      });
       return;
-    }
-    setCliente({
-      data: clientela[cell[0].dataIndex].valueOf(),
-      client:false
-    }); 
-    return;
-  }, 
-  
-  onRowsDelete:(ro: {data:[] } ) => {
-    ro.data.map((dato: { dataIndex: any })=>{
+    },
 
-      let regD: any = {
-        Nombre: clientela[dato.dataIndex].Nombre,
-      }; 
-      
-      delete regD.id;
+    onRowsDelete: (ro: { data: [] }) => {
+      ro.data.map((dato: { dataIndex: any }) => {
+        let regD: any = {
+          Nombre: clientela[dato.dataIndex].Nombre,
+        };
 
-      let valDel = confirm(
-        "deseas borrar: \n" + regD.Nombre
-      ); 
-      
+        delete regD.id;
 
-      if (valDel === true){
-        clientela[dato.dataIndex].deleted = true;
-        clientela[dato.dataIndex].inserver = false;
+        let valDel = confirm("deseas borrar: \n" + regD.Nombre);
 
-        ClientesDb.update(regD.id, clientela[dato.dataIndex])
-        alert("Eliminado correctamente: \n" + regD.Nombre);
+        if (valDel === true) {
+          clientela[dato.dataIndex].deleted = true;
+          clientela[dato.dataIndex].inserver = false;
 
-        dispatch(delCliente(clientela[dato.dataIndex], "borrado"));
-        listadoUpd();
-      } else {
-        alert("se conservo la informacion: \n"+ regD.Nombre);
-        listadoUpd();
-      }
-    });
-    setCliente({
-      data:{},
-      client: false,
-    });
-    return
-  }
-}
+          ClientesDb.update(regD.id, clientela[dato.dataIndex]);
+          alert("Eliminado correctamente: \n" + regD.Nombre);
 
- 
+          dispatch(delCliente(clientela[dato.dataIndex], "borrado"));
+          listadoUpd();
+        } else {
+          alert("se conservo la informacion: \n" + regD.Nombre);
+          listadoUpd();
+        }
+      });
+      setCliente({
+        data: {},
+        client: false,
+      });
+      return;
+    },
+  };
+
   return (
     <React.Fragment>
-    <GridContainer>
-      <GridItem xs={12} sm={12} md={12}>
-        <Card>
-          <CardHeader color="$38">
-            <h4>Listado de Clientes</h4>
-            <FormClientes create={oncreate} update={cliente} upd={onupd}/>
-            <MUIDataTable
-              title={"Listado de Clientes"}
-              data={clientela}
-              columns={columns}
-              options={options}
-            />
-          </CardHeader>
-          <CardBody />
-        </Card>
-      </GridItem>
-    </GridContainer>
+      <GridContainer>
+        <GridItem xs={12} sm={12} md={12}>
+          <Card>
+            <CardHeader color="$38">
+              <h4>Listado de Clientes</h4>
+              <FormClientes create={oncreate} update={cliente} upd={onupd} />
+              <MUIDataTable
+                title={"Listado de Clientes"}
+                data={clientela}
+                columns={columns}
+                options={options}
+              />
+            </CardHeader>
+            <CardBody />
+          </Card>
+        </GridItem>
+      </GridContainer>
     </React.Fragment>
   );
 }
