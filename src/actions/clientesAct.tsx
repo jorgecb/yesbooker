@@ -25,6 +25,41 @@ export const delCliente =(data:{}, displayName:any)=>({
     }
 });
 
+export const putClientes = () => {
+
+  let user = JSON.parse(localStorage.getItem("UserCredenciales") || "{}");
+    let initialState = user.tkn;
+    let myHeaders = new Headers();
+    myHeaders.append("tkn", initialState);
+    myHeaders.append("Accept", "application/x-www-form-urlencoded");
+    myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+  
+    var urlencoded = new URLSearchParams();
+urlencoded.append("nombre", "Juan Alberto Martinez");
+urlencoded.append("telefono", "7621147573");
+urlencoded.append("correo_electronico", "egjand1386@gmail.com.mx");
+urlencoded.append("codigo_pais", "+52");
+urlencoded.append("idioma", "español");
+urlencoded.append("usuario_modifica", "196");
+
+console.log(urlencoded);
+
+
+const HaderAccessPut: RequestInit  = {
+  method: 'PUT',
+  headers: myHeaders,
+  body: urlencoded,
+  redirect: 'follow'
+};
+
+fetch("http://reservasapi.yes-admin.com/index.php/clientes/36", HaderAccessPut)
+  .then(response => response.text())
+  .then(result => console.log(result))
+  .catch(error => console.log('error', error));
+}
+
+
+
 export const postClientes = (data: any, name:any) => {
    
   
@@ -52,7 +87,6 @@ export const postClientes = (data: any, name:any) => {
   return(dispatch:any) =>{
 
     fetch(BaseUrl.UrlApi + "clientes", HaderAccessPost).then((response) => {
-      
       if (response.status === 200) {
         response.text().then((result)=> {
             dispatch(addCliente(JSON.parse(result),name)); 

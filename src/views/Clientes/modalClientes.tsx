@@ -32,7 +32,7 @@ const FormClientes = (props: any) => {
     inserver: false,
   };
   const MakeItem = (X: any) => (
-    <MenuItem value={X.codigo + X.pais}>
+    <MenuItem value={X.codigo}>
       {X.codigo} {X.pais}
     </MenuItem>
   );
@@ -67,30 +67,29 @@ const FormClientes = (props: any) => {
     componentDidMount();
   };
 
-  const handleClickOpening = () => {
-    
-      idioma.listAll().then((res: any) => {
-        setIdiomas(res);
-      });
+  const handleClickOpening = (cliente: any) => {
+    console.log(cliente);
 
-      codigo.listAll().then((respuesta: any) => {
-        setcodigoP(respuesta);
-      });
-      setData({
-        Nombre: props.update.data.Nombre,
-        Email: props.update.data.Email,
-        Edad: props.update.data.Edad,
-        Telefono: props.update.data.Telefono,
-        CodigoPais: props.update.data.CodigoPais,
-      });
+    idioma.listAll().then((res: any) => {
+      setIdiomas(res);
+    });
 
-      console.log(props.update.data.CodigoPais);
+    codigo.listAll().then((respuesta: any) => {
+      setcodigoP(respuesta);
+    });
 
-      setOpen(true);
-      setIntfz({ ttl: "Actualizar Cliente", bt: "Actualizar" });
-      componentDidMount();
+    setData({
+      Nombre: props.update.data.Nombre,
+      Email: props.update.data.Email,
+      Edad: props.update.data.Edad,
+      Telefono: props.update.data.Telefono,
+    });
 
     
+
+    setOpen(true);
+    setIntfz({ ttl: "Actualizar Cliente", bt: "Actualizar" });
+    componentDidMount();
   };
 
   const componentDidMount = () => {

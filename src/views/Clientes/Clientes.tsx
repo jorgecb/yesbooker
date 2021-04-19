@@ -41,20 +41,21 @@ function Clientes() {
     client: false,
   });
 
-  const onupd = (clienteUpd: any) => {
-    console.log(clienteUpd);
-
-    ClientesDb.update(clienteUpd.id, clienteUpd.clit);
-    dispatch(uptCliente(clienteUpd, "Actualizado"));
+  const onupd = (putClientes: any) => {
+    
+    console.log('que hago aqui' + putClientes);
+    ClientesDb.update(putClientes.id, putClientes.clit);
+    dispatch(uptCliente(putClientes, "Actualizado"));
     setCliente({
       data: {},
       client: false,
     });
-    console.log(clienteUpd.id);
+    console.log(putClientes.id);
 
     alert("Se actualizo el Registro");
     listadoUpd();
   };
+
 
   const oncreate = (cliente: any) => {
     ClientesDb.add(cliente);
