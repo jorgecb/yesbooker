@@ -125,7 +125,9 @@ const Alogin = () => {
   }, [state.username, state.password]);
 
   const PruebaLogin = () => {
-    login(state.username , state.password);
+
+    login(state.username, state.password);
+
 
   };
 
@@ -144,7 +146,7 @@ const Alogin = () => {
       headers: myHeaders,
       body: urlencoded,
     };
-    fetch(BaseUrl.UrlApi + "Auth/login", requestOptions).then(function(
+    fetch(BaseUrl.UrlApi + "Auth/login", requestOptions).then(function (
       response
     ) {
       if (response.status != 200) {
@@ -172,7 +174,7 @@ const Alogin = () => {
 
   const handleKeyPress = (event: React.KeyboardEvent) => {
     if (event.keyCode === 13 || event.which === 13) {
-      state.isButtonDisabled || Alogin();
+      state.isButtonDisabled || handleLogin();
     }
   };
 
@@ -245,7 +247,7 @@ const Alogin = () => {
                 size="large"
                 color="secondary"
                 className={classes.loginBtn}
-                onClick={PruebaLogin}
+                onClick={handleLogin}
                 disabled={state.isButtonDisabled}
               >
                 Iniciar Sesison

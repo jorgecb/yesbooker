@@ -1,13 +1,20 @@
 //headers-----
 
-let user = JSON.parse(localStorage.getItem("UserCredenciales") || "{}");
-const initialState = user.tkn;
-let myHeaders = new Headers();
-myHeaders.append("tkn", initialState);
+const user = JSON.parse(localStorage.getItem("UserCredenciales") || "{}");
+const token = user.tkn;
+const myHeaders = new Headers();
+myHeaders.append("tkn", token);
 myHeaders.append("Accept", "application/x-www-form-urlencoded");
 myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
 
 
+console.log(token);
+/* let prueba == null ? "" : decodeURIComponent(atob(token[1]).replace(/\+/g, " "));
+ */
+
+
+
+//console.log(atob(token)); 
 
 //headers peticiones---
 

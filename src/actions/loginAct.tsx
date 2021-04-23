@@ -22,23 +22,35 @@ export const login = (user: any, pass: any) => {
     headers: myHeaders,
     body: urlencoded,
   };
-
-  fetch(BaseUrl.UrlApi + "Auth/login", requestOptions).then((response) => {
-    console.log(response.status);
-    if (response.status === 200) {
-      alogin(login, "loginSuccess");
-      console.log(response);
-      response.json().then((data) => {
-        window.localStorage.setItem("UserCredenciales", JSON.stringify(data));
-
-        window.location.href = "./admin";
-      });
-    } else {
-      return;
+  return (dispatch: any) => {
+    fetch(BaseUrl.UrlApi + "Auth/login", requestOptions).then((response) => {
       console.log(response.status);
-    }
-  });
+      if (response.status === 200) {
+        response.text().then((result) => {
+        
+          let algo: any = JSON.parse(result);
+          dispatch(alogin(JSON.parse(algo), "loginSuccess"));
+         // alogin(LOGIN_SUCCESS, "loginSuccess");
+         // console.log(response);
+          response.json().then((data) => {
+            window.localStorage.setItem("UserCredenciales", JSON.stringify(data));
+  
+            window.location.href = "./admin";
+          });
+
+
+        });
+      
+      } else {
+     /*    alogin(LOGIN_SUCCESS, "loginFailed"); */
+        return;
+
+      }
+    });
+  };
+
 };
+
 export const logout = async () => {
   const rawResponse = await fetch(
     BaseUrl.UrlApi + "Auth/logout",
@@ -54,16 +66,16 @@ export const logout = async () => {
   }
 };
 
- const alogout = (data: {}, displayName: any) => ({
-    type: types.LOGOUT,
-    payload: {
-      data,
-      displayName,
-    },
-  });
+const alogout = (data: {}, displayName: any) => ({
+  type: types.LOGOUT,
+  payload: {
+    data,
+    displayName,
+  },
+});
 
- const alogin = (data: {}, displayName: any) => ({
-  type: types.login,
+const alogin = (data: {}, displayName: any) => ({
+  type: types.LOGIN_SUCCESS,
   payload: {
     data,
     displayName,

@@ -62,38 +62,55 @@ const ZonasList = (props: any) => {
     /*  postUsuarios(usuario); */
     /* User.add(usuario);
      */dispatch(postZona(zona, "add"));
-    /* listadoUpd(); */
+    listadoUpd();
     return;
   };
-  const listadoUpd = () => {
-    /*   ZonasDexie.listAll().then((res) => {
-      setZonas(res);
-      if (Object.keys(res).length <= 1) {
-        alert(
-          "Los ejemplos se eliminaran automaticamente al ir ingresando datos"
-        );
-      }
-      console.log(res);
-    }); */
+  const listadoUpd = async () => {
     dispatch(getZonas({}, "List"));
+    /*    ZonasDexie.listAll().then((res) => {
+         setZonas(res);
+         if (Object.keys(res).length <= 1) {
+           alert(
+             "Los ejemplos se eliminaran automaticamente al ir ingresando datos"
+           );
+         }
+         console.log(res);
+       }); */
 
-    ZonasDexie.listNotDell().then((dev) => {
+
+    await ZonasDexie.listNotDell().then((dev) => {
       setZonas(dev);
-      if (Object.keys(dev).length <= 1) {
-        alert(
-          "Los ejemplos se eliminaran automaticamente al ir ingresando datos \n" +
-          "es indisplensable llenar los dos primeros registros para comenzar"
-        );
-      }
-      /*       console.log(dev);
-       */
+      /*   if (Object.keys(dev).length <= 1) {
+          alert(
+            "Los ejemplos se eliminaran automaticamente al ir ingresando datos \n" +
+            "es indisplensable llenar los dos primeros registros para comenzar"
+          );
+        }
+        console.log(dev + 'list no del ');
+ */
     });
+
+
+
   };
+
+
+
+
+
+
+
+
+
+
+
+
   useEffect(() => {
     listadoUpd();
+
   }, []);
 
-  const columns = ["id", "nombre_zona"];
+  const columns = ["id", "nombre_zona", "descripcion"];
   let dataT: any;
 
   if (Object.keys(Zonas).length <= 1) {
@@ -192,7 +209,7 @@ const ZonasList = (props: any) => {
             <h4>Listado de Usuarios</h4>
             <ModalUsuario create={oncreate} update={usuario} upd={onupd} />
             <MUIDataTable
-              title={"Usuarios"}
+              title={"Zonas"}
               data={dataT}
               columns={columns}
               options={options}
@@ -202,6 +219,7 @@ const ZonasList = (props: any) => {
           <CardBody />
         </Card>
       </GridItem>
+
     </GridContainer>
   );
 };

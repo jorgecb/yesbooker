@@ -3,6 +3,22 @@ import db from "./database";
 const tableName = "Zonas";
 
 const Zona = {
+  search() {
+    let data = db
+      .table(tableName)
+      .filter((todo) => {
+        return todo.inserver === false;
+      })
+      .toArray()
+      .then((todos) => {
+        return todos;
+      })
+      .catch((err) => {
+        return err;
+      });
+
+    return data;
+  },
   add(data: any) {
     db.table(tableName)
       .add(data)
