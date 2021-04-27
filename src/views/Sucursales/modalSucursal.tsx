@@ -30,7 +30,7 @@ interface Sucursal{
     inserver?: boolean,
 }
 const modalSocio = (props:any) =>{
-    // eslint-disable-next-line react-hooks/rules-of-hooks
+    
     let sucursal:Sucursal={nombre_sucursal:"" , direccion:"", deleted:false, inserver:false};
     const [open, setOpen] = useState(false);
     const [Data, setData] = useState<Sucursal>(sucursal);
@@ -54,7 +54,7 @@ const modalSocio = (props:any) =>{
             }else{
                 return true;}
         });
-            /* ValidatorForm.addValidationRule("isValidName",(valueSt)=>/(^[ \w+])/g.test(valueSt)); */
+            
     };
     const handleClickOpen = () => {
         if(Object.keys(props.update.data).length!==0){
@@ -83,9 +83,7 @@ const modalSocio = (props:any) =>{
       });
       setOpen(false);
     };
-    /* useEffect(() => {
-        console.log(Data)
-    }, [Data]) */
+    
     const handleChange = (e: FormEvent<HTMLInputElement>,t:string) =>{
         e.preventDefault();
         setData({

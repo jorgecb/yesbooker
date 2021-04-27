@@ -1,6 +1,6 @@
 import { types } from '../types/types';
 export const fetchSo = (data:any, displayName:any) => {
-/*     */
+/*     */ 
     return (dispatch:any) => {
         const url = 'http://reservasapi.yes-admin.com/index.php/socios/todos';
         const ren: any = window.localStorage.getItem('UserCredenciales');

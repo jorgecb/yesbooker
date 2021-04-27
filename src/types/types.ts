@@ -1,5 +1,5 @@
 export const types = {
-
+ 
   getRoles: "[Roles] List",
   getCodigo:"[Codigo] List",
   getIdioma:"[Idioma] list",

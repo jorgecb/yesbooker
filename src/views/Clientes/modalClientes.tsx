@@ -12,6 +12,7 @@ import codigo from "../../database/AcCodigo";
 import idioma from "../../database/AcIdioma";
 
 interface Cliente {
+  
   Nombre?: string;
   Telefono?: string;
   Email?: string;
@@ -23,6 +24,7 @@ interface Cliente {
 }
 const FormClientes = (props: any) => {
   let cliente: Cliente = {
+    
     Nombre: "",
     Email: "",
     Edad: "",
@@ -67,29 +69,35 @@ const FormClientes = (props: any) => {
     componentDidMount();
   };
 
-  const handleClickOpening = (cliente: any) => {
-    console.log(cliente);
+  const handleClickOpening = () => { 
 
-    idioma.listAll().then((res: any) => {
-      setIdiomas(res);
-    });
+      idioma.listAll().then((res: any) => {
+        setIdiomas(res);
+      });
 
-    codigo.listAll().then((respuesta: any) => {
-      setcodigoP(respuesta);
-    });
+      codigo.listAll().then((respuesta: any) => {
+        setcodigoP(respuesta);
+      });
+      
+      setData({
+        Nombre: props.update.data.Nombre,
+        Email: props.update.data.Email,
+        Edad: props.update.data.Edad,
+        Telefono: props.update.data.Telefono,
+      });
+        console.log(props.update.data.id);
 
-    setData({
-      Nombre: props.update.data.Nombre,
-      Email: props.update.data.Email,
-      Edad: props.update.data.Edad,
-      Telefono: props.update.data.Telefono,
-    });
 
+      setOpen(true);
+      setIntfz({ ttl: "Actualizar Cliente", bt: "Actualizar" });
+      componentDidMount();
+
+      const val: any =
+      props.update.client != false
+        ? setOpen(true)
+        : alert("solo se puede actualizar un registro");
+    return val;
     
-
-    setOpen(true);
-    setIntfz({ ttl: "Actualizar Cliente", bt: "Actualizar" });
-    componentDidMount();
   };
 
   const componentDidMount = () => {
@@ -198,6 +206,7 @@ const FormClientes = (props: any) => {
     });
     setOpen(false);
     setData(cliente);
+    return;
   };
 
   return (

@@ -11,9 +11,9 @@ import CardBody from "../../components/Card/CardBody";
 import MUIDataTable from "mui-datatables";
 import { useDispatch } from "react-redux";
 import {
-  uptCliente,
   delCliente,
   postClientes,
+  uptCliente,
 } from "../../actions/clientesAct";
 import { getCodigos } from "../../actions/CodigoAct";
 import { getIdiomas } from "../../actions/IdiomaAct";
@@ -41,19 +41,28 @@ function Clientes() {
     client: false,
   });
 
-  const onupd = (putClientes: any) => {
+  const onupd = (clienteUpd:any) => { 
     
-    console.log('que hago aqui' + putClientes);
-    ClientesDb.update(putClientes.id, putClientes.clit);
-    dispatch(uptCliente(putClientes, "Actualizado"));
+    ClientesDb.update(clienteUpd.id,clienteUpd.suc);
+    dispatch(uptCliente(clienteUpd,"actualizado"));
+    setCliente({
+      data:{},
+      client: false,
+    })
+    alert("se actualizo correctamente")
+    listadoUpd();
+    
+   /*  ClientesDb.update(putClientes, putClientes);
+    dispatch(console.log('que hago aqui perro')
+    );
     setCliente({
       data: {},
       client: false,
     });
-    console.log(putClientes.id);
+    
 
     alert("Se actualizo el Registro");
-    listadoUpd();
+    listadoUpd(); */
   };
 
 
@@ -64,6 +73,7 @@ function Clientes() {
       data: {},
       client: false,
     });
+    alert("guardado correctamente")
     listadoUpd();
   };
 
@@ -132,15 +142,16 @@ function Clientes() {
       return;
     },
 
-    onRowsDelete: (ro: { data: [] }) => {
+    onRowsDelete: (ro: { data: [] }, lookup: {}) => {
       ro.data.map((dato: { dataIndex: any }) => {
         let regD: any = {
+          id: clientela[dato.dataIndex].id,
           Nombre: clientela[dato.dataIndex].Nombre,
         };
 
-        delete regD.id;
+        delete clientela[dato.dataIndex].id;
 
-        let valDel = confirm("deseas borrar: \n" + regD.Nombre);
+        let valDel = confirm("deseas borrar: \n" + clientela[dato.dataIndex].Nombre);
 
         if (valDel === true) {
           clientela[dato.dataIndex].deleted = true;
@@ -160,7 +171,8 @@ function Clientes() {
         data: {},
         client: false,
       });
-      return;
+      return console.log(ro.data);
+
     },
   };
 
@@ -171,7 +183,7 @@ function Clientes() {
           <Card>
             <CardHeader color="$38">
               <h4>Listado de Clientes</h4>
-              <FormClientes create={oncreate} update={cliente} upd={onupd} />
+              <FormClientes create={oncreate} update={cliente}  upd={onupd}/>
               <MUIDataTable
                 title={"Listado de Clientes"}
                 data={clientela}

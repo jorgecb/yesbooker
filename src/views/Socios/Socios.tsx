@@ -20,7 +20,7 @@ import { addSocio, uptSocio, delSocio, fetchSo } from "../../actions/sociosAct";
 
 const styles = createStyles({
   cardCategoryWhite: {
-    "&,& a,& a:hover,& a:focus": {
+    "&,& a,& a:hover,& a:focus": { 
       color: "rgba(255,255,255,.62)",
       margin: "0",
       fontSize: "14px",
@@ -38,7 +38,7 @@ const socioList = (props: any) => {
   const [socio, setSocio] = useState({
     data: {},
     chPas: false,
-  });
+  }); 
 
   const onupd = (socioUpd: any) => {
     console.log(socioUpd);
@@ -186,13 +186,17 @@ const socioList = (props: any) => {
           nombre: dataT[dato.dataIndex].nombre_socio,
         };
         delete dataT[dato.dataIndex].id;
+
         let valDel = confirm(
           "deseas borrar datos: \n" + dataT[dato.dataIndex].nombre_socio
         );
+
         if (valDel === true) {
           dataT[dato.dataIndex].deleted = true;
           dataT[dato.dataIndex].inserver = false;
+
           SociosDB.update(regD.id, dataT[dato.dataIndex]);
+          
           alert("Borrado correctamente: \n" + regD.nombre);
           dispatch(delSocio(dataT[dato.dataIndex], "borrado"));
           listadoUpd();
